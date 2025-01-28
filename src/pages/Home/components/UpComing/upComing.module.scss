@@ -1,0 +1,82 @@
+.container {
+  padding: 10px 15px;
+
+  .title {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    h2 {
+      font-size: 18px;
+      font-weight: 800;
+      margin: 10px 0;
+    }
+  }
+
+  .listContainer {
+    width: 100%;
+    padding: 5px;
+
+    .bookContainer {
+      position: relative;
+      width: 100%;
+      padding: 15px;
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+      margin-bottom: 15px;
+
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+
+      .infoLeft {
+        /* flex: 0.5; */
+        h2 {
+          font-size: 18px;
+          font-weight: 800;
+        }
+
+        p {
+          font-size: 14px;
+          font-weight: 500;
+          color: gray;
+          margin-bottom: 5px;
+        }
+      }
+
+      .infoRight {
+        p {
+          font-size: 14px;
+          font-weight: 500;
+          color: gray;
+          text-align: right;
+        }
+
+        .functions {
+          position: absolute;
+          bottom: 8px;
+          right: 8px;
+          display: flex;
+          font-size: 12px;
+          font-weight: 600;
+
+          .btnManage {
+            padding: 6px 10px;
+            border-radius: 8px;
+            margin-right: 10px;
+            background-color: rgba(173, 216, 230, 0.5);
+            color: rgba(0, 0, 255, 1);
+          }
+
+          .btnSign {
+            padding: 6px 10px;
+            border-radius: 8px;
+            background-color: rgba(144, 238, 144, 0.5);
+            color: rgba(0, 128, 0, 1);
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,48 @@
+.container {
+  width: 100%;
+  height: 100vh;
+  background: linear-gradient(to bottom, #3b82f6, #2563eb);
+}
+.container .brandContainer {
+  position: fixed;
+  top: 30vh;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 300px;
+  height: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.container .brandContainer img {
+  width: 80px;
+  height: 80px;
+  border-radius: 20px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+  margin-bottom: 10px;
+}
+.container .brandContainer h2 {
+  font-weight: 900;
+  color: white;
+}
+.container .brandContainer p {
+  font-weight: 400;
+  color: white;
+}
+.container .formContainer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 25px 20px;
+  background-color: white;
+  border-radius: 25px 25px 0 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.container .formContainer .btn {
+  width: 80%;
+}
+
+/*# sourceMappingURL=Login.module.css.map */

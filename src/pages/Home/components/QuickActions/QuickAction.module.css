@@ -1,0 +1,32 @@
+.container {
+  padding: 10px 20px;
+}
+.container h2 {
+  font-size: 18px;
+  font-weight: 800;
+  margin: 10px 0;
+}
+.container .container2 {
+  width: 100%;
+  padding: 20px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+}
+.container .container2 .function .icon {
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
+  margin-bottom: 5px;
+}
+.container .container2 .function p {
+  font-size: 12px;
+  text-align: center;
+}
+
+/*# sourceMappingURL=QuickAction.module.css.map */

@@ -1,0 +1,10 @@
+.container {
+  position: relative;
+  top: 178px;
+  width: 100%;
+  height: calc(100vh - 178px);
+  /* height: 100vh; */
+  /* overflow-y: hidden; */
+}
+
+/*# sourceMappingURL=BookDetail.module.css.map */

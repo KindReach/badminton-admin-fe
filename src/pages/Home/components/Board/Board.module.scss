@@ -1,0 +1,38 @@
+.container {
+  padding: 10px 20px;
+
+  h2 {
+    font-size: 18px;
+    font-weight: 800;
+    margin: 10px 0;
+  }
+
+  .boardContainer {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+
+    .board {
+      width: 48%;
+      /* min-width: 350px; */
+      border-radius: 8px;
+      box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+      padding: 20px;
+      margin: 10px 0;
+      background-color: white;
+
+      .description {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+
+        p {
+          margin: 0 0 0 10px;
+          padding: 0;
+        }
+      }
+    }
+  }
+}

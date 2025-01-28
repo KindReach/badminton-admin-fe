@@ -1,0 +1,15 @@
+@use "../../assets/styles/config.scss" as *;
+
+.container {
+  position: absolute;
+  z-index: 20;
+  width: 100%;
+  height: 100vh;
+  background: linear-gradient(
+    to bottom,
+    map-get($brand-colors, "from-blue"),
+    map-get($brand-colors, "to-blue")
+  );
+  display: flex;
+  justify-content: center;
+}

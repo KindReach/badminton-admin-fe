@@ -1,0 +1,31 @@
+.container {
+  width: 100%;
+}
+.container h3 {
+  font-size: 16px;
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+.container .calendarContainer {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.container .calendarContainer .calendar {
+  width: 40%;
+  padding: 5px;
+  border: 0.2px solid lightgray;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.container .calendarContainer span {
+  width: 5%;
+  font-size: 16px;
+  font-weight: 700;
+  z-index: 50;
+}
+
+/*# sourceMappingURL=DateRangeFilter.module.css.map */

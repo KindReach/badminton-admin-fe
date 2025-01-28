@@ -1,0 +1,13 @@
+{
+  "book_id": "00000001",
+  "place_name": "ALL IN 羽球館",
+  "team_name": "ALL IN 羽球隊",
+  "date": "2025/01/22",
+  "time": "19:00 ~ 21:00",
+  "amount_of_member": 5,
+  "location": "https://maps.app.goo.gl/UPup9L1aaHuW1rvV9",
+  "limit_of_member": 8,
+  "total_of_court": 3,
+  "is_opening": true,
+  "price": 200
+}

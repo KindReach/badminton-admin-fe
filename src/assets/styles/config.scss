@@ -1,0 +1,34 @@
+// variables.scss
+$brand-colors: (
+  from-blue: #3b82f6,
+  to-blue: #2563eb,
+  text-blue-500: #3b82f6,
+  text-blue-600: #2563eb,
+  text-blue-700: #1d4ed8,
+  bg-blue-50: #eff6ff,
+  bg-blue-100: #dbeafe,
+  border-blue-100: #dbeafe,
+);
+
+$function-colors: (
+  bg-green-500: #22c55e,
+  bg-green-600: #16a34a,
+  text-green-500: #22c55e,
+  text-green-600: #16a34a,
+  bg-orange-100: #ffedd5,
+  text-range-600: #ea580c,
+  text-red-500: #ef4444,
+  border-red-500: #ef4444,
+  line-bg: #00b900,
+  line-hover-bg: #00a000,
+);
+
+$neutral-colors: (
+  bg-gray-50: #f9fafb,
+  bg-gray-100: #f3f4f6,
+  bg-gray-200: #e5e7eb,
+  text-gray-500: #6b7280,
+  text-gray-600: #4b5563,
+  border-gray-100: #f3f4f6,
+  border-gray-300: #d1d5db,
+);

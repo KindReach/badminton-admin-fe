@@ -1,0 +1,11 @@
+.container {
+  position: absolute;
+  z-index: 20;
+  width: 100%;
+  height: 100vh;
+  background: linear-gradient(to bottom, #3b82f6, #2563eb);
+  display: flex;
+  justify-content: center;
+}
+
+/*# sourceMappingURL=Loading.module.css.map */
