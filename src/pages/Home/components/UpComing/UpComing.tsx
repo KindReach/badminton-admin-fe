@@ -31,7 +31,9 @@ const Book = ({
   return (
     <div className={styles.bookContainer} onClick={goDetail}>
       <div className={styles.infoLeft}>
-        <h2>{place_name}</h2>
+        <h2>
+          {place_name}（{book_id.substring(5)}）
+        </h2>
         <p>{team_name}</p>
         <p>
           {amount_of_member}/{amount_of_total}

@@ -3,8 +3,15 @@ import { IoIosAdd } from "react-icons/io";
 import { IoMdCheckmarkCircleOutline } from "react-icons/io";
 import { GoPeople } from "react-icons/go";
 import { IoSettingsOutline } from "react-icons/io5";
+import { useNavigate } from "react-router-dom";
 
 const QuickActions = () => {
+  const navigate = useNavigate();
+
+  const quickGo = async (path: string) => {
+    navigate(path);
+  };
+
   return (
     <div className={styles.container}>
       <h2>快速操作</h2>
@@ -22,6 +29,7 @@ const QuickActions = () => {
           <div
             className={styles.icon}
             style={{ backgroundColor: "rgba(144, 238, 144, 0.5)" }}
+            onClick={() => quickGo("/signlist")}
           >
             <IoMdCheckmarkCircleOutline size={24} color="rgba(0, 128, 0, 1)" />
           </div>

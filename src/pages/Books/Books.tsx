@@ -10,14 +10,51 @@ import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import DateRangeFilter from "./components/DateRangeFilter";
 import data from "./data.json";
 
-const Header = () => {
+interface HeaderProps {
+  setSearch: Dispatch<SetStateAction<string>>;
+  setDisplayData: Dispatch<SetStateAction<BookProps[]>>;
+  bookData: BookProps[];
+  category: string;
+}
+
+const categories = ["全部場次", "報名中", "進行中", "已結束"];
+
+const Header = ({
+  setSearch,
+  setDisplayData,
+  category,
+  bookData,
+}: HeaderProps) => {
   const navigate = useNavigate();
   const [show, setShow] = useState<boolean>(false);
+  const [startDate, setStartDate] = useState<Date | null>(null);
+  const [endDate, setEndDate] = useState<Date | null>(null);
 
-  const handleDateChange = (startDate: Date | null, endDate: Date | null) => {
+  const myFilter = () => {
+    if (!startDate || !endDate || !bookData) return;
+    // console.log("start date: ", startDate);
+    // console.log("end date: ", endDate);
     // 處理日期變更
-    console.log("開始日期:", startDate);
-    console.log("結束日期:", endDate);
+    setDisplayData(
+      bookData.filter((item) => {
+        if (!(category === categories[0] || category === item.state))
+          return false;
+
+        const dateObj = new Date(item.date); // 直接轉換為 Date 物件
+        return dateObj >= startDate && dateObj <= endDate;
+      }),
+    );
+    setShow(false);
+  };
+
+  const handleDateChange = (
+    curStartDate: Date | null,
+    curEndDate: Date | null,
+  ) => {
+    setStartDate(curStartDate);
+    setEndDate(curEndDate);
+    // console.log("開始日期:", startDate);
+    // console.log("結束日期:", endDate);
   };
 
   return (
@@ -51,7 +88,11 @@ const Header = () => {
             zIndex: "50",
           }}
         />
-        <input type="text" placeholder="搜尋場次..." />
+        <input
+          onChange={(e) => setSearch(e.target.value)}
+          type="text"
+          placeholder="搜尋場次..."
+        />
         <button onClick={() => setShow((prev) => !prev)}>
           <FiFilter color="white" size={22} />
         </button>
@@ -71,8 +112,10 @@ const Header = () => {
               alignItems: "center",
             }}
           >
-            <DateRangeFilter onDateChange={handleDateChange} />{" "}
-            <button className={styles.btn}>套用塞選</button>
+            <DateRangeFilter onDateChange={handleDateChange} />
+            <button className={styles.btn} onClick={myFilter}>
+              套用塞選
+            </button>
           </Offcanvas.Body>
         </Offcanvas>
       </div>
@@ -126,7 +169,9 @@ const Book = ({
 
   return (
     <div className={styles.bookContainer} onClick={goDetail}>
-      <h1>{place_name}</h1>
+      <h1>
+        {place_name}（{book_id.substring(5)}）
+      </h1>
       <h2>{team_name}</h2>
       <div className={styles.description}>
         <p>
@@ -179,9 +224,9 @@ const Category = ({ curCategory, category, setCategory }: CategoryProps) => {
 const Books = () => {
   const [bookData, setBookData] = useState<BookProps[]>([]);
   const [displayData, setDisplayData] = useState<BookProps[]>([]);
-  const categories = ["全部場次", "報名中", "進行中", "已結束"];
+  const [search, setSearch] = useState<string>("");
 
-  const [category, setCategory] = useState<string>("全部場次");
+  const [category, setCategory] = useState<string>(categories[0]);
 
   const getBooks = async () => {
     setBookData(data);
@@ -192,15 +237,42 @@ const Books = () => {
   }, []);
 
   useEffect(() => {
-    if (category === categories[0]) setDisplayData(bookData);
-    else {
+    if (!bookData.length) return;
+    if (category === categories[0]) {
+      setDisplayData(bookData);
+    } else {
       setDisplayData(bookData.filter((item) => item.state === category));
     }
   }, [category, bookData]);
 
+  useEffect(() => {
+    if (!search) {
+      setDisplayData(
+        bookData.filter(
+          (item) => category === categories[0] || item.state === category,
+        ),
+      );
+    } else {
+      setDisplayData(
+        bookData.filter(
+          (item) =>
+            (category === categories[0] || item.state == category) &&
+            (item.place_name.includes(search) ||
+              item.team_name.includes(search) ||
+              item.book_id.includes(search)),
+        ),
+      );
+    }
+  }, [search, bookData]);
+
   return (
     <div className={styles.container}>
-      <Header />
+      <Header
+        setSearch={setSearch}
+        category={category}
+        setDisplayData={setDisplayData}
+        bookData={bookData}
+      />
       <div className={styles.categoryContainer}>
         {categories.map((item, index) => (
           <Category

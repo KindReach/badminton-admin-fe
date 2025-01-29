@@ -1,0 +1,56 @@
+[
+  {
+    "book_id": "00000002",
+    "place_name": "ALL IN 運動館",
+    "team_name": "ALL IN 羽球隊",
+    "time": "19:00 ~ 20:00",
+    "state": "進行中",
+    "amount_of_member": 10,
+    "total_of_member": 20
+  },
+  {
+    "book_id": "00000002",
+    "place_name": "ALL IN 運動館",
+    "team_name": "ALL IN 羽球隊",
+    "time": "19:00 ~ 20:00",
+    "state": "進行中",
+    "amount_of_member": 10,
+    "total_of_member": 20
+  },
+  {
+    "book_id": "00000002",
+    "place_name": "ALL IN 運動館",
+    "team_name": "ALL IN 羽球隊",
+    "time": "19:00 ~ 20:00",
+    "state": "進行中",
+    "amount_of_member": 10,
+    "total_of_member": 20
+  },
+  {
+    "book_id": "00000002",
+    "place_name": "ALL IN 運動館",
+    "team_name": "ALL IN 羽球隊",
+    "time": "19:00 ~ 20:00",
+    "state": "即將開始",
+    "amount_of_member": 10,
+    "total_of_member": 20
+  },
+  {
+    "book_id": "00000002",
+    "place_name": "ALL IN 運動館",
+    "team_name": "ALL IN 羽球隊",
+    "time": "19:00 ~ 20:00",
+    "state": "即將開始",
+    "amount_of_member": 10,
+    "total_of_member": 20
+  },
+  {
+    "book_id": "00000002",
+    "place_name": "ALL IN 運動館",
+    "team_name": "ALL IN 羽球隊",
+    "time": "19:00 ~ 20:00",
+    "state": "即將開始",
+    "amount_of_member": 10,
+    "total_of_member": 20
+  }
+]

@@ -12,6 +12,7 @@ import { setLoading } from "./state/loading/loading";
 import BookDetail from "./pages/BookDetail/BookDetail";
 import Signed from "./pages/Signed/Signed";
 import Books from "./pages/Books/Books";
+import SignList from "./pages/SignList/SignList";
 
 function App() {
   const loginState = useSelector((state: RootState) => state.login.isLogin);
@@ -53,6 +54,7 @@ function App() {
         <Route path="/detail" element={<BookDetail />} />
         <Route path="/books" element={<Books />} />
         <Route path="/signed" element={<Signed />} />
+        <Route path="/signlist" element={<SignList />} />
         <Route path="*" element={<Home />} />
       </Routes>
     </BrowserRouter>
