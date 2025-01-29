@@ -1,7 +1,29 @@
 @use "../../assets/styles/config.scss" as *;
 
 .container {
+  position: relative;
   width: 100%;
+
+  .categoryContainer {
+    position: absolute;
+    /* position: fixed; */
+    /* z-index: 20; */
+    top: 90px;
+    left: 0;
+    width: 100%;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+
+    p {
+      box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 300;
+      padding: 3px 8px;
+      margin-right: 10px;
+    }
+  }
 
   .headerContainer {
     position: fixed;
@@ -74,6 +96,64 @@
         font-size: 16px;
         font-weight: 800;
         color: white;
+      }
+    }
+  }
+
+  .booksContainer {
+    position: absolute;
+    top: 130px;
+    left: 0;
+    width: 100%;
+    padding: 10px 10px;
+
+    .bookContainer {
+      position: relative;
+      width: 100%;
+      padding: 15px;
+      background-color: white;
+      border-radius: 8px;
+      /* box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px; */
+      box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
+      margin-bottom: 10px;
+
+      .state {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        font-size: 10px;
+        font-weight: 500;
+        padding: 3px 6px;
+        border-radius: 15px;
+      }
+
+      h1 {
+        font-size: 18px;
+        font-weight: 900;
+        margin-bottom: 5px;
+      }
+
+      h2 {
+        font-size: 14px;
+        font-weight: 600;
+        color: gray;
+        margin-bottom: 5px;
+      }
+
+      .description {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+
+        p {
+          font-size: 12px;
+          font-weight: 600;
+          color: gray;
+          margin: 0 5px 0 0;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
       }
     }
   }

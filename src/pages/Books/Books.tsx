@@ -1,10 +1,14 @@
 import { useNavigate } from "react-router-dom";
 import styles from "./Book.module.css";
 import { IoChevronBack, IoAddOutline, IoSearchOutline } from "react-icons/io5";
+import { FaRegClock } from "react-icons/fa6";
+import { IoCalendarClearOutline } from "react-icons/io5";
+import { GoPeople } from "react-icons/go";
 import { FiFilter } from "react-icons/fi";
 import { Offcanvas } from "react-bootstrap";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import DateRangeFilter from "./components/DateRangeFilter";
+import data from "./data.json";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -76,10 +80,152 @@ const Header = () => {
   );
 };
 
+interface BookProps {
+  book_id: string;
+  place_name: string;
+  team_name: string;
+  date: string;
+  time: string;
+  state: string;
+  total_of_member: number;
+  amount_of_member: number;
+}
+
+const Book = ({
+  book_id,
+  place_name,
+  team_name,
+  date,
+  time,
+  state,
+  amount_of_member,
+  total_of_member,
+}: BookProps) => {
+  const color = ["rgba(0, 123, 255, 1)", "rgba(40, 167, 69, 1)", "gray"];
+  const bgColor = [
+    "rgba(184, 218, 255, 1)",
+    "rgba(195, 230, 203, 1)",
+    "lightgray",
+  ];
+  const [curState, setCurState] = useState<number>(0);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (state == "報名中") {
+      setCurState(0);
+    } else if (state == "進行中") {
+      setCurState(1);
+    } else {
+      setCurState(2);
+    }
+  }, [state]);
+
+  const goDetail = () => {
+    navigate(`/detail?book_id=${book_id}`);
+  };
+
+  return (
+    <div className={styles.bookContainer} onClick={goDetail}>
+      <h1>{place_name}</h1>
+      <h2>{team_name}</h2>
+      <div className={styles.description}>
+        <p>
+          <IoCalendarClearOutline style={{ marginRight: "5px" }} />
+          {date}
+        </p>
+        <p>
+          <FaRegClock style={{ marginRight: "5px" }} />
+          {time}
+        </p>
+        <p>
+          <GoPeople style={{ marginRight: "5px" }} />
+          {amount_of_member}/{total_of_member}
+        </p>
+      </div>
+
+      <p
+        className={styles.state}
+        style={{
+          color: `${color[curState]}`,
+          backgroundColor: `${bgColor[curState]}`,
+        }}
+      >
+        {state}
+      </p>
+    </div>
+  );
+};
+
+interface CategoryProps {
+  category: string;
+  curCategory: string;
+  setCategory: Dispatch<SetStateAction<string>>;
+}
+
+const Category = ({ curCategory, category, setCategory }: CategoryProps) => {
+  return (
+    <p
+      onClick={() => setCategory(category)}
+      style={{
+        color: `${curCategory === category ? "rgba(0, 123, 255, 1)" : "gray"}`,
+        backgroundColor: `${curCategory === category ? "rgba(184, 218, 255, 1)" : "lightgray"}`,
+      }}
+    >
+      {category}
+    </p>
+  );
+};
+
 const Books = () => {
+  const [bookData, setBookData] = useState<BookProps[]>([]);
+  const [displayData, setDisplayData] = useState<BookProps[]>([]);
+  const categories = ["全部場次", "報名中", "進行中", "已結束"];
+
+  const [category, setCategory] = useState<string>("全部場次");
+
+  const getBooks = async () => {
+    setBookData(data);
+  };
+
+  useEffect(() => {
+    getBooks();
+  }, []);
+
+  useEffect(() => {
+    if (category === categories[0]) setDisplayData(bookData);
+    else {
+      setDisplayData(bookData.filter((item) => item.state === category));
+    }
+  }, [category, bookData]);
+
   return (
     <div className={styles.container}>
       <Header />
+      <div className={styles.categoryContainer}>
+        {categories.map((item, index) => (
+          <Category
+            category={item}
+            curCategory={category}
+            setCategory={setCategory}
+            key={index}
+          />
+        ))}
+      </div>
+      <div className={styles.booksContainer}>
+        {displayData.map((item, index) => (
+          <Book
+            key={index}
+            book_id={item.book_id}
+            place_name={item.place_name}
+            team_name={item.team_name}
+            date={item.date}
+            time={item.time}
+            state={item.state}
+            amount_of_member={item.amount_of_member}
+            total_of_member={item.total_of_member}
+          />
+        ))}
+      </div>
     </div>
   );
 };
