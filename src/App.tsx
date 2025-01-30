@@ -13,6 +13,9 @@ import BookDetail from "./pages/BookDetail/BookDetail";
 import Signed from "./pages/Signed/Signed";
 import Books from "./pages/Books/Books";
 import SignList from "./pages/SignList/SignList";
+import Members from "./pages/Members/Members";
+import Setting from "./pages/Setting/Setting";
+import Create from "./pages/Create/Create";
 
 function App() {
   const loginState = useSelector((state: RootState) => state.login.isLogin);
@@ -52,9 +55,12 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/detail" element={<BookDetail />} />
+        <Route path="/create" element={<Create />} />
+        <Route path="/members" element={<Members />} />
         <Route path="/books" element={<Books />} />
         <Route path="/signed" element={<Signed />} />
         <Route path="/signlist" element={<SignList />} />
+        <Route path="/setting" element={<Setting />} />
         <Route path="*" element={<Home />} />
       </Routes>
     </BrowserRouter>

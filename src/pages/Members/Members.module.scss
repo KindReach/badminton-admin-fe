@@ -1,0 +1,40 @@
+@use "../../assets/styles/config.scss" as *;
+
+.container {
+  position: absolute;
+  top: 43px;
+  left: 0;
+  width: 100%;
+
+  .categories {
+    position: fixed;
+    z-index: 10;
+    width: 100%;
+    max-width: 800px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow:
+      rgba(0, 0, 0, 0.1) 0px 1px 3px 0px,
+      rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+    background: rgba(255, 255, 255, 0.2); /* 半透明背景 */
+    backdrop-filter: blur(10px); /* 毛玻璃模糊效果 */
+
+    p {
+      width: 50%;
+      padding: 10px 10px;
+      text-align: center;
+      font-size: 12px;
+      font-weight: 800;
+      color: gray;
+      margin: 0;
+    }
+  }
+
+  .membersContainer {
+    position: absolute;
+    top: 40px;
+    width: 100%;
+    padding: 10px 12px;
+  }
+}

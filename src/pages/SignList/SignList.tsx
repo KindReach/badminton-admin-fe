@@ -1,35 +1,10 @@
 import styles from "./SignList.module.css";
-import { IoChevronBack } from "react-icons/io5";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import data from "./data.json";
 import { FaRegClock } from "react-icons/fa6";
 import { GoPeople } from "react-icons/go";
-
-const Header = () => {
-  const navigate = useNavigate();
-  const [show, setShow] = useState<boolean>(false);
-
-  const handleDateChange = (startDate: Date | null, endDate: Date | null) => {
-    // 處理日期變更
-    console.log("開始日期:", startDate);
-    console.log("結束日期:", endDate);
-  };
-
-  return (
-    <div className={styles.headerContainer}>
-      <div className={styles.nav}>
-        <IoChevronBack
-          color="white"
-          size="22"
-          fontWeight={900}
-          onClick={() => navigate(-1)}
-        />
-        <p>簽到表</p>
-      </div>
-    </div>
-  );
-};
+import HeaderSmall from "@/components/HeaderSmall/HeaderSmall";
 
 interface BookDataProps {
   book_id: string;
@@ -98,7 +73,7 @@ const SignList = () => {
 
   return (
     <>
-      <Header />
+      <HeaderSmall title="簽到列表" />
       <div className={styles.listContainer}>
         {bookData.map((item, index) => (
           <Book

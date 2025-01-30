@@ -20,6 +20,7 @@ const QuickActions = () => {
           <div
             className={styles.icon}
             style={{ backgroundColor: "rgba(173, 216, 230, 0.5)" }}
+            onClick={() => quickGo("/create")}
           >
             <IoIosAdd size={24} color="rgba(0, 0, 255, 1)" />
           </div>
@@ -39,6 +40,7 @@ const QuickActions = () => {
           <div
             className={styles.icon}
             style={{ backgroundColor: "rgba(255, 204, 102, 0.5)" }}
+            onClick={() => quickGo("/members")}
           >
             <GoPeople size={24} color="rgba(255, 165, 0, 1)" />
           </div>
@@ -48,6 +50,7 @@ const QuickActions = () => {
           <div
             className={styles.icon}
             style={{ backgroundColor: "rgba(211, 211, 211, 0.5)" }}
+            onClick={() => quickGo("/setting")}
           >
             <IoSettingsOutline size={24} color="rgba(128, 128, 128, 1)" />
           </div>

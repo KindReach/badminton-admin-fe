@@ -76,6 +76,7 @@ const Signed = () => {
 
   useEffect(() => {
     setBookData(data);
+    dataOfMembers.sort((a, b) => Number(b.is_show) - Number(a.is_show));
     setMembers(dataOfMembers);
   }, []);
 
