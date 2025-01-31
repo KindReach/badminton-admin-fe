@@ -6,3 +6,12 @@ export interface MemberProps {
   amount_of_book: number;
   add_time: string;
 }
+
+export interface CreateSessionType {
+  location: string;
+  date: string;
+  time: string;
+  limit_of_member: number;
+  price: number;
+  description: string;
+}

@@ -7,7 +7,7 @@ import { GoPeople } from "react-icons/go";
 import { FiFilter } from "react-icons/fi";
 import { Offcanvas } from "react-bootstrap";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import DateRangeFilter from "./components/DateRangeFilter";
+import DateRangeFilter from "@/components/DateRangeFilter/DateRangeFilter";
 import data from "./data.json";
 
 interface HeaderProps {

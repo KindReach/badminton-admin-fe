@@ -57,7 +57,7 @@ const Basic = ({
         </p>
         <p>
           <GoPeople style={{ marginRight: "10px" }} color="gray" />
-          人數上限：{limit_of_member * total_of_court} 人
+          人數上限：{limit_of_member} 人
         </p>
         <p>
           <FaRegClock style={{ marginRight: "10px" }} color="gray" />

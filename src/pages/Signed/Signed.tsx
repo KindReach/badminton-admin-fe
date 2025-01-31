@@ -87,7 +87,7 @@ const Signed = () => {
         team_name={bookData.team_name}
         date={bookData.date}
         time={bookData.time}
-        amount_of_total={bookData.total_of_court * bookData.limit_of_member}
+        amount_of_total={bookData.limit_of_member}
         amount_of_member={bookData.amount_of_member}
         nav_title="簽到表"
       />

@@ -2,7 +2,6 @@
 import React, { useState } from "react";
 import DatePicker from "react-datepicker";
 import { Calendar } from "lucide-react";
-import "react-datepicker/dist/react-datepicker.css";
 import styles from "./DateRangeFilter.module.css";
 
 interface DateRangeFilterProps {

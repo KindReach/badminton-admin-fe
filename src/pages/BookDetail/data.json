@@ -6,7 +6,7 @@
   "time": "19:00 ~ 21:00",
   "amount_of_member": 5,
   "location": "https://maps.app.goo.gl/UPup9L1aaHuW1rvV9",
-  "limit_of_member": 8,
+  "limit_of_member": 24,
   "total_of_court": 3,
   "is_opening": true,
   "price": 200
