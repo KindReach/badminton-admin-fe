@@ -45,12 +45,18 @@
 .container .headerContainer .functions input {
   width: 90%;
   background: rgba(255, 255, 255, 0.2); /* 半透明背景 */
-  backdrop-filter: blur(10px); /* 毛玻璃模糊效果 */
+  -webkit-backdrop-filter: blur(10px);
+          backdrop-filter: blur(10px); /* 毛玻璃模糊效果 */
   border: 1px solid rgba(255, 255, 255, 0.2); /* 半透明邊框 */
   border-radius: 8px; /* 圓角 */
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 柔和陰影 */
   padding: 6px 6px 6px 40px; /* 內距 */
   color: #fff; /* 白色文字 */
+}
+.container .headerContainer .functions input::-moz-placeholder {
+  color: white; /* 修改為你想要的顏色 */
+  font-weight: 800;
+  opacity: 0.8; /* 可選：調整透明度 */
 }
 .container .headerContainer .functions input::placeholder {
   color: white; /* 修改為你想要的顏色 */
@@ -64,7 +70,8 @@
   padding: 5px;
   border-radius: 8px;
   background: rgba(255, 255, 255, 0.2); /* 半透明背景 */
-  backdrop-filter: blur(10px); /* 毛玻璃模糊效果 */
+  -webkit-backdrop-filter: blur(10px);
+          backdrop-filter: blur(10px); /* 毛玻璃模糊效果 */
   border: 1px solid rgba(255, 255, 255, 0.2); /* 半透明邊框 */
   border-radius: 8px; /* 圓角 */
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 柔和陰影 */
@@ -146,6 +153,4 @@
   font-weight: 500;
   border-radius: 8px;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
-}
-
-/*# sourceMappingURL=Book.module.css.map */
+}/*# sourceMappingURL=Book.module.css.map */

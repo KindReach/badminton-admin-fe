@@ -3,11 +3,12 @@ import { Form, InputGroup, Button, Alert } from "react-bootstrap";
 import { z } from "zod";
 import { FieldValues, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import DatePicker from "react-datepicker";
 import { Calendar } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "@/state/store";
+import { CreateSessionType } from "@/utils/types";
+import { Mode } from "@/state/publish/publish";
 
 const schema = z.object({
   place_name: z
@@ -31,7 +32,12 @@ const schema = z.object({
 
 type FormData = z.infer<typeof schema>;
 
-const Single = () => {
+interface Props {
+  addNewSession: (session: CreateSessionType, isMulti: boolean) => void;
+  setShow: (key: any) => void;
+}
+
+const Single = ({ addNewSession, setShow }: Props) => {
   const [date, setDate] = useState<string | null>(null);
   const [firstSubmit, setFirstSubmit] = useState<boolean>(true);
   const hours = Array.from({ length: 24 }, (_, i) => i + 1);
@@ -54,41 +60,55 @@ const Single = () => {
     register,
     handleSubmit,
     formState: { errors },
-    reset,
+    getValues
   } = useForm<FormData>({
     resolver: zodResolver(schema),
   });
 
-  const checkDateAndTime = () => {
-    let isInvalid = false;
-
+  const createNewData = () => {
+    const formData = getValues();
+    
+    /**
+     * This Field is used to check date and time is vaild or not.
+     * It can throws some message
+     */
+    let isOK = true;
     if (!date) {
+      console.log("Error on date");
       setErrorOfDate(true);
-      isInvalid = true;
+      isOK = false;
     }
 
     if (!startTime || !endTime) {
-      setErrorOfDate(true);
-
+      console.log("Error on time");
       setErrorOfTime(true);
-      isInvalid = true;
+      isOK = false;
     }
+    if (!isOK) return;
 
-    if (isInvalid) return;
-  };
-  const onSubmit = async () => {
+    // add a new data of session to the session list.
+    // In single case, the session can't be double create.
+    addNewSession({
+      place_name: formData.place_name,
+      location: formData.location,
+      date: date || "",
+      start_time: startTime || "",
+      end_time: endTime || "",
+      limit_of_member: Number(formData.limit_of_member),
+      amount_of_court: Number(formData.amount_of_court),
+      price: Number(formData.price),
+      description: formData.description,
+    }, false);
+    setShow(true);    
+  }
+
+
+  /*
+    This function use to check the field created form zod.
+  */
+  const onSubmit = async (data: FieldValues) => {
     alert("GOOD");
   };
-
-  useEffect(() => {
-    if (firstSubmit) {
-      setFirstSubmit(false);
-      return;
-    }
-    console.log("COOL ON SINGLE PUBLISH");
-    checkDateAndTime();
-    handleSubmit(onSubmit)();
-  }, [singleState]);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={styles.formContainer}>
@@ -128,8 +148,6 @@ const Single = () => {
             id="location"
             type="text"
             className="form-control mb-1"
-            // placeholder="狐智御"
-            // maxLength={10}
           />
           {errors.location && (
             <Alert variant="danger" className={styles.alert}>
@@ -254,10 +272,12 @@ const Single = () => {
             rows={3}
             {...register("description")}
             max={1000}
-            // placeholder="請輸入欲授課方向、參與人數估計或是其他您遇到的難題等等"
           />
         </Form.Group>
       </div>
+      <button className={styles.publish} type="submit" onClick={createNewData}>
+         預覽
+      </button>
     </form>
   );
 };

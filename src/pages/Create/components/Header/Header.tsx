@@ -6,37 +6,14 @@ import { useNavigate } from "react-router-dom";
 import { RootState } from "@/state/store";
 
 interface Props {
-  setShow: (key: any) => void;
   title: string;
   categories: string[];
   setCategory: (key: string) => void;
   category: string;
 }
 
-const Header = ({
-  title,
-  categories,
-  category,
-  setCategory,
-  setShow,
-}: Props) => {
+const Header = ({ title, categories, category, setCategory }: Props) => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const singleState = useSelector(
-    (state: RootState) => state.publish.single_state,
-  );
-  const multiState = useSelector(
-    (state: RootState) => state.publish.multi_state,
-  );
-
-  const handleBeforePublish = () => {
-    if (category === categories[0]) {
-      dispatch(setSingleState(!singleState));
-    } else {
-      dispatch(setMultiState(!multiState));
-    }
-    setShow(true);
-  };
 
   return (
     <div className={styles.headerContainer}>
@@ -61,9 +38,6 @@ const Header = ({
           />
         </div>
       </div>
-      <p className={styles.publish} onClick={handleBeforePublish}>
-        發佈
-      </p>
     </div>
   );
 };

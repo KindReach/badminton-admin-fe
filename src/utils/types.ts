@@ -8,10 +8,13 @@ export interface MemberProps {
 }
 
 export interface CreateSessionType {
+  place_name: string;
   location: string;
   date: string;
-  time: string;
+  start_time: string;
+  end_time: string;
   limit_of_member: number;
+  amount_of_court: number;
   price: number;
   description: string;
 }

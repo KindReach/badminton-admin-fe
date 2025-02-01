@@ -62,3 +62,15 @@
   margin-top: 10px;
   font-size: 16px;
 }
+
+.publish {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  z-index: 99;
+  font-size: 16px;
+  font-weight: 800;
+  color: white;
+  text-shadow: 0 0 1px rgba(255, 255, 255, 0.8); /* 白色柔光 */
+  background: none;
+}

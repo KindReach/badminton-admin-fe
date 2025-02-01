@@ -1,10 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+export enum Mode {
+  CHECK, PUBLISH
+};
+
 const publishSlice = createSlice({
   name: "publish_state",
   initialState: {
-    single_state: false,
-    multi_state: false,
+    single_state: Mode.CHECK,
+    multi_state: Mode.PUBLISH,
   },
   reducers: {
     setSingleState: (state, action) => {

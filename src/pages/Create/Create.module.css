@@ -1,3 +1,68 @@
+.submitBtn {
+  background: linear-gradient(to right, #3b82f6, #2563eb);
+  color: white;
+  padding: 6px 8px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+}
 
-
-/*# sourceMappingURL=Create.module.css.map */
+.checkContainer {
+  position: absolute;
+  top: 65px;
+  left: 0;
+  width: 100%;
+}
+.checkContainer .totalCal {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: rgba(184, 218, 255, 0.5);
+  padding: 10px 15px;
+}
+.checkContainer .totalCal p {
+  font-size: 14px;
+  font-weight: 600;
+  color: rgb(0, 123, 255);
+  margin-bottom: 0;
+}
+.checkContainer .sessionsContainer {
+  width: 100%;
+}
+.checkContainer .sessionsContainer .session {
+  position: relative;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 6px 10px;
+  border-bottom: 1px solid lightgray;
+}
+.checkContainer .sessionsContainer .session h1 {
+  font-size: 18px;
+  font-weight: 600;
+}
+.checkContainer .sessionsContainer .session .description {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+.checkContainer .sessionsContainer .session .description p {
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+  font-weight: 700;
+  color: darkgray;
+  margin-bottom: 0;
+  margin-right: 15px;
+}
+.checkContainer .sessionsContainer .session .price {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  color: darkgoldenrod;
+}/*# sourceMappingURL=Create.module.css.map */

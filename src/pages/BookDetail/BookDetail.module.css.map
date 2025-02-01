@@ -1,1 +1,1 @@
-{"version":3,"sourceRoot":"","sources":["BookDetail.module.scss"],"names":[],"mappings":"AAAA;EACE;EACA;EACA;EACA;AACA;AACA","file":"BookDetail.module.css"}
+{"version":3,"sources":["BookDetail.module.scss","BookDetail.module.css"],"names":[],"mappings":"AAAA;EACE,kBAAA;EACA,UAAA;EACA,WAAA;EACA,2BAAA;EACA,mBAAA;EACA,wBAAA;ACCF","file":"BookDetail.module.css"}

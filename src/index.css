@@ -105,6 +105,11 @@
   height: auto !important;
 }
 
+.offcanvas.offcanvas-top {
+  height: auto !important;
+  max-height: 50vh !important;
+}
+
 .react-datepicker-popper {
   position: fixed !important;
   top: 50% !important;
