@@ -16,6 +16,10 @@ import SignList from "./pages/SignList/SignList";
 import Members from "./pages/Members/Members";
 import Setting from "./pages/Setting/Setting";
 import Create from "./pages/Create/Create";
+import TeamName from "./pages/Setting/components/TeamName/TeamName";
+import Location from "./pages/Setting/components/Location/Location";
+import Pricing from "./pages/Setting/components/Pricing/Pricing";
+import PrivateRules from "./pages/Setting/components/PrivateRules/PrivateRules";
 
 function App() {
   const loginState = useSelector((state: RootState) => state.login.isLogin);
@@ -61,6 +65,10 @@ function App() {
         <Route path="/signed" element={<Signed />} />
         <Route path="/signlist" element={<SignList />} />
         <Route path="/setting" element={<Setting />} />
+        <Route path="/setting/team_name" element={<TeamName />} />
+        <Route path="/setting/location" element={<Location />} />
+        <Route path="/setting/pricing" element={<Pricing />} />
+        <Route path="/setting/private_rules" element={<PrivateRules />} />
         <Route path="*" element={<Home />} />
       </Routes>
     </BrowserRouter>
