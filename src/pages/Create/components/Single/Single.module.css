@@ -67,4 +67,9 @@
   color: white;
   text-shadow: 0 0 1px rgba(255, 255, 255, 0.8); /* 白色柔光 */
   background: none;
+}
+
+.title {
+  display: flex;
+  align-items: center;
 }/*# sourceMappingURL=Single.module.css.map */

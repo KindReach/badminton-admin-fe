@@ -3,7 +3,11 @@ import { Form, InputGroup, Button, Alert } from "react-bootstrap";
 import { z } from "zod";
 import { FieldValues, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Calendar } from "lucide-react";
+
+import { SlLocationPin } from "react-icons/sl";
+import { GoPeople } from "react-icons/go";
+import { FaRegClock } from "react-icons/fa6";
+import { IoAlertCircleOutline } from "react-icons/io5";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "@/state/store";
@@ -114,8 +118,9 @@ const Single = ({ addNewSession, setShow }: Props) => {
     <form onSubmit={handleSubmit(onSubmit)} className={styles.formContainer}>
       <div className={styles.inputGroup}>
         <div className="mb-3">
-          <p>地點資訊</p>
-
+          <p className={styles.title}  ><SlLocationPin style={{
+            marginRight: "5px"
+          }} />地點資訊</p>
           <label
             htmlFor="place_name"
             className={`form-label ${styles.smLabel}`}
@@ -157,7 +162,7 @@ const Single = ({ addNewSession, setShow }: Props) => {
         </div>
       </div>
       <div className={styles.inputGroup}>
-        <p>時間設定</p>
+        <p className={styles.title} ><FaRegClock style={{ marginRight: '5px'}}  />時間設定</p>
         <label
           // htmlFor="amount_of_court"
           className={`form-label ${styles.smLabel}`}
@@ -204,7 +209,9 @@ const Single = ({ addNewSession, setShow }: Props) => {
         )}
       </div>
       <div className={styles.inputGroup}>
-        <p>人數與價格</p>
+        <p className={styles.title} ><GoPeople style={{
+          marginRight: "5px"
+        }}  />人數與價格</p>
 
         <label
           htmlFor="amount_of_court"
@@ -264,7 +271,9 @@ const Single = ({ addNewSession, setShow }: Props) => {
         )}
       </div>
       <div className={styles.inputGroup}>
-        <p>備註資訊</p>
+        <p className={styles.title} ><IoAlertCircleOutline style={{ 
+           marginRight: "5px"
+        }} />備註資訊</p>
         <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
           <Form.Label className={styles.smLabel}>球種、場地號碼...</Form.Label>
           <Form.Control
