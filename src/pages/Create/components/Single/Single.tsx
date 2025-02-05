@@ -9,10 +9,13 @@ import { GoPeople } from "react-icons/go";
 import { FaRegClock } from "react-icons/fa6";
 import { IoAlertCircleOutline } from "react-icons/io5";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/state/store";
 import { CreateSessionType } from "@/utils/types";
 import { Mode } from "@/state/publish/publish";
+import { setLoading } from "@/state/loading/loading";
+import { apiPrefix, auth } from "@/utils/firebase";
+import axios from "axios";
 
 const schema = z.object({
   place_name: z
@@ -43,28 +46,22 @@ interface Props {
 
 const Single = ({ addNewSession, setShow }: Props) => {
   const [date, setDate] = useState<string | null>(null);
-  const [firstSubmit, setFirstSubmit] = useState<boolean>(true);
-  const hours = Array.from({ length: 24 }, (_, i) => i + 1);
-  const minutes = Array.from({ length: 12 }, (_, i) => i * 5);
   const [errorOfTime, setErrorOfTime] = useState<boolean>(false);
   const [errorOfDate, setErrorOfDate] = useState<boolean>(false);
   const [startTime, setStartTime] = useState<string | null>(null);
   const [endTime, setEndTime] = useState<string | null>(null);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (errorOfDate && date) setErrorOfDate(false);
     if (errorOfTime && startTime && endTime) setErrorOfTime(false);
   }, [startTime, endTime, date]);
 
-  const singleState = useSelector(
-    (state: RootState) => state.publish.single_state,
-  );
-
   const {
     register,
-    handleSubmit,
     formState: { errors },
-    getValues
+    getValues,
+    setValue
   } = useForm<FormData>({
     resolver: zodResolver(schema),
   });
@@ -107,15 +104,39 @@ const Single = ({ addNewSession, setShow }: Props) => {
   }
 
 
-  /*
-    This function use to check the field created form zod.
-  */
-  const onSubmit = async (data: FieldValues) => {
-    alert("GOOD");
-  };
+  
+  const getDefaultData = async () => {
+    dispatch(setLoading(true));
+    try {
+      const idToken = await auth.currentUser?.getIdToken();
+      const { data } = await axios.get(`${apiPrefix}/createSession/getDefaultSetting`,
+        {
+          headers: {
+            Authorization: `Bearer ${idToken}`
+          }
+        }
+      )
+      console.log(data);
+      setValue('place_name', data['default_place_name']);
+      setValue('location', data['default_location']);
+      setValue('price', data['default_price']);
+    } catch ( err ) {
+      console.log( err );
+    }
+    requestAnimationFrame(() => {
+      // 確保在下一個畫面更新週期才關閉 loading
+      requestAnimationFrame(() => {
+        dispatch(setLoading(false));
+      });
+    });
+  }
+
+  useEffect(() => {
+    getDefaultData();
+  }, [])
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className={styles.formContainer}>
+    <form onSubmit={(e) => e.preventDefault() } className={styles.formContainer}>
       <div className={styles.inputGroup}>
         <div className="mb-3">
           <p className={styles.title}  ><SlLocationPin style={{
@@ -174,6 +195,7 @@ const Single = ({ addNewSession, setShow }: Props) => {
           <input
             type="date"
             className="form-control mb-1"
+            min={new Date().toISOString().split('T')[0]}
             onChange={(e) => setDate(e.target.value)}
           />
           {errorOfDate && (
@@ -284,7 +306,7 @@ const Single = ({ addNewSession, setShow }: Props) => {
           />
         </Form.Group>
       </div>
-      <button className={styles.publish} type="submit" onClick={createNewData}>
+      <button className={styles.publish} onClick={createNewData}>
          預覽
       </button>
     </form>

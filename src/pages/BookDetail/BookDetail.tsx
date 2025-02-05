@@ -8,6 +8,10 @@ import Basic from "./Basic/Basic";
 import Member from "./Member/Member";
 import Analyze from "./Analyze/Analyze";
 import { useSearchParams } from "react-router-dom";
+import { apiPrefix, auth } from "@/utils/firebase";
+import axios from "axios";
+import { useDispatch } from "react-redux";
+import { setLoading } from "@/state/loading/loading";
 
 interface BookInfo {
   book_id: string;
@@ -25,6 +29,8 @@ interface BookInfo {
 
 const BookDetail = () => {
   const [searchParams] = useSearchParams();
+  const [rateOfShow, setRateOfShow] = useState<number>(0);
+  const [updateStatus, setUpdateStatus] = useState<boolean>(false);
 
   // 提取 book_id
   const book_id = searchParams.get("book_id");
@@ -42,13 +48,43 @@ const BookDetail = () => {
     price: 0,
   });
 
-  useEffect(() => {
-    setBookData(data);
-  }, []);
+  const dispatch = useDispatch();
+  const getSessionInfo = async () => {
+    dispatch(setLoading(true));
+    try {
+      const idToken = await auth.currentUser?.getIdToken();
+      const { data } = await axios.get(`${apiPrefix}/courtSession/getDetail`, {
+        params: {
+          book_id: book_id,
+        },
+        headers: {
+          Authorization: `Bearer ${idToken}`,
+        },
+      });
+      setBookData(data);
+    } catch (err) {
+      console.error(err);
+    }
+    requestAnimationFrame(() => {
+      // 確保在下一個畫面更新週期才關閉 loading
+      requestAnimationFrame(() => {
+        dispatch(setLoading(false));
+      });
+    });
+  };
 
-  // useEffect(() => {
-  //   console.log("bookData: ", bookData);
-  // }, [bookData]);
+  useEffect(() => {
+    getSessionInfo();
+  }, [updateStatus]);
+
+  useEffect(() => {
+    if (!bookData.book_id) {
+      dispatch(setLoading(true));
+    } else {
+      dispatch(setLoading(false));
+    }
+    console.log("bookData: ", bookData);
+  }, [bookData]);
 
   return (
     <div className={styles.container}>
@@ -56,7 +92,7 @@ const BookDetail = () => {
         place_name={bookData.place_name}
         team_name={bookData.team_name}
         amount_of_member={bookData.amount_of_member}
-        amount_of_total={bookData.total_of_court * bookData.limit_of_member}
+        amount_of_total={bookData.limit_of_member}
         date={bookData.date}
         time={bookData.time}
         nav_title="場次詳情"
@@ -72,18 +108,26 @@ const BookDetail = () => {
             book_id={bookData.book_id}
             place_name={bookData.place_name}
             location={bookData.location}
+            amount_of_member={bookData.amount_of_member}
             limit_of_member={bookData.limit_of_member}
             total_of_court={bookData.total_of_court}
             time={bookData.time}
             is_opening={bookData.is_opening}
             price={bookData.price}
+            setUpdateStatus={setUpdateStatus}
           />
         </Tab>
         <Tab eventKey="member" title="名單管理">
-          <Member book_id={bookData.book_id} />
+          <Member book_id={bookData.book_id} setRateofShow={setRateOfShow} />
         </Tab>
         <Tab eventKey="analyze" title="統計資訊">
-          <Analyze />
+          <Analyze
+            limit_of_member={bookData.limit_of_member}
+            amount_of_court={bookData.total_of_court}
+            amount_of_member={bookData.amount_of_member}
+            price={bookData.price}
+            rateOfShow={rateOfShow}
+          />
         </Tab>
       </Tabs>
     </div>

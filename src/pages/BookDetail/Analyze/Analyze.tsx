@@ -24,32 +24,42 @@ const Brick = ({
   );
 };
 
-const Analyze = () => {
+
+interface Props {
+  amount_of_member: number;
+  amount_of_court: number;
+  limit_of_member: number;
+  price: number;
+  rateOfShow: number;
+}
+
+const Analyze = ({ amount_of_court, amount_of_member, limit_of_member, price, rateOfShow }: Props) => {
+
   return (
     <div className={styles.container}>
       <div className={styles.contentContainer}>
         <h2>基本統計</h2>
         <div className={styles.bricks}>
           <Brick
-            content="5"
+            content={amount_of_member.toString()}
             description="正取人數"
             color="rgba(0, 123, 255, 1)"
             background_color="rgba(184, 218, 255, 1)"
           />
           <Brick
-            content="90%"
+            content={`${rateOfShow}%`}
             description="出席率"
             color="rgba(40, 167, 69, 1)"
             background_color="rgba(195, 230, 203, 1)"
           />
           <Brick
-            content="2"
-            description="候補人數"
+            content={amount_of_court.toString()}
+            description="開放場數"
             color="rgba(253, 126, 20, 1)"
             background_color="rgba(255, 229, 204, 1)"
           />
           <Brick
-            content="24"
+            content={limit_of_member.toString()}
             description="開放人數"
             color="rgba(111, 66, 193, 1)"
             background_color="rgba(214, 187, 251, 1)"
@@ -61,11 +71,11 @@ const Analyze = () => {
         <div className={styles.content}>
           <div className={styles.description}>
             <h2>預計收入</h2>
-            <p>NT$ 1000</p>
+            <p>NT$ { limit_of_member * price }</p>
           </div>
           <div className={styles.description}>
             <h2>每人費用</h2>
-            <p>NT$ 200</p>
+            <p>NT$ { price }</p>
           </div>
         </div>
       </div>

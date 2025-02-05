@@ -7,7 +7,7 @@
     "time": "19:00 ~ 20:00",
     "state": "報名中",
     "amount_of_member": 10,
-    "total_of_member": 20
+    "limit_of_member": 20
   },
   {
     "book_id": "00000001",
@@ -17,7 +17,7 @@
     "time": "19:00 ~ 20:00",
     "state": "報名中",
     "amount_of_member": 10,
-    "total_of_member": 20
+    "limit_of_member": 20
   },
   {
     "book_id": "00000001",
@@ -27,7 +27,7 @@
     "time": "19:00 ~ 20:00",
     "state": "報名中",
     "amount_of_member": 10,
-    "total_of_member": 20
+    "limit_of_member": 20
   },
   {
     "book_id": "00000001",
@@ -37,7 +37,7 @@
     "time": "19:00 ~ 20:00",
     "state": "報名中",
     "amount_of_member": 10,
-    "total_of_member": 20
+    "limit_of_member": 20
   },
   {
     "book_id": "00000001",
@@ -47,7 +47,7 @@
     "time": "19:00 ~ 20:00",
     "state": "報名中",
     "amount_of_member": 10,
-    "total_of_member": 20
+    "limit_of_member": 20
   },
 
   {
@@ -58,7 +58,7 @@
     "time": "19:00 ~ 20:00",
     "state": "進行中",
     "amount_of_member": 10,
-    "total_of_member": 20
+    "limit_of_member": 20
   },
   {
     "book_id": "00000002",
@@ -68,7 +68,7 @@
     "time": "19:00 ~ 20:00",
     "state": "進行中",
     "amount_of_member": 10,
-    "total_of_member": 20
+    "limit_of_member": 20
   },
   {
     "book_id": "00000002",
@@ -78,7 +78,7 @@
     "time": "19:00 ~ 20:00",
     "state": "進行中",
     "amount_of_member": 10,
-    "total_of_member": 20
+    "limit_of_member": 20
   },
   {
     "book_id": "00000002",
@@ -88,7 +88,7 @@
     "time": "19:00 ~ 20:00",
     "state": "已結束",
     "amount_of_member": 10,
-    "total_of_member": 20
+    "limit_of_member": 20
   },
   {
     "book_id": "00000002",
@@ -98,7 +98,7 @@
     "time": "19:00 ~ 20:00",
     "state": "已結束",
     "amount_of_member": 10,
-    "total_of_member": 20
+    "limit_of_member": 20
   },
   {
     "book_id": "00000002",
@@ -108,7 +108,7 @@
     "time": "19:00 ~ 20:00",
     "state": "已結束",
     "amount_of_member": 10,
-    "total_of_member": 20
+    "limit_of_member": 20
   },
   {
     "book_id": "00000002",
@@ -118,7 +118,7 @@
     "time": "19:00 ~ 20:00",
     "state": "已結束",
     "amount_of_member": 10,
-    "total_of_member": 20
+    "limit_of_member": 20
   },
   {
     "book_id": "00000002",
@@ -128,7 +128,7 @@
     "time": "19:00 ~ 20:00",
     "state": "已結束",
     "amount_of_member": 10,
-    "total_of_member": 20
+    "limit_of_member": 20
   },
   {
     "book_id": "00000002",
@@ -138,7 +138,7 @@
     "time": "19:00 ~ 20:00",
     "state": "已結束",
     "amount_of_member": 10,
-    "total_of_member": 20
+    "limit_of_member": 20
   },
   {
     "book_id": "00000002",
@@ -148,6 +148,26 @@
     "time": "19:00 ~ 20:00",
     "state": "已結束",
     "amount_of_member": 10,
-    "total_of_member": 20
+    "limit_of_member": 20
+  },
+  {
+    "book_id": "00000002",
+    "place_name": "ALL IN 運動館",
+    "team_name": "ALL IN 羽球隊",
+    "date": "2025/01/23",
+    "time": "19:00 ~ 20:00",
+    "state": "尚未開放",
+    "amount_of_member": 10,
+    "limit_of_member": 20
+  },
+  {
+    "book_id": "00000002",
+    "place_name": "ALL IN 運動館",
+    "team_name": "ALL IN 羽球隊",
+    "date": "2025/01/23",
+    "time": "19:00 ~ 20:00",
+    "state": "尚未開放",
+    "amount_of_member": 10,
+    "limit_of_member": 20
   }
 ]

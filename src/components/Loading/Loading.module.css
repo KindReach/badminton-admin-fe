@@ -1,6 +1,6 @@
 .container {
   position: absolute;
-  z-index: 20;
+  z-index: 120;
   width: 100%;
   height: 100vh;
   background: linear-gradient(to bottom, #3b82f6, #2563eb);

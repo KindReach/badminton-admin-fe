@@ -4,9 +4,13 @@ import data from "./data.json";
 import { FiCheckCircle } from "react-icons/fi";
 import { FiAlertTriangle } from "react-icons/fi";
 import { FaRegQuestionCircle } from "react-icons/fa";
+import { apiPrefix, auth } from "@/utils/firebase";
+import axios from "axios";
+import { log } from "console";
 
 interface Props {
   book_id: string;
+  setRateofShow: (key: number) => void;
 }
 
 interface MemberProps {
@@ -62,29 +66,61 @@ const MemberInfo = ({
   );
 };
 
-const Member = ({ book_id }: Props) => {
+const Member = ({ book_id, setRateofShow }: Props) => {
   const [members, setMembers] = useState<MemberProps[]>([]);
+  const [amountOfAccept, setAmountOfAccept] = useState<number>(0);
+  const [amountOfSigned, setAmountOfSigned] = useState<number>(0);
   const getMembers = async () => {
-    setMembers(data);
+    try {
+      const idToken = await auth.currentUser?.getIdToken();
+      const { data } = await axios.get(`${apiPrefix}/courtSession/getSessionMember`, {
+        params: {
+          book_id: book_id
+        },
+        headers: {
+          Authorization: `Bearer ${idToken}`
+        }
+      });
+      setMembers(data);
+    } catch ( err ) {
+      console.log('====================================');
+      console.log(err);
+      console.log('====================================');
+    }
+    
   };
 
   useEffect(() => {
+    if ( !book_id ) return;
     getMembers();
-  }, []);
+  }, [book_id]);
+
+  useEffect(() => {
+    if ( members.length > 0 ) {
+      members.forEach((item) => {
+        if ( item.is_accept ) setAmountOfAccept((prev) => prev + 1);
+        if ( item.is_show ) setAmountOfSigned((prev) => prev + 1);
+      })
+    }
+  }, [members])
+
+  useEffect(() => {
+    setRateofShow(Math.floor(Number(amountOfSigned)/Number(members.length) * 100));
+  }, [amountOfSigned]);
 
   return (
     <div className={styles.container}>
       <div className={styles.contentContainer}>
         <div className={styles.content}>
-          <h2 style={{ color: "rgba(0, 123, 255, 1)" }}>5</h2>
+          <h2 style={{ color: "rgba(0, 123, 255, 1)" }}>{ amountOfAccept }</h2>
           <p>正取人數</p>
         </div>
         <div className={styles.content}>
-          <h2 style={{ color: "rgba(253, 126, 20, 1)" }}>2</h2>
+          <h2 style={{ color: "rgba(253, 126, 20, 1)" }}>{ members.length - amountOfAccept }</h2>
           <p>備取人數</p>
         </div>
         <div className={styles.content}>
-          <h2 style={{ color: "rgba(40, 167, 69, 1)" }}>3</h2>
+          <h2 style={{ color: "rgba(40, 167, 69, 1)" }}>{ amountOfSigned }</h2>
           <p>簽到人數</p>
         </div>
       </div>

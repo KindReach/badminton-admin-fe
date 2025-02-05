@@ -2,6 +2,10 @@ import styles from "./upComing.module.css";
 import data from "./data.json";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { apiPrefix, auth } from "@/utils/firebase";
+import axios from "axios";
+import { useDispatch } from "react-redux";
+import { setLoading } from "@/state/loading/loading";
 
 interface BookInfo {
   book_id: string;
@@ -10,7 +14,7 @@ interface BookInfo {
   time: string;
   date: string;
   amount_of_member: number;
-  amount_of_total: number;
+  limit_of_member: number;
 }
 
 const Book = ({
@@ -19,7 +23,7 @@ const Book = ({
   team_name,
   date,
   time,
-  amount_of_total,
+  limit_of_member,
   amount_of_member,
 }: BookInfo) => {
   const navigate = useNavigate();
@@ -36,7 +40,7 @@ const Book = ({
         </h2>
         <p>{team_name}</p>
         <p>
-          {amount_of_member}/{amount_of_total}
+          {amount_of_member}/{limit_of_member}
         </p>
       </div>
       <div className={styles.infoRight}>
@@ -52,9 +56,36 @@ const Book = ({
 
 const UpComing = () => {
   const [bookingData, setBookingData] = useState<BookInfo[]>([]);
+  const dispatch = useDispatch();
+  const getUpComingData = async () => {
+    dispatch(setLoading(true));
+
+    try {
+      const idToken = await auth.currentUser?.getIdToken();
+      const { data } = await axios.get(`${apiPrefix}/courtSession/upcommingSessions`,
+        {
+          headers: {
+            Authorization: `Bearer ${idToken}`
+          }
+        }
+      )
+      console.log(data);
+      setBookingData(data);
+    } catch ( err ) {
+      console.error(err);
+    }
+    requestAnimationFrame(() => {
+      // 確保在下一個畫面更新週期才關閉 loading
+      requestAnimationFrame(() => {
+        dispatch(setLoading(false));
+      });
+    });
+  }
+
 
   useEffect(() => {
-    setBookingData(data);
+    getUpComingData();
+    // setBookingData(data);
   }, []);
 
   return (
@@ -71,7 +102,7 @@ const UpComing = () => {
             place_name={item.place_name}
             team_name={item.team_name}
             amount_of_member={item.amount_of_member}
-            amount_of_total={item.amount_of_total}
+            limit_of_member={item.limit_of_member}
             date={item.date}
             time={item.time}
           />

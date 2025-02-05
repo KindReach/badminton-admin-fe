@@ -9,6 +9,10 @@ import { Offcanvas } from "react-bootstrap";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import DateRangeFilter from "@/components/DateRangeFilter/DateRangeFilter";
 import data from "./data.json";
+import { apiPrefix, auth } from "@/utils/firebase";
+import axios from "axios";
+import { useDispatch } from "react-redux";
+import { setLoading } from "@/state/loading/loading";
 
 interface HeaderProps {
   setSearch: Dispatch<SetStateAction<string>>;
@@ -17,7 +21,7 @@ interface HeaderProps {
   category: string;
 }
 
-const categories = ["全部場次", "報名中", "進行中", "已結束"];
+const categories = ["全部場次", "報名中", "進行中",  "尚未開放", "已結束"];
 
 const Header = ({
   setSearch,
@@ -130,7 +134,7 @@ interface BookProps {
   date: string;
   time: string;
   state: string;
-  total_of_member: number;
+  limit_of_member: number;
   amount_of_member: number;
 }
 
@@ -142,12 +146,18 @@ const Book = ({
   time,
   state,
   amount_of_member,
-  total_of_member,
+  limit_of_member,
 }: BookProps) => {
-  const color = ["rgba(0, 123, 255, 1)", "rgba(40, 167, 69, 1)", "gray"];
+  const color = [
+    "rgba(0, 123, 255, 1)",
+    "rgba(40, 167, 69, 1)",
+    "rgba(215, 85, 0, 1)", "gray"
+  ];
+
   const bgColor = [
     "rgba(184, 218, 255, 1)",
     "rgba(195, 230, 203, 1)",
+    "rgba(255, 220, 180, 1)",
     "lightgray",
   ];
   const [curState, setCurState] = useState<number>(0);
@@ -158,8 +168,10 @@ const Book = ({
       setCurState(0);
     } else if (state == "進行中") {
       setCurState(1);
-    } else {
+    } else if ( state === "尚未開放" ) {
       setCurState(2);
+    } else {
+      setCurState(3);
     }
   }, [state]);
 
@@ -184,7 +196,7 @@ const Book = ({
         </p>
         <p>
           <GoPeople style={{ marginRight: "5px" }} />
-          {amount_of_member}/{total_of_member}
+          {amount_of_member}/{limit_of_member}
         </p>
       </div>
 
@@ -225,11 +237,26 @@ const Books = () => {
   const [bookData, setBookData] = useState<BookProps[]>([]);
   const [displayData, setDisplayData] = useState<BookProps[]>([]);
   const [search, setSearch] = useState<string>("");
-
   const [category, setCategory] = useState<string>(categories[0]);
+  const dispatch = useDispatch();
 
   const getBooks = async () => {
-    setBookData(data);
+    dispatch(setLoading(true));
+    try {
+      const idToken = await auth.currentUser?.getIdToken();
+      const { data } = await axios.get(`${apiPrefix}/courtSession/getBooks`,
+        {
+          headers: {
+            Authorization: `Bearer ${idToken}`
+          }
+        }
+      )
+      console.log(data)
+      setBookData(data);
+    } catch ( err ) {
+      console.error(err);
+    }
+    dispatch(setLoading(false));
   };
 
   useEffect(() => {
@@ -294,7 +321,7 @@ const Books = () => {
             time={item.time}
             state={item.state}
             amount_of_member={item.amount_of_member}
-            total_of_member={item.total_of_member}
+            limit_of_member={item.limit_of_member}
           />
         ))}
       </div>

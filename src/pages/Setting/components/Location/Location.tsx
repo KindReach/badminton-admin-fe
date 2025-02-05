@@ -2,13 +2,44 @@ import HeaderSmall from "@/components/HeaderSmall/HeaderSmall";
 import styles from "./Location.module.css";
 import { FormEvent, useEffect, useState } from "react";
 import { Alert } from "react-bootstrap";
+import { useDispatch } from "react-redux";
+import { setLoading } from "@/state/loading/loading";
+import { apiPrefix, auth } from "@/utils/firebase";
+import axios from "axios";
 
 const Location = () => {
   const [placeName, setPlaceName] = useState<string>("");
   const [location, setLocation] = useState<string>("");
   const [errorOfName, setErrorOfName] = useState<boolean>(false);
   const [errorOfLocation, setErrorOfLocation] = useState<boolean>(false);
+  const dispatch = useDispatch();
 
+  const getDefaultPlce = async () => {
+    dispatch(setLoading(true));
+    try {
+      const idToken = await auth.currentUser?.getIdToken();
+      const { data } = await axios.get(`${apiPrefix}/setting/defaultData`, {
+        headers: {
+          Authorization: `Bearer ${idToken}`,
+        },
+      });
+      console.log(data);
+      setPlaceName(data["default_place_name"]);
+      setLocation(data["default_location"]);
+    } catch (err) {
+      console.error(err);
+    }
+    requestAnimationFrame(() => {
+      // 確保在下一個畫面更新週期才關閉 loading
+      requestAnimationFrame(() => {
+        dispatch(setLoading(false));
+      });
+    });
+  };
+
+  useEffect(() => {
+    getDefaultPlce();
+  }, []);
 
   useEffect(() => {
     if (errorOfName && placeName) setErrorOfName(false);
@@ -28,6 +59,35 @@ const Location = () => {
     }
 
     if (!isOK) return;
+    
+    dispatch(setLoading(true));
+    try {
+      const idToken = await auth.currentUser?.getIdToken();
+      const { data } = await axios.post(
+        `${apiPrefix}/setting/updateDefault`,
+        {
+          target: "default_locatoin",
+          value: [
+            placeName,
+            location
+          ],
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${idToken}`,
+          },
+        }
+      );
+      console.log(data);
+    } catch (err) {
+      console.error(err);
+    }
+    requestAnimationFrame(() => {
+      // 確保在下一個畫面更新週期才關閉 loading
+      requestAnimationFrame(() => {
+        dispatch(setLoading(false));
+      });
+    });
   };
 
   return (

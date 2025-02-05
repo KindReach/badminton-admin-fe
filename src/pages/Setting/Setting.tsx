@@ -7,8 +7,12 @@ import { CgMail } from "react-icons/cg";
 import { BsShieldShaded } from "react-icons/bs";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
-import { auth } from "@/utils/firebase";
+import { useEffect, useState } from "react";
+import { apiPrefix, auth } from "@/utils/firebase";
+import axios from "axios";
+import { log } from "console";
+import { useDispatch } from "react-redux";
+import { setLoading } from "@/state/loading/loading";
 
 interface NavProps {
   title: string;
@@ -49,30 +53,35 @@ const NavComponent = ({
             right: "10px",
           }}
         />
+        { content && <p className={styles.content} >{ content }</p>}
       </div>
     </>
   );
 };
 
 const Setting = () => {
+  
   const settingInner: NavProps[] = [
     {
       title: "球隊設定",
       description: "管理球隊名稱",
       icon: <BsBuilding size={20} />,
       goWhere: "team_name",
+      content: "ALL IN 羽球隊"
     },
     {
       title: "場地設定",
       icon: <SlLocationPin size={20} />,
       description: "設定預設場地",
       goWhere: "location",
+      content: "ALL IN 運動館"
     },
     {
       title: "價格設定",
       icon: <FiDollarSign size={20} />,
       description: "設定預設價格",
       goWhere: "pricing",
+      content: "200"
     },
     {
       title: "隱私權",
@@ -82,15 +91,48 @@ const Setting = () => {
     },
   ];
 
+  const [defaultData, setDefaultData] = useState<NavProps[]>(settingInner);
+
   const handleLogout = async () => {
     await auth.signOut();
   }
+
+  const dispatch = useDispatch();
+  const getDefaultData = async () => {
+    dispatch(setLoading(true));
+    try {
+      const idToken = await auth.currentUser?.getIdToken();
+      const { data } = await axios.get(`${apiPrefix}/setting/defaultData`,
+        {
+          headers: {
+            Authorization: `Bearer ${idToken}`
+          }
+        }
+      )
+      
+      settingInner[0].content = data["team_name"];
+      settingInner[1].content = data["default_place_name"];
+      settingInner[2].content = data["default_price"];
+      setDefaultData(settingInner);
+      console.log(data);
+
+
+    } catch ( err ) {
+      console.error(err);
+    }
+    dispatch(setLoading(false));
+  }
+
+  useEffect(() => {
+    getDefaultData();
+  }, [])
+
 
   return (
     <>
       <HeaderSmall title="設定" />
       <div className={styles.container}>
-        {settingInner.map((item, index) => (
+        {defaultData.map((item, index) => (
           <NavComponent
             key={index}
             title={item.title}
