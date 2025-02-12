@@ -71,7 +71,7 @@ const Analyze = ({ amount_of_court, amount_of_member, limit_of_member, price, ra
         <div className={styles.content}>
           <div className={styles.description}>
             <h2>預計收入</h2>
-            <p>NT$ { limit_of_member * price }</p>
+            <p>NT$ { amount_of_member * price }</p>
           </div>
           <div className={styles.description}>
             <h2>每人費用</h2>

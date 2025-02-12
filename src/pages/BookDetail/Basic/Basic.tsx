@@ -33,7 +33,7 @@ const Basic = ({
   time,
   is_opening,
   price,
-  setUpdateStatus
+  setUpdateStatus,
 }: Props) => {
   const [switchMode, setSwitchMode] = useState<boolean>(true); // 結束報名 / 開放報名
   const dispatch = useDispatch();
@@ -41,7 +41,6 @@ const Basic = ({
   const navigate = useNavigate();
 
   const goSigned = () => {
-    if (!is_opening) return;
     navigate(`/signed?book_id=${book_id}`);
   };
 
@@ -118,11 +117,10 @@ const Basic = ({
           <button className={styles.switch} onClick={switchOpening}>
             {!switchMode ? "開放報名" : "結束報名"}
           </button>
-          {is_opening && (
-            <button className={styles.sign} onClick={goSigned}>
-              前往簽到
-            </button>
-          )}
+
+          <button className={styles.sign} onClick={goSigned}>
+            前往簽到
+          </button>
         </div>
       </div>
     </div>

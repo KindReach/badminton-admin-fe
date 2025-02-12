@@ -5,6 +5,10 @@ import data from "./data.json";
 import { FaRegClock } from "react-icons/fa6";
 import { GoPeople } from "react-icons/go";
 import HeaderSmall from "@/components/HeaderSmall/HeaderSmall";
+import { apiPrefix, auth } from "@/utils/firebase";
+import axios from "axios";
+import { useDispatch } from "react-redux";
+import { setLoading } from "@/state/loading/loading";
 
 interface BookDataProps {
   book_id: string;
@@ -50,8 +54,14 @@ const Book = ({
       <p
         className={styles.state}
         style={{
-          color: `${state != "進行中" ? "rgba(0, 123, 255, 1)" : "rgba(40, 167, 69, 1)"}`,
-          backgroundColor: `${state != "進行中" ? "rgba(184, 218, 255, 1)" : "rgba(195, 230, 203, 1)"}`,
+          color: `${
+            state != "進行中" ? "rgba(0, 123, 255, 1)" : "rgba(40, 167, 69, 1)"
+          }`,
+          backgroundColor: `${
+            state != "進行中"
+              ? "rgba(184, 218, 255, 1)"
+              : "rgba(195, 230, 203, 1)"
+          }`,
         }}
       >
         {state}
@@ -62,9 +72,23 @@ const Book = ({
 
 const SignList = () => {
   const [bookData, setBookData] = useState<BookDataProps[]>([]);
-
+  const dispatch = useDispatch();
   const getBookDataOfActive = async () => {
-    setBookData(data);
+    dispatch(setLoading(true));
+    try {
+      const idToken = await auth.currentUser?.getIdToken();
+      const { data } = await axios.get(`${apiPrefix}/signed/getSignedList`, {
+        headers: {
+          Authorization: `Bearer ${idToken}`,
+        },
+      });
+      setBookData(data);
+    } catch (err) {
+      console.log("====================================");
+      console.log(err);
+      console.log("====================================");
+    }
+    dispatch(setLoading(false));
   };
 
   useEffect(() => {

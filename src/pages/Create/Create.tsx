@@ -5,13 +5,14 @@ import { useEffect, useState } from "react";
 import Single from "./components/Single/Single";
 import MultiCreate from "./components/MultiCreate/MultiCreate";
 import { Offcanvas } from "react-bootstrap";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/state/store";
 import { IoCalendarClearOutline } from "react-icons/io5";
 import { GoPeople } from "react-icons/go";
 import { FaRegClock } from "react-icons/fa6";
 import { apiPrefix, auth } from "@/utils/firebase";
 import axios from "axios";
+import { setLoading } from "@/state/loading/loading";
 
 interface Props {
   show: any;
@@ -22,6 +23,7 @@ interface Props {
 const PublishCheck = ({ show, setShow, sessions }: Props) => {
   const [totalPrice, setTotalPrice] = useState<number>(0);
   const [amountOfSession, setAmountOfSession] = useState<number>(0);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (!sessions) return;
@@ -32,6 +34,8 @@ const PublishCheck = ({ show, setShow, sessions }: Props) => {
   }, [sessions]);
 
   const handleSubmit = async () => {
+    setShow(false);
+    dispatch(setLoading(true));
     try {
       const idToken = await auth.currentUser?.getIdToken();
       const { data } = await axios.post(
@@ -50,6 +54,7 @@ const PublishCheck = ({ show, setShow, sessions }: Props) => {
     } catch (err) {
       console.error(err);
     }
+    dispatch(setLoading(false));
   };
 
   return (

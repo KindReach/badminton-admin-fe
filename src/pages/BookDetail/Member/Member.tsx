@@ -6,7 +6,6 @@ import { FiAlertTriangle } from "react-icons/fi";
 import { FaRegQuestionCircle } from "react-icons/fa";
 import { apiPrefix, auth } from "@/utils/firebase";
 import axios from "axios";
-import { log } from "console";
 
 interface Props {
   book_id: string;
@@ -55,7 +54,6 @@ const MemberInfo = ({
         </div>
         <div className={styles.description}>
           <h2>{user_name}</h2>
-
           <p>報名時間：{booking_time}</p>
         </div>
       </div>
@@ -81,6 +79,9 @@ const Member = ({ book_id, setRateofShow }: Props) => {
           Authorization: `Bearer ${idToken}`
         }
       });
+      console.log('====================================');
+      console.log(data);
+      console.log('====================================');
       setMembers(data);
     } catch ( err ) {
       console.log('====================================');

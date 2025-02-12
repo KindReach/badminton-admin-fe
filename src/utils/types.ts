@@ -1,7 +1,8 @@
 export interface MemberProps {
+  user_id: string;
   user_name: string;
   profile_picture: string;
-  is_block: boolean;
+  is_blocked: boolean;
   amount_of_no_show: number;
   amount_of_book: number;
   add_time: string;

@@ -55,6 +55,9 @@ const Single = ({ addNewSession, setShow }: Props) => {
   useEffect(() => {
     if (errorOfDate && date) setErrorOfDate(false);
     if (errorOfTime && startTime && endTime) setErrorOfTime(false);
+    if ( startTime && endTime && startTime >= endTime ) {
+      setErrorOfTime(true);
+    }
   }, [startTime, endTime, date]);
 
   const {
@@ -85,6 +88,14 @@ const Single = ({ addNewSession, setShow }: Props) => {
       setErrorOfTime(true);
       isOK = false;
     }
+
+    console.log(startTime, " ", endTime);
+
+    if ( startTime && endTime && startTime >= endTime) {
+      setErrorOfTime(true);
+      isOK = true;
+    }
+
     if (!isOK) return;
 
     // add a new data of session to the session list.

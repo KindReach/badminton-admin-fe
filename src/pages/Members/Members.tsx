@@ -4,6 +4,8 @@ import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import data from "./data.json";
 import MemberCard from "./components/MemberCard/MemberCard";
 import { MemberProps } from "@/utils/types";
+import { apiPrefix, auth } from "@/utils/firebase";
+import axios from "axios";
 
 interface Props {
   title: string;
@@ -30,18 +32,39 @@ const Members = () => {
   const [category, setCategory] = useState<string>(categories[0]);
   const [memberData, setMemberData] = useState<MemberProps[]>([]);
   const [displayMember, setDisplayMember] = useState<MemberProps[]>([]);
+  const [updateStatus, setUpdateStatus] = useState<boolean>(false);
 
   useEffect(() => {
+    console.log('====================================');
+    console.log(memberData);
+    console.log('====================================');
     if (category === categories[0]) {
-      setDisplayMember(memberData.filter((item) => item.is_block === false));
+      setDisplayMember(memberData.filter((item) => item.is_blocked === false));
     } else {
-      setDisplayMember(memberData.filter((item) => item.is_block));
+      setDisplayMember(memberData.filter((item) => item.is_blocked));
     }
   }, [category, memberData]);
 
+  const getMembers = async () => {
+    try {
+      const idToken = await auth.currentUser?.getIdToken();
+      const { data } = await axios.get(`${apiPrefix}/members/getMembers`, {
+        headers: {
+          Authorization: `Bearer ${idToken}`
+        }
+      });
+      setMemberData(data);
+    } catch ( err ) {
+      console.log('====================================');
+      console.log(err);
+      console.log('====================================');
+    }
+  }
+
+
   useEffect(() => {
-    setMemberData(data);
-  }, []);
+    getMembers();
+  }, [updateStatus]);
 
   return (
     <>
@@ -61,12 +84,14 @@ const Members = () => {
         <div className={styles.membersContainer}>
           {displayMember.map((item, index) => (
             <MemberCard
+              user_id={item.user_id}
               profile_picture={item.profile_picture}
               user_name={item.user_name}
               amount_of_no_show={item.amount_of_no_show}
               amount_of_book={item.amount_of_book}
-              is_block={item.is_block}
+              is_blocked={item.is_blocked}
               add_time={item.add_time}
+              setUpdateStatus={setUpdateStatus}
               key={index}
             />
           ))}

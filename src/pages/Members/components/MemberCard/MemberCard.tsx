@@ -4,18 +4,28 @@ import { TiStarFullOutline } from "react-icons/ti";
 import { LuCircleAlert } from "react-icons/lu";
 import { MdOutlineCancel } from "react-icons/md";
 import { FiCheckCircle } from "react-icons/fi";
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import { Offcanvas } from "react-bootstrap";
+import { apiPrefix, auth } from "@/utils/firebase";
+import axios from "axios";
+import { useDispatch } from "react-redux";
+import { setLoading } from "@/state/loading/loading";
+
+interface Props extends MemberProps {
+  setUpdateStatus: Dispatch<SetStateAction<boolean>>;
+}
 
 const MemberCard = ({
+  user_id,
   user_name,
   profile_picture,
-  is_block,
+  is_blocked,
   amount_of_no_show,
   amount_of_book,
   add_time,
-}: MemberProps) => {
+  setUpdateStatus
+}: Props) => {
   const stateIcons = [
     <FiCheckCircle />,
     <LuCircleAlert />,
@@ -33,11 +43,37 @@ const MemberCard = ({
   const btnContent = ["封鎖", "解除封鎖"];
   const [state, setState] = useState<number>(0);
   const [show, setShow] = useState(false);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    if (is_block) setState(2);
+    if (is_blocked) setState(2);
     else setState(0);
-  }, [is_block]);
+  }, [is_blocked]);
+
+  const handleSwitchBlock = async () => {
+    setShow(false);
+    dispatch(setLoading(true));
+    try {
+      const idToken = await auth.currentUser?.getIdToken();
+      const { data } = await axios.post(
+        `${apiPrefix}/members/switchBlock`,
+        {
+          user_id: user_id,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${idToken}`,
+          },
+        }
+      );
+      setUpdateStatus((prev) => !prev);
+    } catch (err) {
+      console.log("====================================");
+      console.log(err);
+      console.log("====================================");
+    }
+    dispatch(setLoading(false));
+  };
 
   return (
     <>
@@ -107,6 +143,7 @@ const MemberCard = ({
                 color: `${color[state === 0 ? 2 : 0]}`,
                 backgroundColor: `${bgColor[state === 0 ? 2 : 0]}`,
               }}
+              onClick={handleSwitchBlock}
             >
               {state === 2 ? btnContent[1] : btnContent[0]}
             </button>

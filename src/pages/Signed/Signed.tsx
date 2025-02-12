@@ -1,11 +1,16 @@
 import Header from "@/components/Header/Header";
 import styles from "./Signed.module.css";
-import { useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import data from "./data.json";
 import dataOfMembers from "./members.json";
 import { FiCheckCircle } from "react-icons/fi";
 import { FaRegQuestionCircle } from "react-icons/fa";
+import { apiPrefix, auth } from "@/utils/firebase";
+import axios from "axios";
+import { useDispatch } from "react-redux";
+import { setLoading } from "@/state/loading/loading";
+import { Modal, Button } from "react-bootstrap";
 
 interface HeaderProps {
   place_name: string;
@@ -18,49 +23,115 @@ interface HeaderProps {
 }
 
 interface MemberProps {
+  book_id: string;
+  id: string;
   user_name: string;
   profile_picture: string;
-  booking_time?: string;
+  book_time?: string;
   is_show: boolean;
   is_accept?: boolean;
+  setUpdateStatus?: Dispatch<SetStateAction<boolean>>;
 }
 
-const Member = ({ user_name, profile_picture, is_show }: MemberProps) => {
-  const color = ["rgba(40, 167, 69, 1)", "gray"];
-  const [state, setState] = useState<number>(0);
+const Member = ({
+  book_id,
+  id,
+  user_name,
+  profile_picture,
+  is_show,
+  setUpdateStatus
+}: MemberProps) => {
+  // const color = ["rgba(40, 167, 69, 1)", "gray"];
+  const [show, setShow] = useState(false);
+  const dispatch = useDispatch();
 
-  useEffect(() => {
-    if (is_show) {
-      setState(0);
-    } else {
-      setState(1);
+  const handleSigned = async () => {
+    setShow(false);
+    dispatch(setLoading(true));
+    try {
+      const idToken = await auth.currentUser?.getIdToken();
+      const { data } = await axios.post(
+        `${apiPrefix}/signed/signed`,
+        {
+          user_id: id,
+          book_id: book_id,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${idToken}`,
+          },
+        }
+      );
+      if ( setUpdateStatus ) setUpdateStatus((prev) => !prev);
+    } catch (err) {
+      console.error(err);
     }
-  }, []);
+    dispatch(setLoading(false));
+  };
 
   return (
-    <div className={styles.member}>
-      <div className={styles.profile}>
-        <div className={styles.headContainer}>
-          <img src={profile_picture} alt="head image" />
+    <>
+      <div className={styles.member}>
+        <div className={styles.profile}>
+          <div className={styles.headContainer}>
+            <img src={profile_picture} alt="head image" />
+          </div>
+          <h2>{user_name}</h2>
         </div>
-        <h2>{user_name}</h2>
+        {is_show ? (
+          <p className={styles.state} style={{ color: `rgba(40, 167, 69, 1)` }}>
+            <FiCheckCircle style={{ marginRight: "2px" }} /> 已簽到
+          </p>
+        ) : (
+          <button
+            className={`${styles.state} ${styles.btn}`}
+            onClick={() => setShow(true)}
+          >
+            簽到
+          </button>
+        )}
       </div>
-      {state ? (
-        <p className={styles.state} style={{ color: `rgba(40, 167, 69, 1)` }}>
-          <FiCheckCircle style={{ marginRight: "2px" }} /> 已簽到
-        </p>
-      ) : (
-        <button className={`${styles.state} ${styles.btn}`}>簽到</button>
-      )}
-    </div>
+      <Modal
+        show={show}
+        onHide={() => setShow(false)}
+        backdrop="static"
+        keyboard={false}
+        centered={true}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>提醒</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          此動作確定{" "}
+          <span style={{ fontSize: "20px", fontWeight: "800" }}>
+            {user_name}
+          </span>{" "}
+          已付款且到場。
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="success" onClick={handleSigned}>
+            確認簽到
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    </>
   );
 };
 
 const Signed = () => {
   const [searchParams] = useSearchParams();
+  const [members, setMembers] = useState<MemberProps[]>([]);
+  const [updateStatus, setUpdateStatus] = useState<boolean>(false);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   // 提取 book_id
   const book_id = searchParams.get("book_id");
+
+  if ( !book_id ) {
+    navigate("/");
+  }
+
 
   const [bookData, setBookData] = useState<HeaderProps>({
     place_name: "",
@@ -72,12 +143,66 @@ const Signed = () => {
     total_of_court: 0,
   });
 
-  const [members, setMembers] = useState<MemberProps[]>([]);
+  const getNavData = async () => {
+    dispatch(setLoading(true));
+    try {
+      const idToken = await auth.currentUser?.getIdToken();
+      const { data } = await axios.get(`${apiPrefix}/courtSession/getDetail`, {
+        params: {
+          book_id: book_id,
+        },
+        headers: {
+          Authorization: `Bearer ${idToken}`,
+        },
+      });
+
+      setBookData({
+        place_name: data["place_name"],
+        team_name: data["team_name"],
+        date: data["date"],
+        time: data["time"],
+        amount_of_member: data["amount_of_member"],
+        limit_of_member: data["limit_of_member"],
+        total_of_court: data["total_of_court"],
+      });
+    } catch (err) {
+      console.error(err);
+    }
+    dispatch(setLoading(false));
+  };
+
+  const getMemberData = async () => {
+    dispatch(setLoading(true));
+    try {
+      const idToken = await auth.currentUser?.getIdToken();
+      const { data } = await axios.get(
+        `${apiPrefix}/courtSession/signedMembers`,
+        {
+          params: {
+            book_id: book_id,
+          },
+          headers: {
+            Authorization: `Bearer ${idToken}`,
+          },
+        }
+      );
+      (data as MemberProps[]).sort((a, b) => Number(b.is_show) - Number(a.is_show));
+      setMembers(data as MemberProps[]);
+      console.log("====================================");
+      console.log(data);
+      console.log("====================================");
+    } catch (err) {
+      console.error(err);
+    }
+    dispatch(setLoading(false));
+  };
 
   useEffect(() => {
-    setBookData(data);
-    dataOfMembers.sort((a, b) => Number(b.is_show) - Number(a.is_show));
-    setMembers(dataOfMembers);
+    getMemberData();
+  }, [updateStatus]);
+
+  useEffect(() => {
+    getNavData();
   }, []);
 
   return (
@@ -98,11 +223,14 @@ const Signed = () => {
             item.is_accept && (
               <Member
                 key={index}
+                book_id={book_id as string}
+                id={item.id}
                 user_name={item.user_name}
                 profile_picture={item.profile_picture}
                 is_show={item.is_show}
+                setUpdateStatus={setUpdateStatus}
               />
-            ),
+            )
         )}
       </div>
     </div>
