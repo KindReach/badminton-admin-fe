@@ -3,7 +3,7 @@ import styles from "./Pricing.module.css";
 import { FormEvent, useEffect, useState } from "react";
 import { Alert } from "react-bootstrap";
 import { useDispatch } from "react-redux";
-import { setLoading } from "@/state/loading/loading";
+import { setLoading2 } from "@/state/loading/loading";
 import axios from "axios";
 import { apiPrefix, auth } from "@/utils/firebase";
 
@@ -14,7 +14,7 @@ const Pricing = () => {
   
 
   const getDefaultPrice = async () => {
-    dispatch(setLoading(true));
+    dispatch(setLoading2(true));
     try {
       const idToken = await auth.currentUser?.getIdToken();
       const { data } = await axios.get(`${apiPrefix}/setting/defaultData`, {
@@ -30,7 +30,7 @@ const Pricing = () => {
     requestAnimationFrame(() => {
       // 確保在下一個畫面更新週期才關閉 loading
       requestAnimationFrame(() => {
-        dispatch(setLoading(false));
+        dispatch(setLoading2(false));
       });
     });
   };
@@ -50,7 +50,7 @@ const Pricing = () => {
       return;
     }
 
-    dispatch(setLoading(true));
+    dispatch(setLoading2(true));
     try {
       const idToken = await auth.currentUser?.getIdToken();
       const { data } = await axios.post(
@@ -69,7 +69,7 @@ const Pricing = () => {
     } catch (err) {
       console.error(err);
     }
-    dispatch(setLoading(false));
+    dispatch(setLoading2(false));
   };
 
   return (

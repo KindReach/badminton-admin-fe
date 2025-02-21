@@ -5,10 +5,11 @@ import { RootState } from "./state/store";
 import { useEffect } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./utils/firebase";
-import { setLogin } from "./state/login/login";
 import Login from "@pages/Login/Login";
+import { setLogin } from "./state/login/login";
 import Loading from "./components/Loading/Loading";
-import { setLoading } from "./state/loading/loading";
+import Loading2 from "./components/Loading2/Loading2";
+import { setLoading1 } from "./state/loading/loading";
 import BookDetail from "./pages/BookDetail/BookDetail";
 import Signed from "./pages/Signed/Signed";
 import Books from "./pages/Books/Books";
@@ -24,19 +25,19 @@ import PrivateRules from "./pages/Setting/components/PrivateRules/PrivateRules";
 function App() {
   const loginState = useSelector((state: RootState) => state.login.isLogin);
   const loadingState = useSelector(
-    (state: RootState) => state.loading.isLoading,
+    (state: RootState) => state.loading,
   );
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(setLoading(true));
+    dispatch(setLoading1(true));
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         dispatch(setLogin(true));
       } else {
         dispatch(setLogin(false));
       }
-      dispatch(setLoading(false));
+      dispatch(setLoading1(false));
     });
 
     return () => unsubscribe();
@@ -45,7 +46,7 @@ function App() {
   if (!loginState)
     return (
       <BrowserRouter>
-        {loadingState && <Loading />}
+        {loadingState.isLoading1 && <Loading />}
         <Routes>
           <Route path="*" element={<Login />} />
         </Routes>
@@ -54,7 +55,8 @@ function App() {
 
   return (
     <BrowserRouter>
-      {loadingState && <Loading />}
+      { loadingState.isLoading1 && <Loading />}
+      { loadingState.isLoading2 && <Loading2 />}
 
       <Routes>
         <Route path="/" element={<Home />} />

@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { apiPrefix, auth } from "@/utils/firebase";
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import { setLoading } from "@/state/loading/loading";
+import { setLoading2 } from "@/state/loading/loading";
 
 interface Props {
   book_id: string;
@@ -50,7 +50,7 @@ const Basic = ({
   }, [is_opening]);
 
   const switchOpening = async () => {
-    dispatch(setLoading(true));
+    dispatch(setLoading2(true));
     try {
       const idToken = await auth.currentUser?.getIdToken();
       const { data } = await axios.post(
@@ -64,12 +64,11 @@ const Basic = ({
           },
         }
       );
-      console.log(data);
       setUpdateStatus((prev) => !prev);
     } catch (err) {
       console.log(err);
     }
-    dispatch(setLoading(false));
+    dispatch(setLoading2(false));
   };
 
   return (

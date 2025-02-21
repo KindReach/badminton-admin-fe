@@ -12,7 +12,8 @@ import { GoPeople } from "react-icons/go";
 import { FaRegClock } from "react-icons/fa6";
 import { apiPrefix, auth } from "@/utils/firebase";
 import axios from "axios";
-import { setLoading } from "@/state/loading/loading";
+import { setLoading2 } from "@/state/loading/loading";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
   show: any;
@@ -24,6 +25,7 @@ const PublishCheck = ({ show, setShow, sessions }: Props) => {
   const [totalPrice, setTotalPrice] = useState<number>(0);
   const [amountOfSession, setAmountOfSession] = useState<number>(0);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!sessions) return;
@@ -35,8 +37,9 @@ const PublishCheck = ({ show, setShow, sessions }: Props) => {
 
   const handleSubmit = async () => {
     setShow(false);
-    dispatch(setLoading(true));
+    
     try {
+      dispatch(setLoading2(true));
       const idToken = await auth.currentUser?.getIdToken();
       const { data } = await axios.post(
         `${apiPrefix}/createSession/createSession`,
@@ -53,8 +56,10 @@ const PublishCheck = ({ show, setShow, sessions }: Props) => {
       console.log(data);
     } catch (err) {
       console.error(err);
+    } finally {
+      dispatch(setLoading2(false));
+      navigate("/");
     }
-    dispatch(setLoading(false));
   };
 
   return (

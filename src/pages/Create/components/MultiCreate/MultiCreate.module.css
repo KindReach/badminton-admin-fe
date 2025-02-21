@@ -1,0 +1,11 @@
+.container {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
+  font-weight: 500;
+  color: darkgray;
+  text-shadow: 1px 1px 1px gray;
+}/*# sourceMappingURL=MultiCreate.module.css.map */

@@ -3,7 +3,6 @@ import styles from "./Setting.module.css";
 import { BsBuilding } from "react-icons/bs";
 import { SlLocationPin } from "react-icons/sl";
 import { FiDollarSign } from "react-icons/fi";
-import { CgMail } from "react-icons/cg";
 import { BsShieldShaded } from "react-icons/bs";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
@@ -12,7 +11,7 @@ import { apiPrefix, auth } from "@/utils/firebase";
 import axios from "axios";
 import { log } from "console";
 import { useDispatch } from "react-redux";
-import { setLoading } from "@/state/loading/loading";
+import { setLoading2 } from "@/state/loading/loading";
 
 interface NavProps {
   title: string;
@@ -99,7 +98,7 @@ const Setting = () => {
 
   const dispatch = useDispatch();
   const getDefaultData = async () => {
-    dispatch(setLoading(true));
+    dispatch(setLoading2(true));
     try {
       const idToken = await auth.currentUser?.getIdToken();
       const { data } = await axios.get(`${apiPrefix}/setting/defaultData`,
@@ -114,13 +113,13 @@ const Setting = () => {
       settingInner[1].content = data["default_place_name"];
       settingInner[2].content = data["default_price"];
       setDefaultData(settingInner);
-      console.log(data);
-
 
     } catch ( err ) {
       console.error(err);
+    } finally {
+      dispatch(setLoading2(false));
     }
-    dispatch(setLoading(false));
+    
   }
 
   useEffect(() => {

@@ -3,7 +3,7 @@ import styles from "./Location.module.css";
 import { FormEvent, useEffect, useState } from "react";
 import { Alert } from "react-bootstrap";
 import { useDispatch } from "react-redux";
-import { setLoading } from "@/state/loading/loading";
+import { setLoading2 } from "@/state/loading/loading";
 import { apiPrefix, auth } from "@/utils/firebase";
 import axios from "axios";
 
@@ -15,7 +15,7 @@ const Location = () => {
   const dispatch = useDispatch();
 
   const getDefaultPlce = async () => {
-    dispatch(setLoading(true));
+    dispatch(setLoading2(true));
     try {
       const idToken = await auth.currentUser?.getIdToken();
       const { data } = await axios.get(`${apiPrefix}/setting/defaultData`, {
@@ -32,7 +32,7 @@ const Location = () => {
     requestAnimationFrame(() => {
       // 確保在下一個畫面更新週期才關閉 loading
       requestAnimationFrame(() => {
-        dispatch(setLoading(false));
+        dispatch(setLoading2(false));
       });
     });
   };
@@ -60,7 +60,7 @@ const Location = () => {
 
     if (!isOK) return;
     
-    dispatch(setLoading(true));
+    dispatch(setLoading2(true));
     try {
       const idToken = await auth.currentUser?.getIdToken();
       const { data } = await axios.post(
@@ -85,7 +85,7 @@ const Location = () => {
     requestAnimationFrame(() => {
       // 確保在下一個畫面更新週期才關閉 loading
       requestAnimationFrame(() => {
-        dispatch(setLoading(false));
+        dispatch(setLoading2(false));
       });
     });
   };

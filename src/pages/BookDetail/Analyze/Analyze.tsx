@@ -41,7 +41,7 @@ const Analyze = ({ amount_of_court, amount_of_member, limit_of_member, price, ra
         <h2>基本統計</h2>
         <div className={styles.bricks}>
           <Brick
-            content={amount_of_member.toString()}
+            content={Math.min(limit_of_member, amount_of_member).toString()}
             description="正取人數"
             color="rgba(0, 123, 255, 1)"
             background_color="rgba(184, 218, 255, 1)"

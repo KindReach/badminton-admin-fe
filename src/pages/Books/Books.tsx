@@ -12,7 +12,7 @@ import data from "./data.json";
 import { apiPrefix, auth } from "@/utils/firebase";
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import { setLoading } from "@/state/loading/loading";
+import { setLoading2 } from "@/state/loading/loading";
 
 interface HeaderProps {
   setSearch: Dispatch<SetStateAction<string>>;
@@ -77,6 +77,7 @@ const Header = ({
         size={24}
         fontWeight={900}
         style={{ position: "absolute", top: "10px", right: "10px" }}
+        onClick={() => navigate("/create")}
       />
 
       <div className={styles.functions}>
@@ -241,7 +242,7 @@ const Books = () => {
   const dispatch = useDispatch();
 
   const getBooks = async () => {
-    dispatch(setLoading(true));
+    dispatch(setLoading2(true));
     try {
       const idToken = await auth.currentUser?.getIdToken();
       const { data } = await axios.get(`${apiPrefix}/courtSession/getBooks`,
@@ -251,12 +252,11 @@ const Books = () => {
           }
         }
       )
-      console.log(data)
       setBookData(data);
     } catch ( err ) {
       console.error(err);
     }
-    dispatch(setLoading(false));
+    dispatch(setLoading2(false));
   };
 
   useEffect(() => {

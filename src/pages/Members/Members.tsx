@@ -1,11 +1,12 @@
 import styles from "./Members.module.css";
 import HeaderSmall from "@/components/HeaderSmall/HeaderSmall";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import data from "./data.json";
 import MemberCard from "./components/MemberCard/MemberCard";
 import { MemberProps } from "@/utils/types";
 import { apiPrefix, auth } from "@/utils/firebase";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { setLoading2 } from "@/state/loading/loading";
 
 interface Props {
   title: string;
@@ -33,6 +34,7 @@ const Members = () => {
   const [memberData, setMemberData] = useState<MemberProps[]>([]);
   const [displayMember, setDisplayMember] = useState<MemberProps[]>([]);
   const [updateStatus, setUpdateStatus] = useState<boolean>(false);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     console.log('====================================');
@@ -45,8 +47,10 @@ const Members = () => {
     }
   }, [category, memberData]);
 
+
   const getMembers = async () => {
     try {
+      dispatch(setLoading2(true));
       const idToken = await auth.currentUser?.getIdToken();
       const { data } = await axios.get(`${apiPrefix}/members/getMembers`, {
         headers: {
@@ -58,6 +62,8 @@ const Members = () => {
       console.log('====================================');
       console.log(err);
       console.log('====================================');
+    } finally {
+      dispatch(setLoading2(false));
     }
   }
 

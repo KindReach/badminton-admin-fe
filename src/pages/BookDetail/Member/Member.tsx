@@ -79,9 +79,6 @@ const Member = ({ book_id, setRateofShow }: Props) => {
           Authorization: `Bearer ${idToken}`
         }
       });
-      console.log('====================================');
-      console.log(data);
-      console.log('====================================');
       setMembers(data);
     } catch ( err ) {
       console.log('====================================');
@@ -106,7 +103,10 @@ const Member = ({ book_id, setRateofShow }: Props) => {
   }, [members])
 
   useEffect(() => {
-    setRateofShow(Math.floor(Number(amountOfSigned)/Number(members.length) * 100));
+    const rateOfShow = Math.floor(Number(amountOfSigned)/Number(members.length) * 100);
+    if ( !isNaN(rateOfShow) ) {
+      setRateofShow(rateOfShow);
+    }
   }, [amountOfSigned]);
 
   return (

@@ -5,7 +5,7 @@ import { Alert } from "react-bootstrap";
 import { apiPrefix, auth } from "@/utils/firebase";
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import { setLoading } from "@/state/loading/loading";
+import { setLoading2 } from "@/state/loading/loading";
 
 const TeamName = () => {
   const [teamName, setTeamName] = useState<string>("");
@@ -13,7 +13,7 @@ const TeamName = () => {
   const dispatch = useDispatch();
 
   const getDefaultTeamName = async () => {
-    dispatch(setLoading(true));
+    dispatch(setLoading2(true));
     try {
       const idToken = await auth.currentUser?.getIdToken();
       const { data } = await axios.get(`${apiPrefix}/setting/defaultData`, {
@@ -29,7 +29,7 @@ const TeamName = () => {
     requestAnimationFrame(() => {
       // 確保在下一個畫面更新週期才關閉 loading
       requestAnimationFrame(() => {
-        dispatch(setLoading(false));
+        dispatch(setLoading2(false));
       });
     });
   };
@@ -49,7 +49,7 @@ const TeamName = () => {
       return;
     }
 
-    dispatch(setLoading(true));
+    dispatch(setLoading2(true));
     try {
       const idToken = await auth.currentUser?.getIdToken();
       const { data } = await axios.post(
@@ -68,7 +68,7 @@ const TeamName = () => {
     } catch (err) {
       console.error(err);
     }
-    dispatch(setLoading(false));
+    dispatch(setLoading2(false));
   };
 
   return (

@@ -13,7 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/state/store";
 import { CreateSessionType } from "@/utils/types";
 import { Mode } from "@/state/publish/publish";
-import { setLoading } from "@/state/loading/loading";
+import { setLoading2 } from "@/state/loading/loading";
 import { apiPrefix, auth } from "@/utils/firebase";
 import axios from "axios";
 
@@ -78,7 +78,7 @@ const Single = ({ addNewSession, setShow }: Props) => {
      */
     let isOK = true;
     if (!date) {
-      console.log("Error on date");
+      // console.log("Error on date");
       setErrorOfDate(true);
       isOK = false;
     }
@@ -89,7 +89,7 @@ const Single = ({ addNewSession, setShow }: Props) => {
       isOK = false;
     }
 
-    console.log(startTime, " ", endTime);
+    // console.log(startTime, " ", endTime);
 
     if ( startTime && endTime && startTime >= endTime) {
       setErrorOfTime(true);
@@ -117,7 +117,7 @@ const Single = ({ addNewSession, setShow }: Props) => {
 
   
   const getDefaultData = async () => {
-    dispatch(setLoading(true));
+    dispatch(setLoading2(true));
     try {
       const idToken = await auth.currentUser?.getIdToken();
       const { data } = await axios.get(`${apiPrefix}/createSession/getDefaultSetting`,
@@ -127,7 +127,7 @@ const Single = ({ addNewSession, setShow }: Props) => {
           }
         }
       )
-      console.log(data);
+      // console.log(data);
       setValue('place_name', data['default_place_name']);
       setValue('location', data['default_location']);
       setValue('price', data['default_price']);
@@ -137,7 +137,7 @@ const Single = ({ addNewSession, setShow }: Props) => {
     requestAnimationFrame(() => {
       // 確保在下一個畫面更新週期才關閉 loading
       requestAnimationFrame(() => {
-        dispatch(setLoading(false));
+        dispatch(setLoading2(false));
       });
     });
   }

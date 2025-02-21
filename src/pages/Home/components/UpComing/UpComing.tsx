@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { apiPrefix, auth } from "@/utils/firebase";
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import { setLoading } from "@/state/loading/loading";
+import { setLoading2 } from "@/state/loading/loading";
 
 interface BookInfo {
   book_id: string;
@@ -58,7 +58,7 @@ const UpComing = () => {
   const [bookingData, setBookingData] = useState<BookInfo[]>([]);
   const dispatch = useDispatch();
   const getUpComingData = async () => {
-    dispatch(setLoading(true));
+    dispatch(setLoading2(true));
 
     try {
       const idToken = await auth.currentUser?.getIdToken();
@@ -77,7 +77,7 @@ const UpComing = () => {
     requestAnimationFrame(() => {
       // 確保在下一個畫面更新週期才關閉 loading
       requestAnimationFrame(() => {
-        dispatch(setLoading(false));
+        dispatch(setLoading2(false));
       });
     });
   }

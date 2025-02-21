@@ -9,7 +9,7 @@ import { FaRegQuestionCircle } from "react-icons/fa";
 import { apiPrefix, auth } from "@/utils/firebase";
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import { setLoading } from "@/state/loading/loading";
+import { setLoading2 } from "@/state/loading/loading";
 import { Modal, Button } from "react-bootstrap";
 
 interface HeaderProps {
@@ -22,6 +22,7 @@ interface HeaderProps {
   total_of_court: number;
 }
 
+
 interface MemberProps {
   book_id: string;
   id: string;
@@ -29,7 +30,6 @@ interface MemberProps {
   profile_picture: string;
   book_time?: string;
   is_show: boolean;
-  is_accept?: boolean;
   setUpdateStatus?: Dispatch<SetStateAction<boolean>>;
 }
 
@@ -47,7 +47,7 @@ const Member = ({
 
   const handleSigned = async () => {
     setShow(false);
-    dispatch(setLoading(true));
+    dispatch(setLoading2(true));
     try {
       const idToken = await auth.currentUser?.getIdToken();
       const { data } = await axios.post(
@@ -66,7 +66,7 @@ const Member = ({
     } catch (err) {
       console.error(err);
     }
-    dispatch(setLoading(false));
+    dispatch(setLoading2(false));
   };
 
   return (
@@ -144,7 +144,7 @@ const Signed = () => {
   });
 
   const getNavData = async () => {
-    dispatch(setLoading(true));
+    dispatch(setLoading2(true));
     try {
       const idToken = await auth.currentUser?.getIdToken();
       const { data } = await axios.get(`${apiPrefix}/courtSession/getDetail`, {
@@ -168,11 +168,11 @@ const Signed = () => {
     } catch (err) {
       console.error(err);
     }
-    dispatch(setLoading(false));
+    dispatch(setLoading2(false));
   };
 
   const getMemberData = async () => {
-    dispatch(setLoading(true));
+    dispatch(setLoading2(true));
     try {
       const idToken = await auth.currentUser?.getIdToken();
       const { data } = await axios.get(
@@ -194,7 +194,7 @@ const Signed = () => {
     } catch (err) {
       console.error(err);
     }
-    dispatch(setLoading(false));
+    dispatch(setLoading2(false));
   };
 
   useEffect(() => {
@@ -220,7 +220,7 @@ const Signed = () => {
       <div className={styles.memberList}>
         {members.map(
           (item, index) =>
-            item.is_accept && (
+            (
               <Member
                 key={index}
                 book_id={book_id as string}

@@ -10,7 +10,7 @@ import { Offcanvas } from "react-bootstrap";
 import { apiPrefix, auth } from "@/utils/firebase";
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import { setLoading } from "@/state/loading/loading";
+import { setLoading2 } from "@/state/loading/loading";
 
 interface Props extends MemberProps {
   setUpdateStatus: Dispatch<SetStateAction<boolean>>;
@@ -52,7 +52,7 @@ const MemberCard = ({
 
   const handleSwitchBlock = async () => {
     setShow(false);
-    dispatch(setLoading(true));
+    dispatch(setLoading2(true));
     try {
       const idToken = await auth.currentUser?.getIdToken();
       const { data } = await axios.post(
@@ -72,7 +72,7 @@ const MemberCard = ({
       console.log(err);
       console.log("====================================");
     }
-    dispatch(setLoading(false));
+    dispatch(setLoading2(false));
   };
 
   return (
