@@ -76,6 +76,31 @@
           map-get($function-colors, "bg-green-600")
         );
       }
+
+      .del {
+        background: linear-gradient(
+          to right,
+          #ea580c,
+          #ef4444
+        );
+      }
     }
+  }
+}
+
+.shareContainer {
+  width: 100%;
+  padding: 15px;
+  background-color: white;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+
+  p {
+    margin-bottom: 0;
+    font-size: 16px;
+    font-weight: 300;
   }
 }

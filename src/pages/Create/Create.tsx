@@ -53,7 +53,6 @@ const PublishCheck = ({ show, setShow, sessions }: Props) => {
         }
       );
       setShow(false);
-      console.log(data);
     } catch (err) {
       console.error(err);
     } finally {
@@ -131,10 +130,6 @@ const Create = () => {
       setCreateData([session]);
     }
   };
-
-  // useEffect(() => {
-  //   console.log("create data: ", createData);
-  // }, [createData]);
 
   return (
     <>

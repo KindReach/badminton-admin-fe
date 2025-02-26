@@ -36,7 +36,7 @@ const Book = ({
     <div className={styles.bookContainer} onClick={goDetail}>
       <div className={styles.infoLeft}>
         <h2>
-          {place_name}（{book_id.substring(5)}）
+          {place_name}（{book_id.substring(0, 3)}）
         </h2>
         <p>{team_name}</p>
         <p>
@@ -69,7 +69,6 @@ const UpComing = () => {
           }
         }
       )
-      console.log(data);
       setBookingData(data);
     } catch ( err ) {
       console.error(err);

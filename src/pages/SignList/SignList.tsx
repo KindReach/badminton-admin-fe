@@ -38,7 +38,7 @@ const Book = ({
   return (
     <div className={styles.bookContainer} onClick={goSign}>
       <h1>
-        {place_name}（{book_id.substring(5)}）
+        {place_name}（{book_id.substring(0, 3)}）
       </h1>
       <h2>{team_name}</h2>
       <div className={styles.functions}>

@@ -14,6 +14,7 @@ import { useDispatch } from "react-redux";
 import { setLoading2 } from "@/state/loading/loading";
 
 interface BookInfo {
+  team_id: string;
   book_id: string;
   place_name: string;
   team_name: string;
@@ -35,6 +36,7 @@ const BookDetail = () => {
   // 提取 book_id
   const book_id = searchParams.get("book_id");
   const [bookData, setBookData] = useState<BookInfo>({
+    team_id: "",
     book_id: "",
     place_name: "",
     team_name: "",
@@ -83,12 +85,12 @@ const BookDetail = () => {
     } else {
       dispatch(setLoading2(false));
     }
-    // console.log("bookData: ", bookData);
   }, [bookData]);
 
   return (
     <div className={styles.container}>
       <Header
+        book_id={bookData.book_id}
         place_name={bookData.place_name}
         team_name={bookData.team_name}
         amount_of_member={bookData.amount_of_member}
@@ -105,6 +107,7 @@ const BookDetail = () => {
       >
         <Tab eventKey="basic" title="基本資訊">
           <Basic
+            team_id={bookData.team_id}
             book_id={bookData.book_id}
             place_name={bookData.place_name}
             location={bookData.location}

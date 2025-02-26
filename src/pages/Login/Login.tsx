@@ -5,7 +5,10 @@ import { MdEmail } from "react-icons/md";
 import { RiLockPasswordLine } from "react-icons/ri";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "@/utils/firebase";
+import { useDispatch } from "react-redux";
 import Logo from "@images/KindReachPadding.png";
+import { setLoading2 } from "@/state/loading/loading";
+import { ModalLevel, setModalShow, setModalState } from "@/state/modal/modal";
 
 const validateEmail = (email: string) => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -18,6 +21,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [emailError, setEmailError] = useState<boolean>(false);
+  const dispatch = useDispatch();
 
   const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -29,16 +33,19 @@ const Login = () => {
     setEmailError(false);
 
     try {
+      dispatch(setLoading2(true));
       const userCredential = await signInWithEmailAndPassword(
         auth,
         email,
         password,
       );
-      console.log("Login successful:", userCredential.user);
-      // navigate("/dashboard"); // 或你想導航的路徑
     } catch (error: any) {
       console.error("Login error:", error);
       setError(getErrorMessage(error.code));
+      dispatch(setModalState({ message: "帳號或密碼錯誤", title: "登入失敗", level: ModalLevel.ERROR }));
+      dispatch(setModalShow(true));
+    } finally {
+      dispatch(setLoading2(false));
     }
   };
 

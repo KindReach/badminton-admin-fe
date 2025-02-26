@@ -188,9 +188,6 @@ const Signed = () => {
       );
       (data as MemberProps[]).sort((a, b) => Number(b.is_show) - Number(a.is_show));
       setMembers(data as MemberProps[]);
-      console.log("====================================");
-      console.log(data);
-      console.log("====================================");
     } catch (err) {
       console.error(err);
     }
@@ -208,6 +205,7 @@ const Signed = () => {
   return (
     <div className={styles.container}>
       <Header
+        book_id={book_id as string}
         place_name={bookData.place_name}
         team_name={bookData.team_name}
         date={bookData.date}

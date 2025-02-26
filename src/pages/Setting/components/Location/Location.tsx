@@ -23,7 +23,6 @@ const Location = () => {
           Authorization: `Bearer ${idToken}`,
         },
       });
-      console.log(data);
       setPlaceName(data["default_place_name"]);
       setLocation(data["default_location"]);
     } catch (err) {
@@ -66,7 +65,7 @@ const Location = () => {
       const { data } = await axios.post(
         `${apiPrefix}/setting/updateDefault`,
         {
-          target: "default_locatoin",
+          target: "default_location",
           value: [
             placeName,
             location
@@ -78,7 +77,6 @@ const Location = () => {
           },
         }
       );
-      console.log(data);
     } catch (err) {
       console.error(err);
     }

@@ -1,43 +1,35 @@
 import styles from "./Single.module.css";
-import { Form, InputGroup, Button, Alert } from "react-bootstrap";
-import { z } from "zod";
-import { FieldValues, useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-
+import { Form, Alert } from "react-bootstrap";
 import { SlLocationPin } from "react-icons/sl";
 import { GoPeople } from "react-icons/go";
 import { FaRegClock } from "react-icons/fa6";
 import { IoAlertCircleOutline } from "react-icons/io5";
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "@/state/store";
+import { useDispatch } from "react-redux";
 import { CreateSessionType } from "@/utils/types";
-import { Mode } from "@/state/publish/publish";
 import { setLoading2 } from "@/state/loading/loading";
 import { apiPrefix, auth } from "@/utils/firebase";
 import axios from "axios";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { TimePicker } from "@mui/x-date-pickers/TimePicker";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import dayjs from "dayjs";
+import "dayjs/locale/zh-tw"; // 引入繁體中文語系
 
-const schema = z.object({
-  place_name: z
-    .string({ required_error: "請填寫場地" })
-    .min(1, { message: "請填寫場地名稱" }),
-  location: z
-    .string({ required_error: "請填寫場地連結" })
-    .min(1, { message: "請填寫地圖連結" }),
-  time: z.string({ required_error: "請選擇時間" }),
-  amount_of_court: z
-    .string({ required_error: "請填寫場地數量" })
-    .refine((value) => /^[0-9]+$/.test(value), { message: "場地數量格式錯誤" }),
-  limit_of_member: z
-    .string({ required_error: "請填寫人數限制" })
-    .refine((value) => /^[0-9]+$/.test(value), { message: "人數限制格式錯誤" }),
-  description: z.string(),
-  price: z
-    .string({ required_error: "請填價格" })
-    .refine((value) => /^[0-9]+$/.test(value), { message: "價格格式錯誤" }),
-});
+interface FormData {
+  place_name: string;
+  location: string;
+  amount_of_court: string;
+  limit_of_member: string;
+  description: string;
+  price: string;
+}
 
-type FormData = z.infer<typeof schema>;
+interface NumberErrors {
+  amount_of_court?: string;
+  limit_of_member?: string;
+  price?: string;
+}
 
 interface Props {
   addNewSession: (session: CreateSessionType, isMulti: boolean) => void;
@@ -45,114 +37,178 @@ interface Props {
 }
 
 const Single = ({ addNewSession, setShow }: Props) => {
+  const [formData, setFormData] = useState<FormData>({
+    place_name: "",
+    location: "",
+    amount_of_court: "",
+    limit_of_member: "",
+    description: "",
+    price: "",
+  });
+
   const [date, setDate] = useState<string | null>(null);
   const [errorOfTime, setErrorOfTime] = useState<boolean>(false);
   const [errorOfDate, setErrorOfDate] = useState<boolean>(false);
+  const [errorOfCourt, setErrorOfCourt] = useState<boolean>(false);
+  const [errorOfLimit, setErrorOfLimit] = useState<boolean>(false);
+  const [errorOfPrice, setErrorOfPrice] = useState<boolean>(false);
   const [startTime, setStartTime] = useState<string | null>(null);
   const [endTime, setEndTime] = useState<string | null>(null);
   const dispatch = useDispatch();
 
+  // 保留原有的時間驗證
   useEffect(() => {
     if (errorOfDate && date) setErrorOfDate(false);
     if (errorOfTime && startTime && endTime) setErrorOfTime(false);
-    if ( startTime && endTime && startTime >= endTime ) {
+    if (startTime && endTime && startTime >= endTime) {
       setErrorOfTime(true);
     }
   }, [startTime, endTime, date]);
 
-  const {
-    register,
-    formState: { errors },
-    getValues,
-    setValue
-  } = useForm<FormData>({
-    resolver: zodResolver(schema),
-  });
+  // 新增數字輸入驗證
+  useEffect(() => {
+    if (formData.amount_of_court) {
+      if (!/^\d+$/.test(formData.amount_of_court)) {
+        setErrorOfCourt((prev) => true); //"場地數量必須為數字大於 0";
+      } else if (Number(formData.amount_of_court) <= 0) {
+        setErrorOfCourt((prev) => true);
+      } else {
+        setErrorOfCourt((prev) => false);
+      }
+    }
+
+    if (formData.limit_of_member) {
+      if (!/^\d+$/.test(formData.limit_of_member)) {
+        setErrorOfLimit((prev) => true); //"人數限制必須為數字";
+      } else if (Number(formData.limit_of_member) <= 0) {
+        setErrorOfLimit((prev) => true); //"人數限制必須大於 0";
+      } else {
+        setErrorOfLimit((prev) => false);
+      }
+    }
+
+    if (formData.price) {
+      if (!/^\d+$/.test(formData.price)) {
+        setErrorOfPrice((prev) => true); //"價格必須為數字";
+      } else if (Number(formData.price) <= 0) {
+        setErrorOfPrice((prev) => true); //"價格必須大於 0";
+      } else {
+        setErrorOfPrice((prev) => false);
+      }
+    }
+  }, [formData.amount_of_court, formData.limit_of_member, formData.price]);
+
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleStartTimeChange = (value: dayjs.Dayjs | null) => {
+    if (value) {
+      setStartTime(value.format("HH:mm"));
+    } else {
+      setStartTime(null);
+    }
+  };
+
+  const handleEndTimeChange = (value: dayjs.Dayjs | null) => {
+    if (value) {
+      setEndTime(value.format("HH:mm"));
+    } else {
+      setEndTime(null);
+    }
+  };
 
   const createNewData = () => {
-    const formData = getValues();
-    
-    /**
-     * This Field is used to check date and time is vaild or not.
-     * It can throws some message
-     */
     let isOK = true;
+
+    // 時間驗證
     if (!date) {
-      // console.log("Error on date");
       setErrorOfDate(true);
       isOK = false;
     }
 
     if (!startTime || !endTime) {
-      console.log("Error on time");
       setErrorOfTime(true);
       isOK = false;
     }
 
-    // console.log(startTime, " ", endTime);
-
-    if ( startTime && endTime && startTime >= endTime) {
+    if (startTime && endTime && startTime >= endTime) {
       setErrorOfTime(true);
-      isOK = true;
+      isOK = false;
+    }
+
+    // 數字輸入驗證
+    if (
+      !formData.amount_of_court ||
+      !formData.limit_of_member ||
+      !formData.price
+    ) {
+      isOK = false;
     }
 
     if (!isOK) return;
 
-    // add a new data of session to the session list.
-    // In single case, the session can't be double create.
-    addNewSession({
-      place_name: formData.place_name,
-      location: formData.location,
-      date: date || "",
-      start_time: startTime || "",
-      end_time: endTime || "",
-      limit_of_member: Number(formData.limit_of_member),
-      amount_of_court: Number(formData.amount_of_court),
-      price: Number(formData.price),
-      description: formData.description,
-    }, false);
-    setShow(true);    
-  }
+    addNewSession(
+      {
+        place_name: formData.place_name,
+        location: formData.location,
+        date: date || "",
+        start_time: startTime || "",
+        end_time: endTime || "",
+        limit_of_member: Number(formData.limit_of_member),
+        amount_of_court: Number(formData.amount_of_court),
+        price: Number(formData.price),
+        description: formData.description,
+      },
+      false
+    );
+    setShow(true);
+  };
 
-
-  
   const getDefaultData = async () => {
     dispatch(setLoading2(true));
     try {
       const idToken = await auth.currentUser?.getIdToken();
-      const { data } = await axios.get(`${apiPrefix}/createSession/getDefaultSetting`,
+      const { data } = await axios.get(
+        `${apiPrefix}/createSession/getDefaultSetting`,
         {
-          headers: {
-            Authorization: `Bearer ${idToken}`
-          }
+          headers: { Authorization: `Bearer ${idToken}` },
         }
-      )
-      // console.log(data);
-      setValue('place_name', data['default_place_name']);
-      setValue('location', data['default_location']);
-      setValue('price', data['default_price']);
-    } catch ( err ) {
-      console.log( err );
+      );
+      setFormData((prev) => ({
+        ...prev,
+        place_name: data["default_place_name"],
+        location: data["default_location"],
+        price: data["default_price"],
+      }));
+    } catch (err) {
+      console.log(err);
     }
-    requestAnimationFrame(() => {
-      // 確保在下一個畫面更新週期才關閉 loading
-      requestAnimationFrame(() => {
-        dispatch(setLoading2(false));
-      });
-    });
-  }
+    dispatch(setLoading2(false));
+  };
 
   useEffect(() => {
     getDefaultData();
-  }, [])
+  }, []);
 
   return (
-    <form onSubmit={(e) => e.preventDefault() } className={styles.formContainer}>
+    <form onSubmit={(e) => e.preventDefault()} className={styles.formContainer}>
       <div className={styles.inputGroup}>
         <div className="mb-3">
-          <p className={styles.title}  ><SlLocationPin style={{
-            marginRight: "5px"
-          }} />地點資訊</p>
+          <p className={styles.title}>
+            <SlLocationPin
+              style={{
+                marginRight: "5px",
+              }}
+            />
+            地點資訊
+          </p>
           <label
             htmlFor="place_name"
             className={`form-label ${styles.smLabel}`}
@@ -160,18 +216,14 @@ const Single = ({ addNewSession, setShow }: Props) => {
             場地名稱
           </label>
           <input
-            {...register("place_name")}
+            name="place_name"
             id="place_name"
             type="text"
             className="form-control mb-1"
-            // placeholder="狐智御"
-            // maxLength={10}
+            value={formData.place_name}
+            onChange={handleInputChange}
+            required
           />
-          {errors.place_name && (
-            <Alert variant="danger" className={styles.alert}>
-              {errors.place_name.message}
-            </Alert>
-          )}
         </div>
         <div className="mb-3">
           <label
@@ -181,20 +233,21 @@ const Single = ({ addNewSession, setShow }: Props) => {
             地圖連結
           </label>
           <input
-            {...register("location")}
+            name="location"
             id="location"
             type="text"
             className="form-control mb-1"
+            value={formData.location}
+            onChange={handleInputChange}
+            required
           />
-          {errors.location && (
-            <Alert variant="danger" className={styles.alert}>
-              {errors.location.message}
-            </Alert>
-          )}
         </div>
       </div>
       <div className={styles.inputGroup}>
-        <p className={styles.title} ><FaRegClock style={{ marginRight: '5px'}}  />時間設定</p>
+        <p className={styles.title}>
+          <FaRegClock style={{ marginRight: "5px" }} />
+          時間設定
+        </p>
         <label
           // htmlFor="amount_of_court"
           className={`form-label ${styles.smLabel}`}
@@ -206,7 +259,7 @@ const Single = ({ addNewSession, setShow }: Props) => {
           <input
             type="date"
             className="form-control mb-1"
-            min={new Date().toISOString().split('T')[0]}
+            min={new Date().toISOString().split("T")[0]}
             onChange={(e) => setDate(e.target.value)}
           />
           {errorOfDate && (
@@ -219,21 +272,42 @@ const Single = ({ addNewSession, setShow }: Props) => {
         <label className={`form-label ${styles.smLabel}`}>時間</label>
 
         <div className={styles.time}>
-          <div className={styles.timeGroup}>
-            <input
-              type="time"
-              className="form-control mb-1"
-              onChange={(e) => setStartTime(e.target.value)}
-            />
-          </div>
-          <h1>~</h1>
-          <div className={styles.timeGroup}>
-            <input
-              type="time"
-              className="form-control mb-1"
-              onChange={(e) => setEndTime(e.target.value)}
-            />
-          </div>
+          <LocalizationProvider
+            dateAdapter={AdapterDayjs}
+            adapterLocale="zh-tw"
+          >
+            <div className={styles.timeGroup}>
+              <TimePicker
+                label="開始時間"
+                value={startTime ? dayjs(`2023-01-01T${startTime}`) : null}
+                onChange={handleStartTimeChange}
+                minutesStep={10}
+                slotProps={{
+                  textField: {
+                    className: "form-control mb-1",
+                    size: "small",
+                  },
+                }}
+                format="HH:mm"
+              />
+            </div>
+            <h1>~</h1>
+            <div className={styles.timeGroup}>
+              <TimePicker
+                label="結束時間"
+                value={endTime ? dayjs(`2023-01-01T${endTime}`) : null}
+                onChange={handleEndTimeChange}
+                minutesStep={10}
+                slotProps={{
+                  textField: {
+                    className: "form-control mb-1",
+                    size: "small",
+                  },
+                }}
+                format="HH:mm"
+              />
+            </div>
+          </LocalizationProvider>
         </div>
         {errorOfTime && (
           <Alert variant="danger" className={styles.alert}>
@@ -242,9 +316,14 @@ const Single = ({ addNewSession, setShow }: Props) => {
         )}
       </div>
       <div className={styles.inputGroup}>
-        <p className={styles.title} ><GoPeople style={{
-          marginRight: "5px"
-        }}  />人數與價格</p>
+        <p className={styles.title}>
+          <GoPeople
+            style={{
+              marginRight: "5px",
+            }}
+          />
+          人數與價格
+        </p>
 
         <label
           htmlFor="amount_of_court"
@@ -253,16 +332,24 @@ const Single = ({ addNewSession, setShow }: Props) => {
           場地數量
         </label>
         <input
-          {...register("amount_of_court")}
+          name="amount_of_court"
           id="amount_of_court"
-          type="number"
+          type="text"
+          pattern="[0-9]*"
+          inputMode="numeric"
           className="form-control mb-1"
-          // placeholder="狐智御"
-          // maxLength={10}
+          value={formData.amount_of_court}
+          onChange={(event) =>
+            setFormData((prev) => ({
+              ...prev,
+              amount_of_court: event.target.value,
+            }))
+          }
+          required
         />
-        {errors.amount_of_court && (
+        {errorOfCourt && (
           <Alert variant="danger" className={styles.alert}>
-            {errors.amount_of_court.message}
+            請設定正確場數
           </Alert>
         )}
 
@@ -273,16 +360,24 @@ const Single = ({ addNewSession, setShow }: Props) => {
           人數上限
         </label>
         <input
-          {...register("limit_of_member")}
+          name="limit_of_member"
           id="limit_of_member"
-          type="number"
+          type="text"
+          pattern="[0-9]*"
+          inputMode="numeric"
           className="form-control mb-1"
-          // placeholder="狐智御"
-          // maxLength={10}
+          value={formData.limit_of_member}
+          onChange={(event) =>
+            setFormData((prev) => ({
+              ...prev,
+              limit_of_member: event.target.value,
+            }))
+          }
+          required
         />
-        {errors.limit_of_member && (
+        {errorOfLimit && (
           <Alert variant="danger" className={styles.alert}>
-            {errors.limit_of_member.message}
+            請設定正確人數上限
           </Alert>
         )}
 
@@ -290,35 +385,50 @@ const Single = ({ addNewSession, setShow }: Props) => {
           費用設定
         </label>
         <input
-          {...register("price")}
+          name="price"
           id="price"
-          type="number"
+          type="text"
+          pattern="[0-9]*"
+          inputMode="numeric"
           className="form-control mb-1"
-          // placeholder="狐智御"
-          // maxLength={10}
+          value={formData.price}
+          onChange={(event) =>
+            setFormData((prev) => ({
+              ...prev,
+              price: event.target.value,
+            }))
+          }
+          required
         />
-        {errors.price && (
+        {errorOfPrice && (
           <Alert variant="danger" className={styles.alert}>
-            {errors.price.message}
+            請設定正確價格
           </Alert>
         )}
       </div>
       <div className={styles.inputGroup}>
-        <p className={styles.title} ><IoAlertCircleOutline style={{ 
-           marginRight: "5px"
-        }} />備註資訊</p>
+        <p className={styles.title}>
+          <IoAlertCircleOutline
+            style={{
+              marginRight: "5px",
+            }}
+          />
+          備註資訊
+        </p>
         <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
           <Form.Label className={styles.smLabel}>球種、場地號碼...</Form.Label>
           <Form.Control
             as="textarea"
             rows={3}
-            {...register("description")}
+            name="description"
+            value={formData.description}
+            onChange={handleInputChange}
             max={1000}
           />
         </Form.Group>
       </div>
       <button className={styles.publish} onClick={createNewData}>
-         預覽
+        預覽
       </button>
     </form>
   );

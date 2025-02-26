@@ -21,7 +21,6 @@ const TeamName = () => {
           Authorization: `Bearer ${idToken}`,
         },
       });
-      console.log(data);
       setTeamName(data["team_name"]);
     } catch (err) {
       console.error(err);
@@ -64,7 +63,6 @@ const TeamName = () => {
           },
         }
       );
-      console.log(data);
     } catch (err) {
       console.error(err);
     }

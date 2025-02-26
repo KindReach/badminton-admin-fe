@@ -36,8 +36,6 @@ const Header = ({
 
   const myFilter = () => {
     if (!startDate || !endDate || !bookData) return;
-    // console.log("start date: ", startDate);
-    // console.log("end date: ", endDate);
     // 處理日期變更
     setDisplayData(
       bookData.filter((item) => {
@@ -57,8 +55,6 @@ const Header = ({
   ) => {
     setStartDate(curStartDate);
     setEndDate(curEndDate);
-    // console.log("開始日期:", startDate);
-    // console.log("結束日期:", endDate);
   };
 
   return (
@@ -183,7 +179,7 @@ const Book = ({
   return (
     <div className={styles.bookContainer} onClick={goDetail}>
       <h1>
-        {place_name}（{book_id.substring(5)}）
+        {place_name}（{book_id.substring(0, 3)}）
       </h1>
       <h2>{team_name}</h2>
       <div className={styles.description}>

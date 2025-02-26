@@ -6,6 +6,7 @@ import { GoPeople } from "react-icons/go";
 import { useNavigate } from "react-router-dom";
 
 interface Props {
+  book_id: string;
   place_name: string;
   team_name: string;
   date: string;
@@ -16,6 +17,7 @@ interface Props {
 }
 
 const Header = ({
+  book_id,
   place_name,
   team_name,
   date,
@@ -36,7 +38,7 @@ const Header = ({
         />
         <p>{nav_title}</p>
       </div>
-      <h2>{place_name}</h2>
+      <h2>{place_name} ({book_id.substring(0, 3)})</h2>
       <p>{team_name}</p>
       <div className={styles.info}>
         <p>

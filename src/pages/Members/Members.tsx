@@ -37,9 +37,6 @@ const Members = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log('====================================');
-    console.log(memberData);
-    console.log('====================================');
     if (category === categories[0]) {
       setDisplayMember(memberData.filter((item) => item.is_blocked === false));
     } else {

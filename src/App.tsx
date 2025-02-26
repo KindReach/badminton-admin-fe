@@ -21,12 +21,14 @@ import TeamName from "./pages/Setting/components/TeamName/TeamName";
 import Location from "./pages/Setting/components/Location/Location";
 import Pricing from "./pages/Setting/components/Pricing/Pricing";
 import PrivateRules from "./pages/Setting/components/PrivateRules/PrivateRules";
+import Modals from "./components/Modal/Modal";
 
 function App() {
   const loginState = useSelector((state: RootState) => state.login.isLogin);
   const loadingState = useSelector(
     (state: RootState) => state.loading,
   );
+  const modalState = useSelector((state: RootState) => state.modal);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -47,6 +49,9 @@ function App() {
     return (
       <BrowserRouter>
         {loadingState.isLoading1 && <Loading />}
+        {loadingState.isLoading2 && <Loading2 />}
+        {modalState.show && <Modals />}
+        
         <Routes>
           <Route path="*" element={<Login />} />
         </Routes>
@@ -57,6 +62,7 @@ function App() {
     <BrowserRouter>
       { loadingState.isLoading1 && <Loading />}
       { loadingState.isLoading2 && <Loading2 />}
+      {modalState.show && <Modals />}
 
       <Routes>
         <Route path="/" element={<Home />} />

@@ -22,7 +22,6 @@ const Pricing = () => {
           Authorization: `Bearer ${idToken}`,
         },
       });
-      console.log(data);
       setPrice(data["default_price"]);
     } catch (err) {
       console.error(err);
@@ -65,7 +64,6 @@ const Pricing = () => {
           },
         }
       );
-      console.log(data);
     } catch (err) {
       console.error(err);
     }

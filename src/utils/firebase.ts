@@ -21,6 +21,6 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 export const auth = getAuth(app);
-export const apiPrefix = "http://127.0.0.1:5008/kindreach-badminton/us-central1/adminAPIServer/admin";
-// export const apiPrefix = "https://adminapiserver-i4siavjroa-uc.a.run.app/admin";
+// export const apiPrefix = "http://127.0.0.1:5008/kindreach-badminton/us-central1/adminAPIServer/admin";
+export const apiPrefix = "https://adminapiserver-i4siavjroa-uc.a.run.app/admin";
 
