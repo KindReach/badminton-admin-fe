@@ -6,9 +6,11 @@ import { apiPrefix, auth } from "@/utils/firebase";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { setLoading2 } from "@/state/loading/loading";
+import { ModalLevel, setModalShow, setModalState } from "@/state/modal/modal";
 
 const TeamName = () => {
   const [teamName, setTeamName] = useState<string>("");
+  const [defaultTeamName, setDefaultTeamName] = useState<string>("");
   const [errors, setErrors] = useState<boolean>(false);
   const dispatch = useDispatch();
 
@@ -21,6 +23,7 @@ const TeamName = () => {
           Authorization: `Bearer ${idToken}`,
         },
       });
+      setDefaultTeamName(data["team_name"]);
       setTeamName(data["team_name"]);
     } catch (err) {
       console.error(err);
@@ -48,6 +51,12 @@ const TeamName = () => {
       return;
     }
 
+    if ( teamName === defaultTeamName ) {
+      dispatch(setModalState({ title: "提示", message: "名稱未改變", level: ModalLevel.INFO }));
+      dispatch(setModalShow(true));
+      return;
+    }
+
     dispatch(setLoading2(true));
     try {
       const idToken = await auth.currentUser?.getIdToken();
@@ -63,10 +72,15 @@ const TeamName = () => {
           },
         }
       );
+      dispatch(setModalState({ title: "提示", message: "名稱設定成功", level: ModalLevel.SUCCESS }));
     } catch (err) {
       console.error(err);
+      dispatch(setModalState({ title: "錯誤", message: "名稱已被使用", level: ModalLevel.ERROR }));
+    } finally {
+      dispatch(setModalShow(true));
+      dispatch(setLoading2(false));
     }
-    dispatch(setLoading2(false));
+    
   };
 
   return (

@@ -127,7 +127,7 @@ const Basic = ({
   const [switchMode, setSwitchMode] = useState<boolean>(true); // 結束報名 / 開放報名
   const [isCopied, setIsCopied] = useState<boolean>(false);
   const [show, setShow] = useState(false);
-  const shareLink = `https://kindreach-badminton-booking.web.app/session?team_id=${team_id}&book_id=${book_id}`;
+  const shareLink = `https://kindreachbadminton.com/session?team_id=${team_id}&book_id=${book_id}`;
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
