@@ -430,6 +430,9 @@ const Single = ({ addNewSession, setShow }: Props) => {
       <button className={styles.publish} onClick={createNewData}>
         預覽
       </button>
+      <button className={styles.publish2} onClick={createNewData}>
+        預覽
+      </button>
     </form>
   );
 };

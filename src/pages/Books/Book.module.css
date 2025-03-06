@@ -15,12 +15,13 @@
   align-items: center;
 }
 .container .categoryContainer p {
-  box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 2px 2px;
   border-radius: 12px;
   font-size: 12px;
-  font-weight: 300;
-  padding: 3px 8px;
+  font-weight: 500;
+  padding: 5px 8px;
   margin-right: 10px;
+  margin-bottom: 0;
 }
 .container .headerContainer {
   position: fixed;
@@ -93,7 +94,7 @@
 }
 .container .booksContainer {
   position: absolute;
-  top: 130px;
+  top: 145px;
   left: 0;
   width: 100%;
   padding: 10px 10px;

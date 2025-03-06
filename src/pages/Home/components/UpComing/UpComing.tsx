@@ -91,7 +91,7 @@ const UpComing = () => {
     <div className={styles.container}>
       <div className={styles.title}>
         <h2>即將開始的場次</h2>
-        <a href="/books">查看全部</a>
+        <a href="/books">查看全部{" >"}</a>
       </div>
       <div className={styles.listContainer}>
         {bookingData.map((item, index) => (

@@ -1,33 +1,65 @@
 .container {
   width: 100%;
+  padding: 10px;
 
   h3 {
     font-size: 16px;
     font-weight: 500;
-    margin-bottom: 10px;
-  }
-
-  .calendarContainer {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    .calendar {
-      width: 40%;
-      padding: 5px;
-      border: 0.2px solid lightgray;
-      border-radius: 8px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    span {
-      width: 5%;
-      font-size: 16px;
-      font-weight: 700;
-      z-index: 50;
-    }
+    margin-bottom: 20px;
   }
 }
+.container .calendarContainer {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.container .calendarContainer .calendar {
+  width: 40%;
+  padding: 5px;
+  border: 0.2px solid lightgray;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.container .calendarContainer span {
+  width: 5%;
+  font-size: 16px;
+  font-weight: 700;
+  z-index: 50;
+}
+
+.dateRangeContainer {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+.dateInput {
+  flex: 1;
+  
+  :global(.MuiTextField-root) {
+    width: 100%;
+  }
+}
+
+.dateInput label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.separator {
+  margin: 0 0.5rem;
+  font-weight: bold;
+  padding-top: 0.5rem;
+}
+
+.error {
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+}
+/*# sourceMappingURL=DateRangeFilter.module.css.map */
