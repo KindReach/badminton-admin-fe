@@ -60,7 +60,7 @@ const Single = ({ addNewSession, setShow }: Props) => {
   useEffect(() => {
     if (errorOfDate && date) setErrorOfDate(false);
     if (errorOfTime && startTime && endTime) setErrorOfTime(false);
-    if (startTime && endTime && startTime >= endTime) {
+    if (startTime && endTime && endTime !== "00:00" && startTime >= endTime) {
       setErrorOfTime(true);
     }
   }, [startTime, endTime, date]);
@@ -138,9 +138,12 @@ const Single = ({ addNewSession, setShow }: Props) => {
       isOK = false;
     }
 
-    if (startTime && endTime && startTime >= endTime) {
-      setErrorOfTime(true);
-      isOK = false;
+    if (startTime && endTime) {
+      // 如果結束時間是 00:00，視為隔天凌晨，不進行時間比較
+      if (endTime !== "00:00" && startTime >= endTime) {
+        setErrorOfTime(true);
+        isOK = false;
+      }
     }
 
     // 數字輸入驗證

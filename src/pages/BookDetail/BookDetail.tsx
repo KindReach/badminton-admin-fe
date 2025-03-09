@@ -114,6 +114,7 @@ const BookDetail = () => {
             amount_of_member={bookData.amount_of_member}
             limit_of_member={bookData.limit_of_member}
             total_of_court={bookData.total_of_court}
+            date={bookData.date}
             time={bookData.time}
             is_opening={bookData.is_opening}
             price={bookData.price}

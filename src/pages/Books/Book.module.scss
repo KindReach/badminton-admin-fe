@@ -101,12 +101,31 @@
     }
   }
 
-  .booksContainer {
+  .count {
     position: absolute;
-    top: 145px;
+    top: 135px;
     left: 0;
     width: 100%;
-    padding: 10px 10px;
+    padding: 10px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    p {
+      font-size: 14px;
+      font-weight: 400;
+      margin: 0;
+      text-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+    }
+
+  }
+
+  .booksContainer {
+    position: absolute;
+    top: 175px;
+    left: 0;
+    width: 100%;
+    
 
     .bookContainer {
       position: relative;

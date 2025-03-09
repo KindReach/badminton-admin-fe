@@ -91,9 +91,9 @@ const MemberCard = ({
         <div className={styles.functions}>
           <p>參與：{amount_of_book} 次</p>
           <p>取消：{amount_of_no_show} 次</p>
-          <p style={{ color: "#E0B888", fontWeight: "900" }}>
+          {/* <p style={{ color: "#E0B888", fontWeight: "900" }}>
             <TiStarFullOutline />：{3.5}
-          </p>
+          </p> */}
         </div>
         <p
           className={styles.state}

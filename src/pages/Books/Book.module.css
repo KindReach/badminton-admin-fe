@@ -92,12 +92,27 @@
   font-weight: 800;
   color: white;
 }
-.container .booksContainer {
+.container .count {
   position: absolute;
-  top: 145px;
+  top: 135px;
   left: 0;
   width: 100%;
-  padding: 10px 10px;
+  padding: 10px 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.container .count p {
+  font-size: 14px;
+  font-weight: 400;
+  margin: 0;
+  text-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+}
+.container .booksContainer {
+  position: absolute;
+  top: 175px;
+  left: 0;
+  width: 100%;
 }
 .container .booksContainer .bookContainer {
   position: relative;

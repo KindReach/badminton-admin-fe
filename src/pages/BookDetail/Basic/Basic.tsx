@@ -21,6 +21,7 @@ interface Props {
   limit_of_member: number;
   amount_of_member: number;
   total_of_court: number;
+  date: string;
   time: string;
   is_opening: boolean;
   price: number;
@@ -41,11 +42,11 @@ const Modals = ({ show, setShow, book_id }: ModalProps) => {
 
   const handleDelete = async () => {
     setShow(false);
-    if ( !book_id ) return;
+    if (!book_id) return;
     try {
       dispatch(setLoading2(true));
       const idToken = await auth.currentUser?.getIdToken();
-      if ( !idToken ) throw new Error("idToken is null");
+      if (!idToken) throw new Error("idToken is null");
       const { data } = await axios.post(
         `${apiPrefix}/courtSession/delete`,
         {
@@ -57,9 +58,21 @@ const Modals = ({ show, setShow, book_id }: ModalProps) => {
           },
         }
       );
-      dispatch(setModalState({ title: "提醒", message: "刪除成功", level: ModalLevel.SUCCESS}));
-    } catch ( err ) {
-      dispatch(setModalState({ title: "提醒", message: "刪除失敗", level: ModalLevel.WARNING}));
+      dispatch(
+        setModalState({
+          title: "提醒",
+          message: "刪除成功",
+          level: ModalLevel.SUCCESS,
+        })
+      );
+    } catch (err) {
+      dispatch(
+        setModalState({
+          title: "提醒",
+          message: "刪除失敗",
+          level: ModalLevel.WARNING,
+        })
+      );
       console.error(err);
     } finally {
       dispatch(setModalShow(true));
@@ -119,6 +132,7 @@ const Basic = ({
   amount_of_member,
   limit_of_member,
   total_of_court,
+  date,
   time,
   is_opening,
   price,
@@ -128,6 +142,7 @@ const Basic = ({
   const [isCopied, setIsCopied] = useState<boolean>(false);
   const [show, setShow] = useState(false);
   const shareLink = `https://kindreachbadminton.com/session?team_id=${team_id}&book_id=${book_id}`;
+  const shareLinkWithContent = `場地：${place_name}\n日期：${date}\n時間：${time}\n費用：${price}\n人數上限：${limit_of_member}\n\n報名連結：${shareLink}`;
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
@@ -138,7 +153,7 @@ const Basic = ({
 
   const copyToClipboard = async () => {
     try {
-      await navigator.clipboard.writeText(shareLink);
+      await navigator.clipboard.writeText(shareLinkWithContent);
       setIsCopied(true);
       setTimeout(() => {
         setIsCopied(false);
@@ -197,22 +212,24 @@ const Basic = ({
           活動時間：{time}
         </p>
       </div>
-      { is_opening && <div className={styles.shareContainer}>
-        <MdContentCopy
-          style={{
-            marginRight: "10px",
-            fontSize: "22px",
-            fontWeight: "900",
-            cursor: "pointer",
-          }}
-          color="gray"
-          onClick={copyToClipboard}
-        />
-        <p style={{ color: isCopied ? "#4CAF50" : "inherit" }}>
-          分享連結：
-          {shareLink.substring(0, 15)}...
-        </p>
-      </div>}
+      {is_opening && (
+        <div className={styles.shareContainer}>
+          <MdContentCopy
+            style={{
+              marginRight: "10px",
+              fontSize: "22px",
+              fontWeight: "900",
+              cursor: "pointer",
+            }}
+            color="gray"
+            onClick={copyToClipboard}
+          />
+          <p style={{ color: isCopied ? "#4CAF50" : "inherit" }}>
+            分享連結：
+            {shareLink.substring(0, 15)}...
+          </p>
+        </div>
+      )}
       <div className={styles.contentContainer}>
         <h2>預約資訊</h2>
         <div className={styles.content}>
@@ -247,11 +264,7 @@ const Basic = ({
           )}
         </div>
       </div>
-      <Modals
-        show={show}
-        setShow={setShow}
-        book_id={book_id}
-      />
+      <Modals show={show} setShow={setShow} book_id={book_id} />
     </div>
   );
 };

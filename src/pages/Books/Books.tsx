@@ -248,7 +248,14 @@ const Books = () => {
           }
         }
       )
-      setBookData(data);
+      
+      const tmp: BookProps[] = data;
+      tmp.sort((a, b) => {
+        return new Date(b.date).getTime() - new Date(a.date).getTime();
+      }
+      );
+      
+      setBookData(tmp);
     } catch ( err ) {
       console.error(err);
     }
@@ -305,6 +312,10 @@ const Books = () => {
             key={index}
           />
         ))}
+      </div>
+      <div className={styles.count} >
+        <p>場次數量：</p>
+        <p>{displayData.length} 筆場次</p>
       </div>
       <div className={styles.booksContainer}>
         {displayData.map((item, index) => (
