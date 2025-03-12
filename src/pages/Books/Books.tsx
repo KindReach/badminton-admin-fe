@@ -11,8 +11,10 @@ import DateRangeFilter from "@/components/DateRangeFilter/DateRangeFilter";
 import data from "./data.json";
 import { apiPrefix, auth } from "@/utils/firebase";
 import axios from "axios";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setLoading2 } from "@/state/loading/loading";
+import { RootState } from "@/state/store";
+import { setCategory } from "@/state/sessionState/sessionState";
 
 interface HeaderProps {
   setSearch: Dispatch<SetStateAction<string>>;
@@ -212,17 +214,23 @@ const Book = ({
 
 interface CategoryProps {
   category: string;
-  curCategory: string;
-  setCategory: Dispatch<SetStateAction<string>>;
 }
 
-const Category = ({ curCategory, category, setCategory }: CategoryProps) => {
+const Category = ({ category }: CategoryProps) => {
+  
+  const currentCategory = useSelector((state: RootState) => state.sessionState.category);
+  const dispatch = useDispatch();
+
+  const onChangeCategory = () => {
+    dispatch(setCategory(category));
+  }
+
   return (
     <p
-      onClick={() => setCategory(category)}
+      onClick={onChangeCategory}
       style={{
-        color: `${curCategory === category ? "rgba(0, 123, 255, 1)" : "gray"}`,
-        backgroundColor: `${curCategory === category ? "rgba(184, 218, 255, 1)" : "lightgray"}`,
+        color: `${currentCategory === category ? "rgba(0, 123, 255, 1)" : "gray"}`,
+        backgroundColor: `${currentCategory === category ? "rgba(184, 218, 255, 1)" : "lightgray"}`,
       }}
     >
       {category}
@@ -234,7 +242,7 @@ const Books = () => {
   const [bookData, setBookData] = useState<BookProps[]>([]);
   const [displayData, setDisplayData] = useState<BookProps[]>([]);
   const [search, setSearch] = useState<string>("");
-  const [category, setCategory] = useState<string>(categories[0]);
+  const category = useSelector((state: RootState) => state.sessionState.category);
   const dispatch = useDispatch();
 
   const getBooks = async () => {
@@ -307,8 +315,6 @@ const Books = () => {
         {categories.map((item, index) => (
           <Category
             category={item}
-            curCategory={category}
-            setCategory={setCategory}
             key={index}
           />
         ))}

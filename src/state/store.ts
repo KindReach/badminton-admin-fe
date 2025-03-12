@@ -4,6 +4,7 @@ import loadingReducer from "./loading/loading";
 import singleCreateReducer from "./singleCreate/singleCreate";
 import publishReducer from "./publish/publish";
 import modalReducer from "./modal/modal";
+import sessionStateReducer from "./sessionState/sessionState";
 
 export const store = configureStore({
   reducer: {
@@ -11,6 +12,7 @@ export const store = configureStore({
     loading: loadingReducer,
     publish: publishReducer,
     modal: modalReducer,
+    sessionState: sessionStateReducer,
     // singleCreateReducer: singleCreateReducer,
   },
 });

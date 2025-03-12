@@ -5,7 +5,7 @@ import Header from "./components/Header/Header";
 import Board from "./components/Board/Board";
 import QuickActions from "./components/QuickActions/QuickActions";
 import UpComing from "./components/UpComing/UpComing";
-import axios from "axios";
+import QuickSession from "./components/QuickSession/QuickSession";
 
 const Home = () => {
 
@@ -14,7 +14,9 @@ const Home = () => {
       <Header />
       <Board />
       <QuickActions />
+      <QuickSession />
       <UpComing />
+      <footer className={styles.footer}>© 2025 KindReach 羽球系統 | 版權所有</footer>
     </div>
   );
 };

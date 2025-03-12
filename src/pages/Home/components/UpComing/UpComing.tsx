@@ -1,11 +1,12 @@
 import styles from "./upComing.module.css";
-import data from "./data.json";
+import { Calendar } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { apiPrefix, auth } from "@/utils/firebase";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { setLoading2 } from "@/state/loading/loading";
+import { UsersRound } from 'lucide-react';
 
 interface BookInfo {
   book_id: string;
@@ -38,8 +39,24 @@ const Book = ({
         <h2>
           {place_name}（{book_id.substring(0, 3)}）
         </h2>
-        <p>{team_name}</p>
         <p>
+          <Calendar
+            size={14}
+            style={{
+              marginRight: "5px",
+            }}
+            strokeWidth={2.5}
+          />
+          {date}
+        </p>
+        <p>
+          <UsersRound
+            size={14}
+            style={{
+              marginRight: "5px",
+            }}
+            strokeWidth={2.5}
+          />
           {amount_of_member}/{limit_of_member}
         </p>
       </div>
@@ -62,15 +79,16 @@ const UpComing = () => {
 
     try {
       const idToken = await auth.currentUser?.getIdToken();
-      const { data } = await axios.get(`${apiPrefix}/courtSession/upcommingSessions`,
+      const { data } = await axios.get(
+        `${apiPrefix}/courtSession/upcommingSessions`,
         {
           headers: {
-            Authorization: `Bearer ${idToken}`
-          }
+            Authorization: `Bearer ${idToken}`,
+          },
         }
-      )
+      );
       setBookingData(data);
-    } catch ( err ) {
+    } catch (err) {
       console.error(err);
     }
     requestAnimationFrame(() => {
@@ -79,8 +97,7 @@ const UpComing = () => {
         dispatch(setLoading2(false));
       });
     });
-  }
-
+  };
 
   useEffect(() => {
     getUpComingData();
@@ -107,6 +124,7 @@ const UpComing = () => {
           />
         ))}
       </div>
+      <button className={styles.btn}>查看全部</button>
     </div>
   );
 };
