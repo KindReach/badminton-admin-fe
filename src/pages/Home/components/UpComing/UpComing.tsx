@@ -74,6 +74,7 @@ const Book = ({
 const UpComing = () => {
   const [bookingData, setBookingData] = useState<BookInfo[]>([]);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const getUpComingData = async () => {
     dispatch(setLoading2(true));
 
@@ -124,7 +125,7 @@ const UpComing = () => {
           />
         ))}
       </div>
-      <button className={styles.btn}>查看全部</button>
+      <button className={styles.btn} onClick={() => navigate("/books")}>查看全部</button>
     </div>
   );
 };
