@@ -4,8 +4,8 @@ import { createSlice } from "@reduxjs/toolkit";
 
 export enum sessionState {
   ALL = "全部場次",
-  ONPROGRESS = "報名中",
-  OPENING = "進行中",
+  ONPROGRESS = "進行中",
+  OPENING = "報名中",
   CLOSED = "尚未開放",
   ENDED = "已結束",
 }
