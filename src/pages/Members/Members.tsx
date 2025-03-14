@@ -12,18 +12,23 @@ interface Props {
   title: string;
   category: string;
   setCategory: Dispatch<SetStateAction<string>>;
+  amountOfMember: number[];
 }
 
-const Category = ({ title, category, setCategory }: Props) => {
+const Category = ({ title, category, setCategory, amountOfMember }: Props) => {
   return (
     <p
       onClick={() => setCategory(title)}
       style={{
         color: `${title === category ? `rgba(0, 123, 255, 1)` : "gray"}`,
-        borderBottom: `${title === category ? "1.5px solid rgba(0, 123, 255, 1)" : "0px solid gray"}`,
+        borderBottom: `${
+          title === category
+            ? "1.5px solid rgba(0, 123, 255, 1)"
+            : "0px solid gray"
+        }`,
       }}
     >
-      {title}
+      {title} ({ title === "正常會員" ? amountOfMember[0] : amountOfMember[1] })
     </p>
   );
 };
@@ -34,6 +39,7 @@ const Members = () => {
   const [memberData, setMemberData] = useState<MemberProps[]>([]);
   const [displayMember, setDisplayMember] = useState<MemberProps[]>([]);
   const [updateStatus, setUpdateStatus] = useState<boolean>(false);
+  const [amountOfMember, setAmountOfMember] = useState<number[]>([0, 0]);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -44,6 +50,12 @@ const Members = () => {
     }
   }, [category, memberData]);
 
+  useEffect(() => {
+    setAmountOfMember([
+      memberData.filter((item) => item.is_blocked === false).length,
+      memberData.filter((item) => item.is_blocked).length,
+    ]);
+  }, [memberData]);
 
   const getMembers = async () => {
     try {
@@ -51,19 +63,18 @@ const Members = () => {
       const idToken = await auth.currentUser?.getIdToken();
       const { data } = await axios.get(`${apiPrefix}/members/getMembers`, {
         headers: {
-          Authorization: `Bearer ${idToken}`
-        }
+          Authorization: `Bearer ${idToken}`,
+        },
       });
       setMemberData(data);
-    } catch ( err ) {
-      console.log('====================================');
+    } catch (err) {
+      console.log("====================================");
       console.log(err);
-      console.log('====================================');
+      console.log("====================================");
     } finally {
       dispatch(setLoading2(false));
     }
-  }
-
+  };
 
   useEffect(() => {
     getMembers();
@@ -81,6 +92,7 @@ const Members = () => {
               key={index}
               category={category}
               setCategory={setCategory}
+              amountOfMember={amountOfMember}
             />
           ))}
         </div>

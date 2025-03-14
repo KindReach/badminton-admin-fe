@@ -225,12 +225,17 @@ const Category = ({ category }: CategoryProps) => {
     dispatch(setCategory(category));
   }
 
+  /**
+   * color: `${currentCategory === category ? "rgba(0, 123, 255, 1)" : "gray"}`,
+        backgroundColor: `${currentCategory === category ? "rgba(184, 218, 255, 1)" : "lightgray"}`,
+   */
+
   return (
     <p
       onClick={onChangeCategory}
       style={{
-        color: `${currentCategory === category ? "rgba(0, 123, 255, 1)" : "gray"}`,
-        backgroundColor: `${currentCategory === category ? "rgba(184, 218, 255, 1)" : "lightgray"}`,
+        color: `${currentCategory === category ? "white" : "black"}`,
+        backgroundColor: `${currentCategory === category ? "rgba(0, 123, 255, 1)" : "#F0F0F5"}`,
       }}
     >
       {category}

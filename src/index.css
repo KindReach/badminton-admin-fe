@@ -69,13 +69,14 @@
 }
 
 .nav-link {
-  font-size: 14px !important;
-  font-weight: 300 !important;
+  font-size: 15px !important;
+  font-weight: 500 !important;
   color: black !important;
 }
 
 .nav-link.active {
-  color: #3b82f6 !important;
+  /* color: #3b82f6 !important; */
+  color: #2a4fd6 !important;
   /* font-weight: 800 !important; */
 }
 
@@ -88,9 +89,9 @@
   backdrop-filter: blur(10px); /* 毛玻璃模糊效果 */
 
   border: 1px solid rgba(255, 255, 255, 0.2); /* 半透明邊框 */
-  border-radius: 12px; /* 圓角 */
+  border-radius: 12px; /*圓角*/
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 柔和陰影 */
-  max-width: 900px;
+  /* max-width: 900px; */
 }
 
 .react-datepicker-wrapper {
