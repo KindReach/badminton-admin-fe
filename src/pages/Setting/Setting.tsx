@@ -84,16 +84,16 @@ const Setting = () => {
       content: "200"
     },
     {
-      title: "隱私權",
-      icon: <BsShieldShaded size={20} />,
-      description: "隱私權相關條款",
-      goWhere: "private_rules",
-    },
-    {
       title: "Line 社群",
       icon: <FaLine size={20} />,
       description: "設定您的官方 Line 社群",
       goWhere: "line",
+    },
+    {
+      title: "隱私權",
+      icon: <BsShieldShaded size={20} />,
+      description: "隱私權相關條款",
+      goWhere: "private_rules",
     }
   ];
 
