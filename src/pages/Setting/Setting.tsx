@@ -5,6 +5,7 @@ import { SlLocationPin } from "react-icons/sl";
 import { FiDollarSign } from "react-icons/fi";
 import { BsShieldShaded } from "react-icons/bs";
 import { MdKeyboardArrowRight } from "react-icons/md";
+import { FaLine } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { apiPrefix, auth } from "@/utils/firebase";
@@ -88,6 +89,12 @@ const Setting = () => {
       description: "隱私權相關條款",
       goWhere: "private_rules",
     },
+    {
+      title: "Line 社群",
+      icon: <FaLine size={20} />,
+      description: "設定您的官方 Line 社群",
+      goWhere: "line",
+    }
   ];
 
   const [defaultData, setDefaultData] = useState<NavProps[]>(settingInner);

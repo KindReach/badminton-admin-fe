@@ -22,6 +22,7 @@ import Location from "./pages/Setting/components/Location/Location";
 import Pricing from "./pages/Setting/components/Pricing/Pricing";
 import PrivateRules from "./pages/Setting/components/PrivateRules/PrivateRules";
 import Modals from "./components/Modal/Modal";
+import Line from "./pages/Setting/components/Line/Line";
 
 function App() {
   const loginState = useSelector((state: RootState) => state.login.isLogin);
@@ -77,6 +78,7 @@ function App() {
         <Route path="/setting/location" element={<Location />} />
         <Route path="/setting/pricing" element={<Pricing />} />
         <Route path="/setting/private_rules" element={<PrivateRules />} />
+        <Route path="/setting/line" element={<Line />} />
         <Route path="*" element={<Home />} />
       </Routes>
     </BrowserRouter>
