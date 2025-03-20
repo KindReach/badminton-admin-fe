@@ -23,6 +23,7 @@ import Pricing from "./pages/Setting/components/Pricing/Pricing";
 import PrivateRules from "./pages/Setting/components/PrivateRules/PrivateRules";
 import Modals from "./components/Modal/Modal";
 import Line from "./pages/Setting/components/Line/Line";
+import ResetPassword from "./pages/ResetPassword/ResetPassword";
 
 function App() {
   const loginState = useSelector((state: RootState) => state.login.isLogin);
@@ -55,6 +56,7 @@ function App() {
         
         <Routes>
           <Route path="*" element={<Login />} />
+          <Route path="/reset_password" element={<ResetPassword />} />
         </Routes>
       </BrowserRouter>
     );

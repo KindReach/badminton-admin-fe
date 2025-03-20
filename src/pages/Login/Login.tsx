@@ -132,7 +132,11 @@ const Login = () => {
         >
           登入
         </Button>
+        <a href="/reset_password" className={styles.forgotPassword}>
+          忘記密碼？
+        </a>
       </Form>
+      
     </div>
   );
 };
