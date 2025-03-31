@@ -18,4 +18,5 @@ export interface CreateSessionType {
   amount_of_court: number;
   price: number;
   description: string;
+  is_public: boolean;
 }

@@ -24,7 +24,47 @@
       display: flex;
       justify-content: flex-start;
       align-items: center;
+      margin-bottom: 10px;
     }
+
+    .status {
+      position: relative;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+
+      p {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        margin-bottom: 0;
+      }
+
+      .switch {
+        position: absolute;
+        right: 0;
+        background: linear-gradient(
+          to right,
+          map-get($brand-colors, "from-blue"),
+          map-get($brand-colors, "to-blue")
+        );
+        color: white;
+        border: none;
+        padding: 6px 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 14px;
+        transition: background-color 0.3s ease;
+  
+        &:hover {
+          opacity: 0.8;
+        }
+      }
+    }
+
+    
 
     .content {
       width: 100%;

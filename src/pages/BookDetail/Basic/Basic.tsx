@@ -5,6 +5,7 @@ import { GoPeople } from "react-icons/go";
 import { FaRegClock } from "react-icons/fa6";
 import { GiTennisCourt } from "react-icons/gi";
 import { MdContentCopy } from "react-icons/md";
+import { FaUserLock } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
 import { apiPrefix, auth } from "@/utils/firebase";
 import axios from "axios";
@@ -25,6 +26,7 @@ interface Props {
   time: string;
   is_opening: boolean;
   price: number;
+  is_public: boolean;
   setUpdateStatus: Dispatch<SetStateAction<boolean>>;
 }
 
@@ -137,6 +139,7 @@ const Basic = ({
   is_opening,
   price,
   setUpdateStatus,
+  is_public,
 }: Props) => {
   const [switchMode, setSwitchMode] = useState<boolean>(true); // 結束報名 / 開放報名
   const [isCopied, setIsCopied] = useState<boolean>(false);
@@ -189,6 +192,28 @@ const Basic = ({
     dispatch(setLoading2(false));
   };
 
+  const togglePublic = async () => {
+    dispatch(setLoading2(true));
+    try {
+      const idToken = await auth.currentUser?.getIdToken();
+      const { data } = await axios.post(
+        `${apiPrefix}/courtSession/switchPublic`,
+        {
+          book_id: book_id,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${idToken}`,
+          },
+        }
+      );
+      setUpdateStatus((prev) => !prev);
+    } catch (err) {
+      console.log(err);
+    }
+    dispatch(setLoading2(false));
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.contentContainer}>
@@ -212,6 +237,20 @@ const Basic = ({
           活動時間：{time}
         </p>
       </div>
+      {is_opening && (
+        <div className={styles.contentContainer}>
+          <h2>場次狀態</h2>
+          <div className={styles.status}>
+            <p>
+              <FaUserLock style={{ marginRight: "10px" }} color="gray" />
+              {is_public ? "公開報名" : "私有報名"}
+              <button className={styles.switch} onClick={togglePublic}>
+                {is_public ? "設為私有" : "設為公開"}
+              </button>
+            </p>
+          </div>
+        </div>
+      )}
       {is_opening && (
         <div className={styles.shareContainer}>
           <MdContentCopy

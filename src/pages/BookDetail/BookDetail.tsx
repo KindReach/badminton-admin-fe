@@ -26,6 +26,7 @@ interface BookInfo {
   total_of_court: number;
   is_opening: boolean;
   price: number;
+  is_public: boolean;
 }
 
 const BookDetail = () => {
@@ -48,6 +49,7 @@ const BookDetail = () => {
     total_of_court: 0,
     is_opening: false,
     price: 0,
+    is_public: false,
   });
 
   const dispatch = useDispatch();
@@ -119,6 +121,7 @@ const BookDetail = () => {
             is_opening={bookData.is_opening}
             price={bookData.price}
             setUpdateStatus={setUpdateStatus}
+            is_public={bookData.is_public}
           />
         </Tab>
         <Tab eventKey="member" title="名單管理">

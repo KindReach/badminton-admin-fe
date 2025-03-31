@@ -23,6 +23,7 @@ interface FormData {
   limit_of_member: string;
   description: string;
   price: string;
+  is_public: boolean;
 }
 
 interface NumberErrors {
@@ -44,6 +45,7 @@ const Single = ({ addNewSession, setShow }: Props) => {
     limit_of_member: "",
     description: "",
     price: "",
+    is_public: false,
   });
 
   const [date, setDate] = useState<string | null>(null);
@@ -168,6 +170,7 @@ const Single = ({ addNewSession, setShow }: Props) => {
         amount_of_court: Number(formData.amount_of_court),
         price: Number(formData.price),
         description: formData.description,
+        is_public: formData.is_public,
       },
       false
     );
@@ -244,6 +247,30 @@ const Single = ({ addNewSession, setShow }: Props) => {
             onChange={handleInputChange}
             required
           />
+        </div>
+        <div className="mb-3">
+          <label
+            htmlFor="is_public"
+            className={`form-label ${styles.smLabel}`}
+          >
+            場次狀態
+          </label>
+          <select
+            name="is_public"
+            id="is_public"
+            className="form-control mb-1"
+            value={formData.is_public ? "public" : "private"}
+            onChange={(e) =>
+              setFormData((prev) => ({
+          ...prev,
+          is_public: e.target.value === "public",
+              }))
+            }
+            required
+          >
+            <option value="public">公開</option>
+            <option value="private">私有</option>
+          </select>
         </div>
       </div>
       <div className={styles.inputGroup}>

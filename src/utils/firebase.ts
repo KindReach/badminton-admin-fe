@@ -6,7 +6,7 @@ import { getAuth } from "firebase/auth";
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional`
 const firebaseConfig = {
   apiKey: "AIzaSyDakDaZ40S_yjFHFfQgglzwCyhIO0mwmwA",
   authDomain: "kindreach-badminton.firebaseapp.com",
