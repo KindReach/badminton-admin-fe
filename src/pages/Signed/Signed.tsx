@@ -2,10 +2,7 @@ import Header from "@/components/Header/Header";
 import styles from "./Signed.module.css";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import data from "./data.json";
-import dataOfMembers from "./members.json";
 import { FiCheckCircle } from "react-icons/fi";
-import { FaRegQuestionCircle } from "react-icons/fa";
 import { apiPrefix, auth } from "@/utils/firebase";
 import axios from "axios";
 import { useDispatch } from "react-redux";
@@ -21,7 +18,6 @@ interface HeaderProps {
   limit_of_member: number;
   total_of_court: number;
 }
-
 
 interface MemberProps {
   book_id: string;
@@ -39,7 +35,7 @@ const Member = ({
   user_name,
   profile_picture,
   is_show,
-  setUpdateStatus
+  setUpdateStatus,
 }: MemberProps) => {
   // const color = ["rgba(40, 167, 69, 1)", "gray"];
   const [show, setShow] = useState(false);
@@ -62,7 +58,7 @@ const Member = ({
           },
         }
       );
-      if ( setUpdateStatus ) setUpdateStatus((prev) => !prev);
+      if (setUpdateStatus) setUpdateStatus((prev) => !prev);
     } catch (err) {
       console.error(err);
     }
@@ -128,10 +124,9 @@ const Signed = () => {
   // 提取 book_id
   const book_id = searchParams.get("book_id");
 
-  if ( !book_id ) {
+  if (!book_id) {
     navigate("/");
   }
-
 
   const [bookData, setBookData] = useState<HeaderProps>({
     place_name: "",
@@ -186,7 +181,9 @@ const Signed = () => {
           },
         }
       );
-      (data as MemberProps[]).sort((a, b) => Number(b.is_show) - Number(a.is_show));
+      (data as MemberProps[]).sort(
+        (a, b) => Number(b.is_show) - Number(a.is_show)
+      );
       setMembers(data as MemberProps[]);
     } catch (err) {
       console.error(err);
@@ -216,20 +213,17 @@ const Signed = () => {
       />
 
       <div className={styles.memberList}>
-        {members.map(
-          (item, index) =>
-            (
-              <Member
-                key={index}
-                book_id={book_id as string}
-                id={item.id}
-                user_name={item.user_name}
-                profile_picture={item.profile_picture}
-                is_show={item.is_show}
-                setUpdateStatus={setUpdateStatus}
-              />
-            )
-        )}
+        {members.map((item, index) => (
+          <Member
+            key={index}
+            book_id={book_id as string}
+            id={item.id}
+            user_name={item.user_name}
+            profile_picture={item.profile_picture}
+            is_show={item.is_show}
+            setUpdateStatus={setUpdateStatus}
+          />
+        ))}
       </div>
     </div>
   );

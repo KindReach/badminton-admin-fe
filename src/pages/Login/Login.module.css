@@ -44,8 +44,17 @@
 .container .formContainer .btn {
   width: 80%;
 }
-.container .formContainer .forgotPassword {
+.container .formContainer .functions {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
   margin-top: 15px;
+  background-color: #eff6ff;
+  border-radius: 18px;
+  padding: 8px;
+}
+.container .formContainer .functions .forgotPassword {
   width: 80%;
   text-align: right;
   color: #3b82f6;
@@ -54,6 +63,17 @@
   font-weight: 700;
   text-align: center;
 }
-.container .formContainer .forgotPassword:hover {
+.container .formContainer .functions .forgotPassword:hover {
+  text-decoration: underline;
+}
+.container .formContainer .functions .signupLink {
+  width: 80%;
+  text-align: center;
+  color: #3b82f6;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 700;
+}
+.container .formContainer .functions .signupLink:hover {
   text-decoration: underline;
 }/*# sourceMappingURL=Login.module.css.map */

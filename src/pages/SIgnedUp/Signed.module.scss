@@ -16,11 +16,13 @@ $gray-800: #1f2937;
 $white: #ffffff;
 
 .container {
+  position: relative;
+  top: 20px;
   @include flex-center;
   flex-direction: column;
   min-height: 100vh;
   background-color: $light-gray;
-  padding: 1rem;
+  padding: 10px;
 }
 
 .wrapper {

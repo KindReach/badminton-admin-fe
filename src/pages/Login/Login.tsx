@@ -37,12 +37,18 @@ const Login = () => {
       const userCredential = await signInWithEmailAndPassword(
         auth,
         email,
-        password,
+        password
       );
     } catch (error: any) {
       console.error("Login error:", error);
       setError(getErrorMessage(error.code));
-      dispatch(setModalState({ message: "帳號或密碼錯誤", title: "登入失敗", level: ModalLevel.ERROR }));
+      dispatch(
+        setModalState({
+          message: "帳號或密碼錯誤",
+          title: "登入失敗",
+          level: ModalLevel.ERROR,
+        })
+      );
       dispatch(setModalShow(true));
     } finally {
       dispatch(setLoading2(false));
@@ -70,7 +76,7 @@ const Login = () => {
       <div className={styles.brandContainer}>
         <img src={Logo} alt="brand" />
         <h2>{brandName}</h2>
-        <p>管理員後台</p>
+        <p>快樂趣打球管理員</p>
       </div>
       <Form onSubmit={handleLogin} className={styles.formContainer}>
         <InputGroup className="mb-3" hasValidation>
@@ -132,11 +138,15 @@ const Login = () => {
         >
           登入
         </Button>
-        <a href="/reset_password" className={styles.forgotPassword}>
-          忘記密碼？
-        </a>
+        <div className={styles.functions}>
+        <a href="/signedup" className={styles.signupLink}>
+            註冊帳號
+          </a>
+          <a href="/reset_password" className={styles.forgotPassword}>
+            忘記密碼
+          </a>
+        </div>
       </Form>
-      
     </div>
   );
 };
