@@ -24,6 +24,7 @@ import PrivateRules from "./pages/Setting/components/PrivateRules/PrivateRules";
 import Modals from "./components/Modal/Modal";
 import Line from "./pages/Setting/components/Line/Line";
 import ResetPassword from "./pages/ResetPassword/ResetPassword";
+import SignedUp from "./pages/SIgnedUp/SignedUp";
 
 function App() {
   const loginState = useSelector((state: RootState) => state.login.isLogin);
@@ -57,6 +58,7 @@ function App() {
         <Routes>
           <Route path="*" element={<Login />} />
           <Route path="/reset_password" element={<ResetPassword />} />
+          <Route path="/signedup" element={<SignedUp />} />
         </Routes>
       </BrowserRouter>
     );
@@ -81,6 +83,7 @@ function App() {
         <Route path="/setting/pricing" element={<Pricing />} />
         <Route path="/setting/private_rules" element={<PrivateRules />} />
         <Route path="/setting/line" element={<Line />} />
+        <Route path="/signedup" element={<SignedUp />} />
         <Route path="*" element={<Home />} />
       </Routes>
     </BrowserRouter>

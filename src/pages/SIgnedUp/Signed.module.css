@@ -1,0 +1,206 @@
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #f9fafb;
+  padding: 1rem;
+}
+
+.wrapper {
+  width: 100%;
+  max-width: 28rem;
+}
+
+.formCard {
+  background-color: #ffffff;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+  width: 100%;
+  max-width: 28rem;
+}
+
+.gradientBar {
+  height: 0.5rem;
+  background: linear-gradient(to right, #3b82f6, #2563eb);
+}
+
+.formContent {
+  padding: 2rem;
+}
+
+.formHeader {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.formTitle {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 0.5rem;
+}
+
+.formSubtitle {
+  font-size: 0.875rem;
+  color: #4b5563;
+}
+
+.formFields {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+}
+
+.inputLabel {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #374151;
+  margin-bottom: 0.25rem;
+}
+
+.input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  color: #1f2937;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+.input:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.25);
+}
+.input::-moz-placeholder {
+  color: #6b7280;
+}
+.input::placeholder {
+  color: #6b7280;
+}
+
+.passwordWrapper {
+  position: relative;
+}
+
+.passwordToggle {
+  position: absolute;
+  top: 50%;
+  right: 0.75rem;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+.passwordToggle:focus {
+  outline: none;
+}
+
+.eyeIcon {
+  width: 1.25rem;
+  height: 1.25rem;
+  color: #6b7280;
+}
+
+.passwordHint {
+  margin-top: 0.5rem;
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+
+.submitButton {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background: linear-gradient(to right, #3b82f6, #2563eb);
+  color: #ffffff;
+  border: none;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: box-shadow 0.15s ease-in-out, filter 0.15s ease-in-out;
+}
+.submitButton:hover {
+  filter: brightness(1.05);
+}
+.submitButton:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.4);
+}
+
+.loginLink {
+  margin-top: 2rem;
+  text-align: center;
+  font-size: 0.875rem;
+  color: #4b5563;
+}
+
+.loginAnchor {
+  font-weight: 500;
+  color: #3b82f6;
+  text-decoration: none;
+}
+.loginAnchor:hover {
+  color: #2563eb;
+}
+
+.footer {
+  text-align: center;
+  margin-top: 1rem;
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+
+.successView {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+  padding: 2rem;
+}
+
+.successIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 4rem;
+  height: 4rem;
+  background-color: #ecfdf5;
+  border-radius: 50%;
+  margin-bottom: 1rem;
+}
+
+.checkIcon {
+  width: 2rem;
+  height: 2rem;
+  color: #10b981;
+}
+
+.successTitle {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 0.5rem;
+}
+
+.successMessage {
+  color: #4b5563;
+  margin-bottom: 0.5rem;
+}
+
+.errorMessage {
+  color: red;
+  font-size: 14px;
+  margin-top: 5px;
+}/*# sourceMappingURL=Signed.module.css.map */

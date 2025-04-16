@@ -62,4 +62,22 @@
   font-size: 18px;
   font-weight: 800;
   margin: 0;
+}
+
+.formCard .formContent .formFields .formGroup .submitButton {
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+.formCard .formContent .formFields .formGroup .submitButton:hover {
+  background-color: #43a047;
+}
+.formCard .formContent .formFields .formGroup .submitButton:active {
+  transform: scale(0.95);
+}
+.formCard .formContent .formFields .formGroup .submitButton.submitting {
+  background-color: #bdbdbd;
+  cursor: wait;
+  transform: none;
+}
+.formCard .formContent .formFields .formGroup .submitButton.submitting:hover {
+  background-color: #bdbdbd;
 }/*# sourceMappingURL=Signed.module.css.map */

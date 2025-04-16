@@ -77,3 +77,33 @@
     }
   }
 }
+
+.formCard {
+  .formContent {
+    .formFields {
+      .formGroup {
+        .submitButton {
+          transition: background-color 0.3s ease, transform 0.3s ease;
+
+          &:hover {
+            background-color: #43a047;
+          }
+
+          &:active {
+            transform: scale(0.95);
+          }
+
+          &.submitting {
+            background-color: #bdbdbd;
+            cursor: wait;
+            transform: none;
+
+            &:hover {
+              background-color: #bdbdbd;
+            }
+          }
+        }
+      }
+    }
+  }
+}
