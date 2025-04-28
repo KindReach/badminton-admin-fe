@@ -7,6 +7,9 @@ import { ModalLevel, setModalShow, setModalState } from "@/state/modal/modal";
 import { useNavigate } from "react-router-dom";
 import HeaderSmall from "@/components/HeaderSmall/HeaderSmall";
 
+// const API_URL = "http://127.0.0.1:5008/kindreach-badminton/us-central1/adminAPIServer";
+const API_URL = "https://adminapiserver-i4siavjroa-uc.a.run.app";
+
 interface FormData {
   name: string;
   email: string;
@@ -60,7 +63,7 @@ const SignedUp: React.FC = () => {
 
     try {
       await axios.post(
-        "http://127.0.0.1:5008/kindreach-badminton/us-central1/adminAPIServer/signedup",
+        `${API_URL}/signedup`,
         formData
       );
       setSubmitted(true);

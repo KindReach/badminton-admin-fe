@@ -66,6 +66,9 @@ const Members = () => {
           Authorization: `Bearer ${idToken}`,
         },
       });
+      data.sort((a: MemberProps, b: MemberProps) => {
+        return new Date(b.add_time).getTime() - new Date(a.add_time).getTime();
+      });
       setMemberData(data);
     } catch (err) {
       console.log("====================================");
