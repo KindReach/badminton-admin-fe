@@ -127,13 +127,15 @@ const Single = ({ addNewSession, setShow }: Props) => {
       const { data } = await axios.get(`${apiPrefix}/setting/getCourts`, {
         headers: { Authorization: `Bearer ${idToken}` },
       });
-      
+
       const venueData = data as Venue[];
 
       setVenues(venueData);
-      
+
       // 提取不重複的區域
-      const uniqueRegions = [...new Set(venueData.map((venue: Venue) => venue.region))].filter(Boolean);
+      const uniqueRegions = [
+        ...new Set(venueData.map((venue: Venue) => venue.region)),
+      ].filter(Boolean);
       setRegions(uniqueRegions);
     } catch (err) {
       console.log(err);
@@ -149,21 +151,21 @@ const Single = ({ addNewSession, setShow }: Props) => {
       ...prev,
       [name]: value,
     }));
-    
+
     // 如果是場地名稱，處理自動完成建議
     if (name === "place_name") {
       let filtered = venues;
-      
+
       // 如果選擇了區域，先按區域過濾
       if (formData.region) {
-        filtered = filtered.filter(venue => venue.region === formData.region);
+        filtered = filtered.filter((venue) => venue.region === formData.region);
       }
-      
+
       // 再按名稱過濾
-      filtered = filtered.filter(venue => 
+      filtered = filtered.filter((venue) =>
         venue.place_name.toLowerCase().includes(value.toLowerCase())
       );
-      
+
       setFilteredVenues(filtered);
       setShowSuggestions(value.length > 0);
     }
@@ -171,46 +173,46 @@ const Single = ({ addNewSession, setShow }: Props) => {
 
   // 選擇場地
   const selectVenue = (venue: Venue) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
       place_name: venue.place_name,
-      location: venue.location
+      location: venue.location,
     }));
     setShowSuggestions(false);
   };
-  
+
   // 選擇區域 - 修改後會清除場地信息
   const selectRegion = (region: string) => {
-    setFormData((prev) => ({...prev, region }));
+    setFormData((prev) => ({ ...prev, region }));
     setShowRegionFilter(false);
-    
+
     // 清除場地名稱和地圖連結
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
       place_name: "",
       location: "",
     }));
-    
+
     // 清除建議列表
     setFilteredVenues([]);
     setShowSuggestions(false);
   };
-  
+
   // 重置區域篩選 - 同樣清除場地信息
   const resetRegion = () => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      region: ""
+      region: "",
     }));
-    
+
     // 清除場地名稱和地圖連結
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
       place_name: "",
       location: "",
-      regtion: ""
+      regtion: "",
     }));
-    
+
     // 清除建議列表
     setFilteredVenues([]);
     setShowSuggestions(false);
@@ -301,7 +303,6 @@ const Single = ({ addNewSession, setShow }: Props) => {
         region: data["default_region"],
         price: data["default_price"],
       }));
-      
     } catch (err) {
       console.log(err);
     }
@@ -325,43 +326,56 @@ const Single = ({ addNewSession, setShow }: Props) => {
             />
             地點資訊
           </p>
-          
+
           {/* 新增區域篩選 */}
           <div className="mb-3">
             <div className="d-flex justify-content-between align-items-center">
               <label className={`form-label ${styles.smLabel}`}>
                 區域 (選填)
               </label>
-              <button 
+              <button
                 type="button"
                 onClick={resetRegion} // 使用新的重置函數
-                className={`btn btn-link p-0 ${!formData.region ? 'd-none' : ''}`}
-                style={{ fontSize: '14px', textDecoration: 'none' }}
+                className={`btn btn-link p-0 ${
+                  !formData.region ? "d-none" : ""
+                }`}
+                style={{ fontSize: "14px", textDecoration: "none" }}
               >
                 重置
               </button>
             </div>
             <div className="position-relative">
-              <div 
+              <div
                 onClick={() => setShowRegionFilter(!showRegionFilter)}
                 className="form-control d-flex justify-content-between align-items-center cursor-pointer"
-                style={{ cursor: 'pointer' }}
+                style={{ cursor: "pointer" }}
               >
-                <span className={formData.region ? '' : 'text-muted'}>
-                  {formData.region || '選擇區域'}
+                <span className={formData.region ? "" : "text-muted"}>
+                  {formData.region || "選擇區域"}
                 </span>
                 <IoFilterOutline />
               </div>
-              
+
               {/* 區域選擇下拉清單 */}
               {showRegionFilter && (
-                <ul className="position-absolute w-100 mt-1 list-group shadow-sm" style={{ zIndex: 1000 }}>
-                  {regions.map(region => (
-                    <li 
-                      key={region} 
+                <ul
+                  className="position-absolute w-100 mt-1 list-group shadow-sm"
+                  style={{
+                    zIndex: 1000,
+                    maxHeight: "200px",
+                    overflowY: "auto",
+                  }}
+                  onTouchMove={(e) => e.stopPropagation()}
+                  onWheel={(e) => e.stopPropagation()}
+                >
+                  {regions.map((region) => (
+                    <li
+                      key={region}
                       onClick={() => selectRegion(region)}
-                      className={`list-group-item ${formData.region === region ? 'active' : ''}`}
-                      style={{ cursor: 'pointer' }}
+                      className={`list-group-item ${
+                        formData.region === region ? "active" : ""
+                      }`}
+                      style={{ cursor: "pointer" }}
                     >
                       {region}
                     </li>
@@ -370,7 +384,7 @@ const Single = ({ addNewSession, setShow }: Props) => {
               )}
             </div>
           </div>
-          
+
           <label
             htmlFor="place_name"
             className={`form-label ${styles.smLabel}`}
@@ -387,16 +401,25 @@ const Single = ({ addNewSession, setShow }: Props) => {
               onChange={handleInputChange}
               required
             />
-            
+
             {/* 自動完成建議清單 */}
             {showSuggestions && filteredVenues.length > 0 && (
-              <ul className="position-absolute w-100 list-group shadow-sm" style={{ zIndex: 1000 }}>
-                {filteredVenues.map(venue => (
-                  <li 
-                    key={venue.address} 
+              <ul
+                className="position-absolute w-100 list-group shadow-sm"
+                style={{
+                  zIndex: 1000,
+                  maxHeight: "250px",
+                  overflowY: "auto",
+                }}
+                onTouchMove={(e) => e.stopPropagation()}
+                onWheel={(e) => e.stopPropagation()}
+              >
+                {filteredVenues.map((venue) => (
+                  <li
+                    key={venue.address}
                     onClick={() => selectVenue(venue)}
                     className="list-group-item"
-                    style={{ cursor: 'pointer' }}
+                    style={{ cursor: "pointer" }}
                   >
                     <div>{venue.place_name}</div>
                     <small className="text-muted">{venue.address}</small>
@@ -404,16 +427,22 @@ const Single = ({ addNewSession, setShow }: Props) => {
                 ))}
               </ul>
             )}
-            
+
             {/* 無結果提示 */}
-            {showSuggestions && filteredVenues.length === 0 && formData.place_name && (
-              <div className="position-absolute w-100 p-2 text-center bg-light border rounded">
-                <small className="text-muted">找不到符合的場地</small>
-                {formData.region && (
-                  <div><small className="text-muted">已篩選區域: {formData.region}</small></div>
-                )}
-              </div>
-            )}
+            {showSuggestions &&
+              filteredVenues.length === 0 &&
+              formData.place_name && (
+                <div className="position-absolute w-100 p-2 text-center bg-light border rounded">
+                  <small className="text-muted">找不到符合的場地</small>
+                  {formData.region && (
+                    <div>
+                      <small className="text-muted">
+                        已篩選區域: {formData.region}
+                      </small>
+                    </div>
+                  )}
+                </div>
+              )}
           </div>
         </div>
         <div className="mb-3">
@@ -434,10 +463,7 @@ const Single = ({ addNewSession, setShow }: Props) => {
           />
         </div>
         <div className="mb-3">
-          <label
-            htmlFor="is_public"
-            className={`form-label ${styles.smLabel}`}
-          >
+          <label htmlFor="is_public" className={`form-label ${styles.smLabel}`}>
             場次狀態
           </label>
           <select
@@ -447,8 +473,8 @@ const Single = ({ addNewSession, setShow }: Props) => {
             value={formData.is_public ? "public" : "private"}
             onChange={(e) =>
               setFormData((prev) => ({
-          ...prev,
-          is_public: e.target.value === "public",
+                ...prev,
+                is_public: e.target.value === "public",
               }))
             }
             required
@@ -458,18 +484,14 @@ const Single = ({ addNewSession, setShow }: Props) => {
           </select>
         </div>
       </div>
-      
+
       {/* 其餘部分保持不變 */}
       <div className={styles.inputGroup}>
         <p className={styles.title}>
           <FaRegClock style={{ marginRight: "5px" }} />
           時間設定
         </p>
-        <label
-          className={`form-label ${styles.smLabel}`}
-        >
-          日期
-        </label>
+        <label className={`form-label ${styles.smLabel}`}>日期</label>
 
         <div className={styles.calendar}>
           <input
