@@ -11,6 +11,7 @@ export interface MemberProps {
 export interface CreateSessionType {
   place_name: string;
   location: string;
+  region: string;
   date: string;
   start_time: string;
   end_time: string;
