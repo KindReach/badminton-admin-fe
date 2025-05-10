@@ -1,6 +1,5 @@
 import Header from "@/components/Header/Header";
 import styles from "./BookDetail.module.css";
-import data from "./data.json";
 import { useEffect, useState } from "react";
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
