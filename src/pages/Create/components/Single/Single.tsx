@@ -673,7 +673,7 @@ const Single = ({ addNewSession, setShow }: Props) => {
         <input
           name="price"
           id="price"
-          type="text"
+          type="number"
           pattern="[0-9]*"
           inputMode="numeric"
           className="form-control mb-1"
