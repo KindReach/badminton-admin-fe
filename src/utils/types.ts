@@ -20,4 +20,5 @@ export interface CreateSessionType {
   price: number;
   description: string;
   is_public: boolean;
+  categories: string[]; // 新增場次分類欄位
 }

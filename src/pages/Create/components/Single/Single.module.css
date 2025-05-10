@@ -52,6 +52,76 @@
   margin: 0 5px;
   font-weight: 300;
 }
+.formContainer .inputGroup .categoryDescription {
+  font-size: 14px;
+  color: #6B7280;
+  margin-bottom: 12px;
+}
+.formContainer .inputGroup .categoryGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-bottom: 16px;
+}
+.formContainer .inputGroup .categoryItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 8px;
+  border-radius: 8px;
+  border: 1px solid #E5E7EB;
+  background-color: #F9FAFB;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+.formContainer .inputGroup .categoryItem.categorySelected {
+  background-color: var(--category-bg-color);
+  border: 2px solid var(--category-color);
+}
+.formContainer .inputGroup .categoryItem.categorySelected .categoryName {
+  color: var(--category-color);
+  font-weight: 500;
+}
+.formContainer .inputGroup .categoryItem .iconContainer {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--category-icon-bg);
+  margin-bottom: 6px;
+}
+.formContainer .inputGroup .categoryItem .categoryIcon {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background-color: var(--category-color);
+}
+.formContainer .inputGroup .categoryItem .categoryName {
+  font-size: 14px;
+  font-weight: 400;
+  color: #4B5563;
+}
+.formContainer .inputGroup .helpText {
+  background-color: #F9FAFB;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  color: #6B7280;
+}
+.formContainer .inputGroup .helpText .helpTitle {
+  font-weight: 500;
+  margin-bottom: 6px;
+}
+.formContainer .inputGroup .helpText .helpItem {
+  margin-bottom: 4px;
+  line-height: 1.4;
+}
+.formContainer .inputGroup .helpText .helpItem span {
+  font-weight: 500;
+}
 
 .alert {
   width: 100%;

@@ -4,7 +4,8 @@ import { SlLocationPin } from "react-icons/sl";
 import { GoPeople } from "react-icons/go";
 import { FaRegClock } from "react-icons/fa6";
 import { IoAlertCircleOutline } from "react-icons/io5";
-import { IoFilterOutline } from "react-icons/io5"; // 新增篩選圖標
+import { IoFilterOutline } from "react-icons/io5";
+import { BsListTask } from "react-icons/bs"; // 新增場次分類圖標
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { CreateSessionType } from "@/utils/types";
@@ -25,16 +26,24 @@ interface Venue {
   region: string; // 區域（縣市）
 }
 
-interface FormData {
-  place_name: string;
-  location: string;
-  region: string;
-  amount_of_court: string;
-  limit_of_member: string;
+// 新增場次分類類型
+interface SessionCategory {
+  name: string;
+  color: string;
   description: string;
-  price: string;
-  is_public: boolean;
 }
+
+// interface FormData {
+//   place_name: string;
+//   location: string;
+//   region: string;
+//   amount_of_court: string;
+//   limit_of_member: string;
+//   description: string;
+//   price: string;
+//   is_public: boolean;
+//   categories: string[]; // 新增場次分類欄位
+// }
 
 interface NumberErrors {
   amount_of_court?: string;
@@ -48,16 +57,46 @@ interface Props {
 }
 
 const Single = ({ addNewSession, setShow }: Props) => {
-  const [formData, setFormData] = useState<FormData>({
+  const [formData, setFormData] = useState<CreateSessionType>({
+    date: "",
+    start_time: "",
+    end_time: "",
     place_name: "",
     location: "",
     region: "",
-    amount_of_court: "",
-    limit_of_member: "",
+    amount_of_court: 0,
+    limit_of_member: 0,
     description: "",
-    price: "",
+    price: 0,
     is_public: false,
+    categories: [], // 初始化場次分類為空陣列
   });
+
+  // 場次分類選項
+  const sessionCategories: SessionCategory[] = [
+    { name: '休閒', color: '#4ADE80', description: '輕鬆友好的氛圍，適合放鬆打球' },
+    { name: '競技', color: '#F43F5E', description: '較高強度，適合有經驗的球友切磋' },
+    { name: '社交', color: '#3B82F6', description: '以交友社交為主的輕鬆場次' },
+    { name: '訓練', color: '#FACC15', description: '專注於技術提升和系統性訓練' },
+    { name: '初學', color: '#8B5CF6', description: '歡迎新手，有耐心指導' }
+  ];
+
+  // 處理分類切換
+  const toggleCategory = (categoryId: string) => {
+    setFormData(prev => {
+      if (prev.categories.includes(categoryId)) {
+        return { ...prev, categories: prev.categories.filter(id => id !== categoryId) };
+      } else {
+        return { ...prev, categories: [...prev.categories, categoryId] };
+      }
+    });
+  };
+
+  useEffect(() => {
+    if ( formData.categories.length > 0 ) {
+      setErrorOfCategories(false);
+    }
+  }, [formData.categories])
 
   // 新增場地資料庫相關狀態
   const [venues, setVenues] = useState<Venue[]>([]);
@@ -72,6 +111,7 @@ const Single = ({ addNewSession, setShow }: Props) => {
   const [errorOfCourt, setErrorOfCourt] = useState<boolean>(false);
   const [errorOfLimit, setErrorOfLimit] = useState<boolean>(false);
   const [errorOfPrice, setErrorOfPrice] = useState<boolean>(false);
+  const [errorOfCategories, setErrorOfCategories] = useState<boolean>(false);
   const [startTime, setStartTime] = useState<string | null>(null);
   const [endTime, setEndTime] = useState<string | null>(null);
   const dispatch = useDispatch();
@@ -88,9 +128,7 @@ const Single = ({ addNewSession, setShow }: Props) => {
   // 數字輸入驗證
   useEffect(() => {
     if (formData.amount_of_court) {
-      if (!/^\d+$/.test(formData.amount_of_court)) {
-        setErrorOfCourt((prev) => true); //"場地數量必須為數字大於 0";
-      } else if (Number(formData.amount_of_court) <= 0) {
+      if (formData.amount_of_court <= 0) {
         setErrorOfCourt((prev) => true);
       } else {
         setErrorOfCourt((prev) => false);
@@ -98,9 +136,7 @@ const Single = ({ addNewSession, setShow }: Props) => {
     }
 
     if (formData.limit_of_member) {
-      if (!/^\d+$/.test(formData.limit_of_member)) {
-        setErrorOfLimit((prev) => true); //"人數限制必須為數字";
-      } else if (Number(formData.limit_of_member) <= 0) {
+      if (formData.limit_of_member <= 0) {
         setErrorOfLimit((prev) => true); //"人數限制必須大於 0";
       } else {
         setErrorOfLimit((prev) => false);
@@ -108,9 +144,7 @@ const Single = ({ addNewSession, setShow }: Props) => {
     }
 
     if (formData.price) {
-      if (!/^\d+$/.test(formData.price)) {
-        setErrorOfPrice((prev) => true); //"價格必須為數字";
-      } else if (Number(formData.price) <= 0) {
+      if (formData.price <= 0) {
         setErrorOfPrice((prev) => true); //"價格必須大於 0";
       } else {
         setErrorOfPrice((prev) => false);
@@ -257,11 +291,24 @@ const Single = ({ addNewSession, setShow }: Props) => {
     }
 
     // 數字輸入驗證
-    if (
-      !formData.amount_of_court ||
-      !formData.limit_of_member ||
-      !formData.price
-    ) {
+    if ( formData.amount_of_court <= 0 ) {
+      setErrorOfCourt(true);
+      isOK = false;
+    }
+
+    if ( formData.limit_of_member <= 0 ) {
+      setErrorOfLimit(true);
+      isOK = false;
+    }
+
+    if ( formData.price <= 0 ) {
+      setErrorOfPrice(true);
+      isOK = false;
+    }
+
+    // check categories
+    if ( formData.categories.length === 0 ) {
+      setErrorOfCategories(true);
       isOK = false;
     }
 
@@ -280,6 +327,7 @@ const Single = ({ addNewSession, setShow }: Props) => {
         price: Number(formData.price),
         description: formData.description,
         is_public: formData.is_public,
+        categories: formData.categories, // 添加場次分類資料
       },
       false
     );
@@ -572,7 +620,7 @@ const Single = ({ addNewSession, setShow }: Props) => {
         <input
           name="amount_of_court"
           id="amount_of_court"
-          type="text"
+          type="number"
           pattern="[0-9]*"
           inputMode="numeric"
           className="form-control mb-1"
@@ -580,7 +628,7 @@ const Single = ({ addNewSession, setShow }: Props) => {
           onChange={(event) =>
             setFormData((prev) => ({
               ...prev,
-              amount_of_court: event.target.value,
+              amount_of_court: Number.parseInt(event.target.value),
             }))
           }
           required
@@ -600,7 +648,7 @@ const Single = ({ addNewSession, setShow }: Props) => {
         <input
           name="limit_of_member"
           id="limit_of_member"
-          type="text"
+          type="number"
           pattern="[0-9]*"
           inputMode="numeric"
           className="form-control mb-1"
@@ -608,7 +656,7 @@ const Single = ({ addNewSession, setShow }: Props) => {
           onChange={(event) =>
             setFormData((prev) => ({
               ...prev,
-              limit_of_member: event.target.value,
+              limit_of_member: Number.parseInt(event.target.value),
             }))
           }
           required
@@ -633,7 +681,7 @@ const Single = ({ addNewSession, setShow }: Props) => {
           onChange={(event) =>
             setFormData((prev) => ({
               ...prev,
-              price: event.target.value,
+              price: Number.parseInt(event.target.value),
             }))
           }
           required
@@ -644,6 +692,55 @@ const Single = ({ addNewSession, setShow }: Props) => {
           </Alert>
         )}
       </div>
+
+      {/* 新增場次分類區塊 */}
+      <div className={styles.inputGroup}>
+        <p className={styles.title}>
+          <BsListTask
+            style={{
+              marginRight: "5px",
+            }}
+          />
+          場次分類
+        </p>
+        <p className={styles.categoryDescription}>選擇適合此場次的分類（可複選）</p>
+        
+        <div className={styles.categoryGrid}>
+          {sessionCategories.map(category => (
+            <button
+              key={category.name}
+              type="button"
+              className={`${styles.categoryItem} ${formData.categories.includes(category.name) ? styles.categorySelected : ''}`}
+              onClick={() => toggleCategory(category.name)}
+              style={{
+                '--category-color': category.color,
+                '--category-bg-color': `${category.color}15`,
+                '--category-icon-bg': `${category.color}25`,
+              } as React.CSSProperties}
+            >
+              <div className={styles.iconContainer}>
+                <div className={styles.categoryIcon}></div>
+              </div>
+              <span className={styles.categoryName}>{category.name}</span>
+            </button>
+          ))}
+        </div>
+        {errorOfCategories && (
+          <Alert variant="danger" className={styles.alert}>
+            請設定至少一個分類
+          </Alert>
+        )}
+        
+        <div className={styles.helpText}>
+          <p className={styles.helpTitle}>分類說明：</p>
+          {sessionCategories.map(category => (
+            <p key={category.name} className={styles.helpItem}>
+              <span style={{ color: category.color }}>• {category.name}</span> - {category.description}
+            </p>
+          ))}
+        </div>
+      </div>
+
       <div className={styles.inputGroup}>
         <p className={styles.title}>
           <IoAlertCircleOutline
