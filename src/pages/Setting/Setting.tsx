@@ -67,21 +67,21 @@ const Setting = () => {
       description: "管理球隊名稱",
       icon: <BsBuilding size={20} />,
       goWhere: "team_name",
-      content: "ALL IN 羽球隊"
+      content: ""
     },
     {
       title: "場地設定",
       icon: <SlLocationPin size={20} />,
       description: "設定預設場地",
       goWhere: "location",
-      content: "ALL IN 運動館"
+      content: ""
     },
     {
       title: "價格設定",
       icon: <FiDollarSign size={20} />,
       description: "設定預設價格",
       goWhere: "pricing",
-      content: "200"
+      content: ""
     },
     {
       title: "Line 社群",
