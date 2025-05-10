@@ -7,6 +7,7 @@ import { setLoading2 } from "@/state/loading/loading";
 import { apiPrefix, auth } from "@/utils/firebase";
 import axios from "axios";
 import { IoFilterOutline } from "react-icons/io5"; // 新增篩選圖標
+import { ModalLevel, setModalShow, setModalState } from "@/state/modal/modal";
 
 // 定義場地數據類型
 interface Venue {
@@ -183,8 +184,15 @@ const Location = () => {
           },
         }
       );
+
+      dispatch(setModalState({ message: data, title: "設定成功", level: ModalLevel.SUCCESS }));
+      
+
     } catch (err) {
       console.error(err);
+      dispatch(setModalState({ message: err as string, title: "設定失敗", level: ModalLevel.ERROR }));
+    } finally {
+      dispatch(setModalShow(true));
     }
     requestAnimationFrame(() => {
       // 確保在下一個畫面更新週期才關閉 loading

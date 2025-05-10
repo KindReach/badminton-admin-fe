@@ -134,7 +134,6 @@ const SignedUp: React.FC = () => {
         <div className={styles.wrapper}>
           <div className={styles.formCard}>
             {/* 頂部漸層色彩條 */}
-            <div className={styles.gradientBar}></div>
 
             <div className={styles.formContent}>
               <div className={styles.formHeader}>

@@ -16,32 +16,21 @@ $gray-800: #1f2937;
 $white: #ffffff;
 
 .container {
-  position: relative;
-  top: 20px;
   @include flex-center;
+  width: 100%;
   flex-direction: column;
   min-height: 100vh;
   background-color: $light-gray;
-  padding: 10px;
+  padding: 20px;
 }
 
 .wrapper {
   width: 100%;
-  max-width: 28rem; // 448px
 }
 
 .formCard {
-  background-color: $white;
-  border-radius: 0.5rem;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.05);
   overflow: hidden;
   width: 100%;
-  max-width: 28rem; // 448px
-}
-
-.gradientBar {
-  height: 0.5rem;
-  background: linear-gradient(to right, $primary-blue, $dark-blue);
 }
 
 .formContent {

@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import { setLoading2 } from "@/state/loading/loading";
 import axios from "axios";
 import { apiPrefix, auth } from "@/utils/firebase";
+import { ModalLevel, setModalShow, setModalState } from "@/state/modal/modal";
 
 const Line = () => {
   const [invite, setInvite] = useState<string>("");
@@ -65,8 +66,14 @@ const Line = () => {
           },
         }
       );
+
+      dispatch(setModalState({ title: "設定成功", message: "修改成功", level: ModalLevel.SUCCESS }));
+
     } catch (err) {
       console.error(err);
+      dispatch(setModalState({ title: "設定失敗", message: "修改失敗", level: ModalLevel.ERROR }));
+    } finally {
+      dispatch(setModalShow(true));
     }
     dispatch(setLoading2(false));
   };

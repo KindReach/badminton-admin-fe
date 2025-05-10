@@ -3,7 +3,7 @@ import Home from "@pages/Home/Home";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "./state/store";
 import { useEffect } from "react";
-import { onAuthStateChanged } from "firebase/auth";
+import { onAuthStateChanged, User } from "firebase/auth";
 import { auth } from "./utils/firebase";
 import Login from "@pages/Login/Login";
 import { setLogin } from "./state/login/login";
@@ -25,6 +25,9 @@ import Modals from "./components/Modal/Modal";
 import Line from "./pages/Setting/components/Line/Line";
 import ResetPassword from "./pages/ResetPassword/ResetPassword";
 import SignedUp from "./pages/SIgnedUp/SignedUp";
+import { apiPrefix } from "@/utils/firebase";
+import axios from "axios";
+import { ModalLevel, setModalShow, setModalState } from "./state/modal/modal";
 
 function App() {
   const loginState = useSelector((state: RootState) => state.login.isLogin);
@@ -34,11 +37,42 @@ function App() {
   const modalState = useSelector((state: RootState) => state.modal);
   const dispatch = useDispatch();
 
+  /**
+   * @This function is used to check if the user has set up the default location or not.
+   */
+  const checkUserLocation = async (user: User) => {
+          
+    try {
+      const idToken = await user.getIdToken();
+      const { data } = await axios.get(`${apiPrefix}/setting/defaultData`, {
+        headers: {
+          Authorization: `Bearer ${idToken}`
+        }
+      })
+      
+      if ( !data["default_region"] ) {
+        dispatch(setModalState({
+          message: "請先設定預設地點 ( 設定 > 場地資訊設定 )",
+          title: "尚未設定預設地點",
+          level: ModalLevel.WARNING,
+        }));
+        dispatch(setModalShow(true));
+      }
+
+    } catch ( err ) {
+      console.log('====================================');
+      console.log(err);
+      console.log('====================================');
+    }
+  }
+
   useEffect(() => {
     dispatch(setLoading1(true));
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         dispatch(setLogin(true));
+        // Check if the user has set up the default location
+        checkUserLocation(user);
       } else {
         dispatch(setLogin(false));
       }
