@@ -6,6 +6,9 @@ import { useDispatch } from "react-redux";
 import { ModalLevel, setModalShow, setModalState } from "@/state/modal/modal";
 import { useNavigate } from "react-router-dom";
 import HeaderSmall from "@/components/HeaderSmall/HeaderSmall";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "@/utils/firebase";
+import { setLoading1 } from "@/state/loading/loading";
 
 // const API_URL = "http://127.0.0.1:5008/kindreach-badminton/us-central1/adminAPIServer";
 const API_URL = "https://adminapiserver-i4siavjroa-uc.a.run.app";
@@ -62,10 +65,7 @@ const SignedUp: React.FC = () => {
     }
 
     try {
-      await axios.post(
-        `${API_URL}/signedup`,
-        formData
-      );
+      await axios.post(`${API_URL}/signedup`, formData);
       setSubmitted(true);
     } catch (err: any) {
       console.error("註冊失敗:", err);
@@ -81,6 +81,32 @@ const SignedUp: React.FC = () => {
       setIsSubmitting(false);
     }
   };
+
+
+  const handleLogin = async () => {
+    try {
+      dispatch(setLoading1(true));
+      await signInWithEmailAndPassword(
+        auth,
+        formData.email,
+        formData.password
+      );
+      navigation("/");
+    } catch (error: any) {
+      console.error("登入失敗:", error);
+      dispatch(
+        setModalState({
+          title: "錯誤",
+          message: "登入失敗: " + error.message,
+          level: ModalLevel.ERROR,
+        })
+      );
+      dispatch(setModalShow(true));
+    } finally {
+      dispatch(setLoading1(false));
+    }
+  }
+
 
   const togglePasswordVisibility = (): void => {
     setShowPassword(!showPassword);
@@ -113,10 +139,7 @@ const SignedUp: React.FC = () => {
             </p>
             <button
               className={styles.submitButton}
-              onClick={() => {
-                setSubmitted(false);
-                navigation("/");
-              }}
+              onClick={handleLogin}
             >
               返回登入
             </button>

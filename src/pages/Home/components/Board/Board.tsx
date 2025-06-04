@@ -8,10 +8,10 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { setLoading2 } from "@/state/loading/loading";
 
-interface BoardType {
+interface BoardType { 
   amount_of_session: number;
   amount_of_participant: number;
-  amount_of_new_member: number;
+  amount_of_new_member: number; 
   income: number;
 }
 
