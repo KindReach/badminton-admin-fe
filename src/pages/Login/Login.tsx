@@ -4,11 +4,12 @@ import { Button, Form, InputGroup } from "react-bootstrap";
 import { MdEmail } from "react-icons/md";
 import { RiLockPasswordLine } from "react-icons/ri";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "@/utils/firebase";
+import { apiPrefixWithoutAuth, auth } from "@/utils/firebase";
 import { useDispatch } from "react-redux";
 import Logo from "@images/KindReachPadding.png";
 import { setLoading2 } from "@/state/loading/loading";
 import { ModalLevel, setModalShow, setModalState } from "@/state/modal/modal";
+import axios from "axios";
 
 const validateEmail = (email: string) => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -31,6 +32,34 @@ const Login = () => {
       return;
     }
     setEmailError(false);
+
+    // chekc if the account is already registered.
+    try {
+      const { data } = await axios.get(`${apiPrefixWithoutAuth}/checkUser`, {
+        params: { email },
+      });
+
+      console.log('====================================');
+      console.log(data);
+      console.log('====================================');
+
+    } catch ( error ) {
+      console.error("Error checking account:", error);
+      let errorMessage = "發生未知錯誤";
+      if (axios.isAxiosError(error) && error.response && error.response.data) {
+        errorMessage = error.response.data;
+      }
+      dispatch(
+        setModalState({
+          message: errorMessage,
+          title: "錯誤",
+          level: ModalLevel.ERROR,
+        })
+      );
+      dispatch(setModalShow(true));
+      return;
+    }
+
 
     try {
       dispatch(setLoading2(true));

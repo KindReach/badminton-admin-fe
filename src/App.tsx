@@ -37,6 +37,7 @@ function App() {
   const modalState = useSelector((state: RootState) => state.modal);
   const dispatch = useDispatch();
 
+
   /**
    * @This function is used to check if the user has set up the default location or not.
    */

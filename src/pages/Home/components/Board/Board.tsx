@@ -7,6 +7,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { setLoading2 } from "@/state/loading/loading";
+import { setModalState } from "@/state/modal/modal";
 
 interface BoardType { 
   amount_of_session: number;

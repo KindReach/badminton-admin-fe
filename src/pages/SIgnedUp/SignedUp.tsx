@@ -7,11 +7,8 @@ import { ModalLevel, setModalShow, setModalState } from "@/state/modal/modal";
 import { useNavigate } from "react-router-dom";
 import HeaderSmall from "@/components/HeaderSmall/HeaderSmall";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "@/utils/firebase";
+import { apiPrefixWithoutAuth, auth } from "@/utils/firebase";
 import { setLoading1 } from "@/state/loading/loading";
-
-// const API_URL = "http://127.0.0.1:5008/kindreach-badminton/us-central1/adminAPIServer";
-const API_URL = "https://adminapiserver-i4siavjroa-uc.a.run.app";
 
 interface FormData {
   name: string;
@@ -65,7 +62,7 @@ const SignedUp: React.FC = () => {
     }
 
     try {
-      await axios.post(`${API_URL}/signedup`, formData);
+      await axios.post(`${apiPrefixWithoutAuth}/signedup`, formData);
       setSubmitted(true);
     } catch (err: any) {
       console.error("註冊失敗:", err);

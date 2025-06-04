@@ -1,15 +1,604 @@
-@use "../../assets/styles/config.scss" as *;
+// 管理系統色彩變數 - 淺色版本
+$from-blue: #3b82f6;
+$to-blue: #2563eb;
+$light-bg: #ffffff;
+$light-surface: #f8fafc;
+$border-color: #e2e8f0;
+$border-secondary: #cbd5e1;
+$text-primary: #1e293b;
+$text-secondary: #475569;
+$text-muted: #64748b;
+$shadow-light: rgba(15, 23, 42, 0.08);
+$shadow-medium: rgba(15, 23, 42, 0.12);
 
-.container {
-  position: absolute;
-  z-index: 120;
-  width: 100%;
-  height: 100vh;
-  background: linear-gradient(
-    to bottom,
-    map-get($brand-colors, "from-blue"),
-    map-get($brand-colors, "to-blue")
-  );
+// 輔助色彩
+$success-green: #10b981;
+$warning-amber: #f59e0b;
+$danger-red: #ef4444;
+$info-cyan: #06b6d4;
+$purple-accent: #8b5cf6;
+
+// 主容器
+.loadingContainer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: $light-bg;
   display: flex;
+  align-items: center;
   justify-content: center;
+  z-index: 9999;
+  overflow: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+}
+
+// 背景圖案
+.backgroundPattern {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  opacity: 0.6;
+}
+
+.patternSvg {
+  width: 100%;
+  height: 100%;
+}
+
+.scanLine1 {
+  animation: scanMove1 4s ease-in-out infinite;
+}
+
+.scanLine2 {
+  animation: scanMove2 3.5s ease-in-out infinite 1s;
+}
+
+// 主要內容區域
+.mainContent {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+// Logo 容器
+.logoContainer {
+  margin-bottom: 2.5rem;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 140px;
+  height: 140px;
+}
+
+// 旋轉光環
+.spinningRing {
+  position: absolute;
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  background: conic-gradient(
+    from 0deg, 
+    transparent, 
+    $from-blue, 
+    $to-blue,
+    rgba($from-blue, 0.3),
+    transparent
+  );
+  animation: spinSlow 4s linear infinite;
+  filter: drop-shadow(0 4px 12px rgba($from-blue, 0.2));
+  
+  &::after {
+    content: '';
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    right: 3px;
+    bottom: 3px;
+    background: $light-bg;
+    border-radius: 50%;
+  }
+}
+
+// 脈搏環
+.pulseRing {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  right: 12px;
+  bottom: 12px;
+  border: 2px solid rgba($from-blue, 0.3);
+  border-radius: 50%;
+  animation: pulse 3s ease-in-out infinite;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    right: 8px;
+    bottom: 8px;
+    border: 1px solid rgba($to-blue, 0.2);
+    border-radius: 50%;
+    animation: pulse 3s ease-in-out infinite 0.5s;
+  }
+}
+
+// Logo 主體
+.logo {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  z-index: 5;
+}
+
+.logoSvg {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 4px 12px rgba($from-blue, 0.25));
+}
+
+.centerGear {
+  animation: gearRotate 8s linear infinite reverse;
+  transform-origin: 12px 12px;
+}
+
+// 進度條容器
+.progressContainer {
+  width: 320px;
+  height: 8px;
+  background-color: $light-surface;
+  border-radius: 9999px;
+  overflow: hidden;
+  margin-bottom: 2rem;
+  border: 1px solid $border-color;
+  position: relative;
+  box-shadow: inset 0 2px 4px $shadow-light;
+}
+
+.progressBar {
+  height: 100%;
+  background: linear-gradient(
+    90deg, 
+    $from-blue 0%, 
+    $to-blue 100%
+  );
+  border-radius: 9999px;
+  animation: loadingBar 2.8s ease-in-out infinite;
+  position: relative;
+  box-shadow: 0 2px 8px rgba($from-blue, 0.3);
+  
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+      90deg, 
+      transparent 0%, 
+      rgba(255, 255, 255, 0.4) 50%, 
+      transparent 100%
+    );
+    animation: progressShine 2.8s ease-in-out infinite;
+  }
+}
+
+.progressGlow {
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(
+    90deg, 
+    transparent, 
+    rgba($from-blue, 0.3), 
+    rgba($to-blue, 0.3), 
+    transparent
+  );
+  border-radius: 9999px;
+  animation: progressGlow 2.8s ease-in-out infinite;
+  z-index: -1;
+}
+
+// 文字區域
+.loadingTextArea {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.mainText {
+  color: $text-primary;
+  font-weight: 600;
+  font-size: 18px;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.5rem;
+}
+
+.typingText {
+  display: inline-block;
+  animation: typing 2s ease-in-out infinite;
+}
+
+.dots {
+  animation: dots 2s ease-in-out infinite;
+  color: $from-blue;
+}
+
+.statusText {
+  color: $text-secondary;
+  font-size: 14px;
+  font-weight: 400;
+  animation: statusChange 4s ease-in-out infinite;
+}
+
+// 浮動圖標
+.floatingIcons {
+  position: absolute;
+  top: -120px;
+  left: -120px;
+  right: -120px;
+  bottom: -120px;
+  pointer-events: none;
+}
+
+.floatingIcon {
+  position: absolute;
+  border-radius: 12px;
+  padding: 10px;
+  background: rgba($light-bg, 0.9);
+  border: 1px solid $border-color;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 4px 12px $shadow-light;
+  transition: all 0.3s ease;
+  
+  svg {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.icon1 {
+  top: 60px;
+  left: 60px;
+  width: 32px;
+  height: 32px;
+  color: $from-blue;
+  animation: float1 5s ease-in-out infinite;
+}
+
+.icon2 {
+  top: 40px;
+  right: 80px;
+  width: 28px;
+  height: 28px;
+  color: $purple-accent;
+  animation: float2 4.5s ease-in-out infinite 0.5s;
+}
+
+.icon3 {
+  top: 120px;
+  right: 40px;
+  width: 24px;
+  height: 24px;
+  color: $info-cyan;
+  animation: float3 5.2s ease-in-out infinite 1s;
+}
+
+.icon4 {
+  bottom: 80px;
+  right: 60px;
+  width: 28px;
+  height: 28px;
+  color: $warning-amber;
+  animation: float4 4.8s ease-in-out infinite 1.5s;
+}
+
+.icon5 {
+  bottom: 60px;
+  left: 80px;
+  width: 26px;
+  height: 26px;
+  color: $danger-red;
+  animation: float5 5.3s ease-in-out infinite 2s;
+}
+
+.icon6 {
+  bottom: 120px;
+  left: 40px;
+  width: 24px;
+  height: 24px;
+  color: $success-green;
+  animation: float6 4.7s ease-in-out infinite 2.5s;
+}
+
+// 動畫定義
+@keyframes spinSlow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes gearRotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes pulse {
+  0%, 100% { 
+    transform: scale(1); 
+    opacity: 0.6; 
+  }
+  50% { 
+    transform: scale(1.08); 
+    opacity: 1; 
+  }
+}
+
+@keyframes loadingBar {
+  0% { transform: translateX(-100%); }
+  50% { transform: translateX(0%); }
+  100% { transform: translateX(100%); }
+}
+
+@keyframes progressShine {
+  0% { transform: translateX(-100%); }
+  50% { transform: translateX(0%); }
+  100% { transform: translateX(100%); }
+}
+
+@keyframes progressGlow {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
+@keyframes typing {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+@keyframes dots {
+  0% { opacity: 0; }
+  25% { opacity: 1; }
+  50% { opacity: 0; }
+  75% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+@keyframes statusChange {
+  0%, 100% { opacity: 1; }
+  25% { opacity: 0.7; }
+  50% { opacity: 1; }
+  75% { opacity: 0.7; }
+}
+
+@keyframes scanMove1 {
+  0% { transform: translateY(0); opacity: 0; }
+  50% { opacity: 0.8; }
+  100% { transform: translateY(100vh); opacity: 0; }
+}
+
+@keyframes scanMove2 {
+  0% { transform: translateX(0); opacity: 0; }
+  50% { opacity: 0.6; }
+  100% { transform: translateX(100vw); opacity: 0; }
+}
+
+// 浮動動畫
+@keyframes float1 {
+  0%, 100% { 
+    transform: translate(0, 0) scale(1) rotate(0deg); 
+    opacity: 0.8; 
+  }
+  50% { 
+    transform: translate(40px, -30px) scale(1.1) rotate(5deg); 
+    opacity: 1; 
+  }
+}
+
+@keyframes float2 {
+  0%, 100% { 
+    transform: translate(0, 0) scale(1) rotate(0deg); 
+    opacity: 0.7; 
+  }
+  50% { 
+    transform: translate(-35px, 25px) scale(1.15) rotate(-8deg); 
+    opacity: 1; 
+  }
+}
+
+@keyframes float3 {
+  0%, 100% { 
+    transform: translate(0, 0) scale(1) rotate(0deg); 
+    opacity: 0.8; 
+  }
+  50% { 
+    transform: translate(30px, -25px) scale(0.9) rotate(12deg); 
+    opacity: 1; 
+  }
+}
+
+@keyframes float4 {
+  0%, 100% { 
+    transform: translate(0, 0) scale(1) rotate(0deg); 
+    opacity: 0.7; 
+  }
+  50% { 
+    transform: translate(-25px, -35px) scale(1.05) rotate(-15deg); 
+    opacity: 1; 
+  }
+}
+
+@keyframes float5 {
+  0%, 100% { 
+    transform: translate(0, 0) scale(1) rotate(0deg); 
+    opacity: 0.6; 
+  }
+  50% { 
+    transform: translate(35px, 20px) scale(1.1) rotate(10deg); 
+    opacity: 0.9; 
+  }
+}
+
+@keyframes float6 {
+  0%, 100% { 
+    transform: translate(0, 0) scale(1) rotate(0deg); 
+    opacity: 0.7; 
+  }
+  50% { 
+    transform: translate(-30px, -20px) scale(1.2) rotate(-5deg); 
+    opacity: 1; 
+  }
+}
+
+// 響應式設計
+@media (max-width: 768px) {
+  .logoContainer {
+    width: 100px;
+    height: 100px;
+    margin-bottom: 2rem;
+  }
+  
+  .spinningRing {
+    width: 100px;
+    height: 100px;
+  }
+  
+  .logo {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .progressContainer {
+    width: 240px;
+    height: 6px;
+  }
+  
+  .mainText {
+    font-size: 16px;
+  }
+  
+  .floatingIcons {
+    top: -80px;
+    left: -80px;
+    right: -80px;
+    bottom: -80px;
+  }
+  
+  .floatingIcon {
+    padding: 8px;
+  }
+  
+  .icon1 { width: 24px; height: 24px; }
+  .icon2 { width: 22px; height: 22px; }
+  .icon3 { width: 20px; height: 20px; }
+  .icon4 { width: 22px; height: 22px; }
+  .icon5 { width: 20px; height: 20px; }
+  .icon6 { width: 18px; height: 18px; }
+}
+
+@media (max-width: 480px) {
+  .logoContainer {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 1.5rem;
+  }
+  
+  .spinningRing {
+    width: 80px;
+    height: 80px;
+  }
+  
+  .logo {
+    width: 48px;
+    height: 48px;
+  }
+  
+  .progressContainer {
+    width: 200px;
+    height: 5px;
+  }
+  
+  .mainText {
+    font-size: 14px;
+  }
+  
+  .statusText {
+    font-size: 12px;
+  }
+}
+
+// 浮動圖標 Hover 效果
+@media (hover: hover) {
+  .floatingIcon:hover {
+    transform: scale(1.1);
+    box-shadow: 0 8px 20px $shadow-medium;
+  }
+}
+
+// 高對比度支援
+@media (prefers-contrast: high) {
+  .loadingContainer {
+    background-color: #ffffff;
+  }
+  
+  .spinningRing {
+    background: conic-gradient(
+      from 0deg, 
+      transparent, 
+      #000000, 
+      #333333,
+      transparent
+    );
+  }
+  
+  .progressBar {
+    background: linear-gradient(90deg, #000000 0%, #333333 100%);
+  }
+  
+  .mainText {
+    color: #000000;
+  }
+  
+  .statusText {
+    color: #333333;
+  }
+  
+  .floatingIcon {
+    border: 2px solid #000000;
+    background: #ffffff;
+  }
+}
+
+// 減少動畫支援
+@media (prefers-reduced-motion: reduce) {
+  .spinningRing,
+  .centerGear,
+  .progressBar,
+  .progressGlow,
+  .typingText,
+  .dots,
+  .statusText,
+  .scanLine1,
+  .scanLine2,
+  .floatingIcon {
+    animation: none;
+  }
+  
+  .pulseRing {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+  
+  .progressBar {
+    transform: translateX(0);
+    width: 50%;
+  }
 }
