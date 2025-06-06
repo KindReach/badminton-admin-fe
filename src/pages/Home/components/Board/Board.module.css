@@ -22,6 +22,9 @@
   margin: 10px 0;
   background-color: white;
 }
+.container .boardContainer .board h2 {
+  font-size: 20px;
+}
 .container .boardContainer .board .description {
   display: flex;
   justify-content: flex-start;

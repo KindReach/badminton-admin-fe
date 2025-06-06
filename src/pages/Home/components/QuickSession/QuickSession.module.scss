@@ -18,18 +18,40 @@
     box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
 
     .function {
+      cursor: pointer;
+      transition: transform 0.2s ease;
+
+      &:active {
+        transform: translateY(0px);
+      }
+
       .icon {
-        padding: 10px;
+        padding: 15px;
         display: flex;
         justify-content: center;
         align-items: center;
-        border-radius: 8px;
-        margin-bottom: 5px;
+        border-radius: 12px;
+        margin-bottom: 8px;
+        box-shadow: 
+          0 2px 4px rgba(0, 0, 0, 0.08),
+          0 1px 2px rgba(0, 0, 0, 0.04);
+        transition: all 0.3s ease;
+
+        &:active {
+          transform: scale(0.98);
+          box-shadow: 
+            0 2px 4px rgba(0, 0, 0, 0.1),
+            0 1px 2px rgba(0, 0, 0, 0.06);
+        }
       }
 
       p {
         font-size: 12px;
         text-align: center;
+        font-weight: 600;
+        color: #333;
+        padding: 0;
+        margin: 0;
       }
     }
   }

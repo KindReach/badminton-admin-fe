@@ -139,8 +139,9 @@ const Signed = () => {
   });
 
   const getNavData = async () => {
-    dispatch(setLoading2(true));
+    
     try {
+      dispatch(setLoading2(true));
       const idToken = await auth.currentUser?.getIdToken();
       const { data } = await axios.get(`${apiPrefix}/courtSession/getDetail`, {
         params: {
@@ -162,8 +163,9 @@ const Signed = () => {
       });
     } catch (err) {
       console.error(err);
+    } finally {
+      dispatch(setLoading2(false));
     }
-    dispatch(setLoading2(false));
   };
 
   const getMemberData = async () => {

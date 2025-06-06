@@ -3,12 +3,14 @@
 .container {
   position: relative;
   width: 100%;
+  min-height: 100vh;
+  background-color: #f8fafc;
 
   .categoryContainer {
     position: absolute;
     /* position: fixed; */
     /* z-index: 20; */
-    top: 90px;
+    top: 120px;
     left: 0;
     width: 100%;
     max-width: 400px;
@@ -18,31 +20,32 @@
     justify-content: space-between;
 
     p {
-      box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 1px;
-      border-radius: 12px;
-      font-size: 14px;
-      font-weight: 500;
-      padding: 5px 8px;
+      cursor: pointer;
+      box-shadow: 
+        0 2px 4px rgba(0, 0, 0, 0.08),
+        0 1px 2px rgba(0, 0, 0, 0.04);
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 600;
+      padding: 8px 12px;
       margin-bottom: 0;
+      border: 1px solid rgba(0, 0, 0, 0.08);
     }
   }
 
   .headerContainer {
     position: fixed;
     max-width: 800px;
-
     z-index: 99;
     top: 0;
-    /* left: 0; */
     width: 100%;
-    /* height: 12vh; */
     background: linear-gradient(
-      to right,
-      map-get($brand-colors, "from-blue"),
-      map-get($brand-colors, "to-blue")
+      135deg,
+      map-get($brand-colors, "from-blue") 0%,
+      map-get($brand-colors, "to-blue") 100%
     );
-    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-    padding: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    padding: 15px;
 
     .functions {
       position: relative;
@@ -50,38 +53,51 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-top: 10px;
+      margin-top: 15px;
+      gap: 10px;
 
       input {
-        width: 90%;
-        background: rgba(255, 255, 255, 0.2); /* 半透明背景 */
-        backdrop-filter: blur(10px); /* 毛玻璃模糊效果 */
-        border: 1px solid rgba(255, 255, 255, 0.2); /* 半透明邊框 */
-        border-radius: 8px; /* 圓角 */
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 柔和陰影 */
-        padding: 6px 6px 6px 40px; /* 內距 */
-        color: #fff; /* 白色文字 */
+        flex: 1;
+        background: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        padding: 12px 12px 12px 45px;
+        color: #fff;
+        font-size: 14px;
+        font-weight: 500;
 
         &::placeholder {
-          color: white; /* 修改為你想要的顏色 */
-          font-weight: 800;
-          opacity: 0.8; /* 可選：調整透明度 */
+          color: rgba(255, 255, 255, 0.8);
+          font-weight: 500;
         }
 
         &:focus {
-          border: none;
+          outline: none;
+          border-color: rgba(255, 255, 255, 0.5);
+          background: rgba(255, 255, 255, 0.2);
         }
       }
 
       button {
-        padding: 5px;
-        border-radius: 8px;
-        background: rgba(255, 255, 255, 0.2); /* 半透明背景 */
-        backdrop-filter: blur(10px); /* 毛玻璃模糊效果 */
-        border: 1px solid rgba(255, 255, 255, 0.2); /* 半透明邊框 */
-        border-radius: 8px; /* 圓角 */
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 柔和陰影 */
-        color: #fff; /* 白色文字 */
+        padding: 12px;
+        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        color: #fff;
+        transition: all 0.3s ease;
+
+        &:hover {
+          background: rgba(255, 255, 255, 0.25);
+          transform: translateY(-1px);
+        }
+
+        &:active {
+          transform: translateY(0);
+        }
       }
     }
 
@@ -90,89 +106,126 @@
       display: flex;
       justify-content: flex-start;
       align-items: center;
-      /* margin-bottom: 15px; */
-      /* padding: 5px; */
 
       p {
-        margin: 0 0 0 10px;
-        font-size: 16px;
+        margin: 0 0 0 15px;
+        font-size: 18px;
         font-weight: 800;
         color: white;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
       }
     }
   }
 
   .count {
     position: absolute;
-    top: 150px;
+    top: 190px;
     left: 0;
     width: 100%;
-    padding: 10px 15px;
+    padding: 15px 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    background: white;
+    margin: 0 15px;
+    border-radius: 12px;
+    box-shadow: 
+      0 2px 8px rgba(0, 0, 0, 0.06),
+      0 1px 3px rgba(0, 0, 0, 0.04);
+    width: calc(100% - 30px);
 
     p {
       font-size: 14px;
       font-weight: 600;
       margin: 0;
-    }
+      color: #374151;
 
+      &:last-child {
+        color: #3b82f6;
+        font-weight: 700;
+      }
+    }
   }
 
   .booksContainer {
     position: absolute;
-    top: 190px;
+    top: 250px;
     left: 0;
     width: 100%;
-    
+    padding: 15px;
+    padding-bottom: 50px;
 
     .bookContainer {
       position: relative;
       width: 100%;
-      padding: 15px;
-      background-color: white;
-      border-radius: 8px;
-      /* box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px; */
-      box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
-      margin-bottom: 10px;
+      padding: 16px;
+      background: white;
+      border-radius: 16px;
+      box-shadow: 
+        0 4px 20px rgba(0, 0, 0, 0.08),
+        0 1px 3px rgba(0, 0, 0, 0.05);
+      margin-bottom: 15px;
+      border: 1px solid rgba(0, 0, 0, 0.04);
+      transition: all 0.3s ease;
+      cursor: pointer;
+
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: 
+          0 8px 30px rgba(0, 0, 0, 0.12),
+          0 4px 8px rgba(0, 0, 0, 0.08);
+      }
+
+      &:active {
+        transform: translateY(0);
+      }
 
       .state {
         position: absolute;
-        top: 10px;
-        right: 10px;
-        font-size: 10px;
-        font-weight: 500;
-        padding: 3px 6px;
-        border-radius: 15px;
+        top: 15px;
+        right: 15px;
+        font-size: 11px;
+        font-weight: 600;
+        padding: 6px 12px;
+        border-radius: 20px;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
       }
 
       h1 {
         font-size: 18px;
-        font-weight: 900;
-        margin-bottom: 5px;
+        font-weight: 800;
+        margin-bottom: 8px;
+        color: #1f2937;
+        padding-right: 80px;
       }
 
       h2 {
         font-size: 14px;
         font-weight: 600;
-        color: gray;
-        margin-bottom: 5px;
+        color: #6b7280;
+        margin-bottom: 12px;
       }
 
       .description {
         display: flex;
         justify-content: flex-start;
         align-items: center;
+        flex-wrap: wrap;
+        gap: 12px;
 
         p {
           font-size: 12px;
           font-weight: 600;
-          color: gray;
-          margin: 0 5px 0 0;
+          color: #6b7280;
+          margin: 0;
           display: flex;
           justify-content: center;
           align-items: center;
+          background: #f8fafc;
+          padding: 6px 10px;
+          border-radius: 8px;
+          border: 1px solid #e5e7eb;
         }
       }
     }
@@ -181,14 +234,27 @@
 
 .btn {
   width: 80%;
-  padding: 6px 10px;
-  background-color: #3b82f6;
-  margin-top: 20px;
+  padding: 12px 20px;
+  background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+  margin-top: 25px;
   color: white;
   font-size: 16px;
-  font-weight: 500;
-  border-radius: 8px;
-  box-shadow:
-    rgba(0, 0, 0, 0.1) 0px 1px 3px 0px,
-    rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+  font-weight: 600;
+  border-radius: 12px;
+  border: none;
+  box-shadow: 
+    0 4px 15px rgba(59, 130, 246, 0.3),
+    0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 
+      0 6px 20px rgba(59, 130, 246, 0.4),
+      0 4px 8px rgba(0, 0, 0, 0.15);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
 }
