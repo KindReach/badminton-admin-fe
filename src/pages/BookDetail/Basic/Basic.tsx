@@ -2,10 +2,10 @@ import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import styles from "./Basic.module.css";
 import { SlLocationPin } from "react-icons/sl";
 import { GoPeople } from "react-icons/go";
-import { FaRegClock } from "react-icons/fa6";
+import { FaRegClock, FaUserLock, FaUsers, FaClock } from "react-icons/fa6";
 import { GiTennisCourt } from "react-icons/gi";
-import { MdContentCopy } from "react-icons/md";
-import { FaUserLock } from "react-icons/fa6";
+import { MdContentCopy, MdCheckCircle } from "react-icons/md";
+import { BiDollar } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
 import { apiPrefix, auth } from "@/utils/firebase";
 import axios from "axios";
@@ -141,13 +141,12 @@ const Basic = ({
   setUpdateStatus,
   is_public,
 }: Props) => {
-  const [switchMode, setSwitchMode] = useState<boolean>(true); // 結束報名 / 開放報名
+  const [switchMode, setSwitchMode] = useState<boolean>(true);
   const [isCopied, setIsCopied] = useState<boolean>(false);
   const [show, setShow] = useState(false);
   const shareLink = `https://kindreachbadminton.com/session?team_id=${team_id}&book_id=${book_id}`;
   const shareLinkWithContent = `場地：${place_name}\n日期：${date}\n時間：${time}\n費用：${price}\n人數上限：${limit_of_member}\n\n報名連結：${shareLink}`;
   const dispatch = useDispatch();
-
   const navigate = useNavigate();
 
   const goSigned = () => {
@@ -214,95 +213,130 @@ const Basic = ({
     dispatch(setLoading2(false));
   };
 
+  const waitingCount = Math.max(0, amount_of_member - limit_of_member);
+  const confirmedCount = Math.min(amount_of_member, limit_of_member);
+
   return (
     <div className={styles.container}>
+      {/* 場地資訊 - 第一位 */}
       <div className={styles.contentContainer}>
         <h2>場地資訊</h2>
-        <p>
-          <SlLocationPin style={{ marginRight: "10px" }} color="gray" />
-          <a href={location} target="_blank">
+        <div className={styles.infoItem}>
+          <SlLocationPin className={styles.icon} />
+          <span className={styles.label}>場地名稱：</span>
+          <a href={location} target="_blank" className={styles.value}>
             {place_name}
           </a>
-        </p>
-        <p>
-          <GiTennisCourt style={{ marginRight: "10px" }} color="gray" />
-          場地數量：{total_of_court}
-        </p>
-        <p>
-          <GoPeople style={{ marginRight: "10px" }} color="gray" />
-          人數上限：{limit_of_member} 人
-        </p>
-        <p>
-          <FaRegClock style={{ marginRight: "10px" }} color="gray" />
-          活動時間：{time}
-        </p>
+        </div>
+        <div className={styles.infoItem}>
+          <GiTennisCourt className={styles.icon} />
+          <span className={styles.label}>場地數量：</span>
+          <span className={styles.value}>{total_of_court} 面</span>
+        </div>
+        <div className={styles.infoItem}>
+          <GoPeople className={styles.icon} />
+          <span className={styles.label}>人數上限：</span>
+          <span className={styles.value}>{limit_of_member} 人</span>
+        </div>
+        <div className={styles.infoItem}>
+          <FaRegClock className={styles.icon} />
+          <span className={styles.label}>活動時間：</span>
+          <span className={styles.value}>{time}</span>
+        </div>
+        <div className={styles.infoItem}>
+          <BiDollar className={styles.icon} />
+          <span className={styles.label}>場地費用：</span>
+          <span className={styles.value}>NT$ {price}</span>
+        </div>
       </div>
+
+      {/* 場次狀態 - 第二位 */}
       {is_opening && (
         <div className={styles.contentContainer}>
           <h2>場次狀態</h2>
           <div className={styles.status}>
-            <p>
-              <FaUserLock style={{ marginRight: "10px" }} color="gray" />
-              {is_public ? "公開報名" : "私有報名"}
-              <button className={styles.switch} onClick={togglePublic}>
-                {is_public ? "設為私有" : "設為公開"}
-              </button>
-            </p>
+            <div className={styles.statusInfo}>
+              <FaUserLock className={styles.icon} />
+              <span>報名模式</span>
+              <span className={styles.statusBadge}>
+                {is_public ? "公開報名" : "私有報名"}
+              </span>
+            </div>
+            <button className={styles.switchButton} onClick={togglePublic}>
+              {is_public ? "設為私有" : "設為公開"}
+            </button>
           </div>
         </div>
       )}
+
+      {/* 分享連結 - 第三位 */}
       {is_opening && (
-        <div className={styles.shareContainer}>
-          <MdContentCopy
-            style={{
-              marginRight: "10px",
-              fontSize: "22px",
-              fontWeight: "900",
-              cursor: "pointer",
-            }}
-            color="gray"
-            onClick={copyToClipboard}
-          />
-          <p style={{ color: isCopied ? "#4CAF50" : "inherit" }}>
-            分享連結：
-            {shareLink.substring(0, 15)}...
+        <div
+          className={styles.shareContainer}
+          onClick={copyToClipboard}
+        >
+          {isCopied ? (
+            <MdCheckCircle className={styles.shareIcon} />
+          ) : (
+            <MdContentCopy className={styles.shareIcon} />
+          )}
+          <p className={`${styles.shareText} ${isCopied ? styles.copied : ''}`}>
+            {isCopied ? '已複製分享連結到剪貼簿！' : '點擊複製分享連結'}
           </p>
+          {isCopied && <span className={styles.copyBadge}>已複製</span>}
         </div>
       )}
-      <div className={styles.contentContainer}>
-        <h2>預約資訊</h2>
-        <div className={styles.content}>
-          <p className={styles.title}>場地費用</p>
-          <p>NT$ {price}</p>
-        </div>
-        <div className={styles.content}>
-          <p className={styles.title}>目前報名</p>
-          <p>{Math.min(amount_of_member, limit_of_member)}</p>
-        </div>
 
-        <div className={styles.content}>
-          <p className={styles.title}>候補人數</p>
-          <p>{Math.max(0, amount_of_member - limit_of_member)}</p>
+      {/* 報名統計 - 第四位 */}
+      <div className={styles.contentContainer}>
+        <h2>報名統計</h2>
+        <div className={styles.statsGrid}>
+          <div className={`${styles.statCard} ${confirmedCount > 0 ? styles.highlight : ''}`}>
+            <span className={styles.statValue}>{confirmedCount}</span>
+            <span className={styles.statLabel}>確認報名</span>
+          </div>
+          <div className={`${styles.statCard} ${waitingCount > 0 ? styles.warning : ''}`}>
+            <span className={styles.statValue}>{waitingCount}</span>
+            <span className={styles.statLabel}>候補人數</span>
+          </div>
+          <div className={styles.statCard}>
+            <span className={styles.statValue}>{limit_of_member - confirmedCount}</span>
+            <span className={styles.statLabel}>剩餘名額</span>
+          </div>
         </div>
       </div>
+
+      {/* 快速動作 - 第五位 */}
       <div className={styles.contentContainer}>
         <h2>快速動作</h2>
-        <div className={styles.functions}>
-          <button className={styles.switch} onClick={switchOpening}>
+        <div className={styles.actionButtons}>
+          <button
+            className={`${styles.actionButton} ${styles.primary}`}
+            onClick={switchOpening}
+          >
+            <FaClock />
             {!switchMode ? "開放報名" : "結束報名"}
           </button>
 
           {switchMode ? (
-            <button className={styles.sign} onClick={goSigned}>
+            <button
+              className={`${styles.actionButton} ${styles.success}`}
+              onClick={goSigned}
+            >
+              <FaUsers />
               前往簽到
             </button>
           ) : (
-            <button className={styles.del} onClick={() => setShow(true)}>
-              刪除場次
+            <button
+              className={`${styles.actionButton} ${styles.danger}`}
+              onClick={() => setShow(true)}
+            >
+              🗑️ 刪除場次
             </button>
           )}
         </div>
       </div>
+
       <Modals show={show} setShow={setShow} book_id={book_id} />
     </div>
   );

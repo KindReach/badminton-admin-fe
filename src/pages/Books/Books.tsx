@@ -106,7 +106,7 @@ const Header = ({
     <div className={styles.headerContainer}>
       <div className={styles.nav}>
         <IoChevronBack
-          color="#6b7280"
+          color="white"
           size="22"
           fontWeight={900}
           onClick={() => navigate(-1)}

@@ -5,7 +5,7 @@ import data from "./data.json";
 import { FaRegClock } from "react-icons/fa6";
 import { GoPeople } from "react-icons/go";
 import { IoSearchOutline, IoChevronBack } from "react-icons/io5";
-import { FiFilter } from "react-icons/fi";
+import { FiFilter, FiCalendar } from "react-icons/fi";
 import { Offcanvas } from "react-bootstrap";
 import { apiPrefix, auth } from "@/utils/firebase";
 import axios from "axios";
@@ -109,8 +109,42 @@ const Header = ({
   const [show, setShow] = useState<boolean>(false);
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
+  const [searchValue, setSearchValue] = useState<string>("");
+  const [isFilterActive, setIsFilterActive] = useState<boolean>(false);
+  const [activeQuickFilter, setActiveQuickFilter] = useState<string>("");
 
-  const myFilter = () => {
+  const quickFilterOptions = [
+    { label: "今天", days: 0 },
+    { label: "本週", days: 7 },
+    { label: "本月", days: 30 },
+    { label: "三個月", days: 90 },
+  ];
+
+  const handleQuickFilter = (option: { label: string; days: number }) => {
+    const today = new Date();
+    const endDate = new Date();
+
+    if (option.days === 0) {
+      setStartDate(today);
+      setEndDate(today);
+    } else {
+      endDate.setDate(today.getDate() + option.days);
+      setStartDate(today);
+      setEndDate(endDate);
+    }
+
+    setActiveQuickFilter(option.label);
+  };
+
+  const clearFilters = () => {
+    setStartDate(null);
+    setEndDate(null);
+    setActiveQuickFilter("");
+    setIsFilterActive(false);
+    setDisplayData(bookData);
+  };
+
+  const applyFilter = () => {
     if (!startDate || !endDate || !bookData) return;
 
     setDisplayData(
@@ -120,7 +154,15 @@ const Header = ({
         return dateObj >= startDate && dateObj <= endDate;
       })
     );
+
+    setIsFilterActive(true);
     setShow(false);
+  };
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setSearchValue(value);
+    setSearch(value);
   };
 
   const handleDateChange = (
@@ -129,6 +171,7 @@ const Header = ({
   ) => {
     setStartDate(curStartDate);
     setEndDate(curEndDate);
+    setActiveQuickFilter("");
   };
 
   return (
@@ -142,47 +185,111 @@ const Header = ({
         />
         <p>簽到列表</p>
       </div>
+
       <div className={styles.functions}>
-        <IoSearchOutline
-          size={22}
-          fontWeight={900}
-          color="white"
-          style={{
-            position: "absolute",
-            top: "50%",
-            transform: "translateY(-50%)",
-            left: "10px",
-            zIndex: "50",
-          }}
-        />
-        <input
-          onChange={(e) => setSearch(e.target.value)}
-          type="text"
-          placeholder="搜尋場次或團隊..."
-        />
-        <button onClick={() => setShow((prev) => !prev)}>
-          <FiFilter color="white" size={22} />
+        <div className={styles.searchContainer}>
+          <IoSearchOutline size={18} className={styles.searchIcon} />
+          <input
+            value={searchValue}
+            onChange={handleSearchChange}
+            type="text"
+            placeholder="搜尋場次、場地、球隊..."
+          />
+        </div>
+
+        <button
+          className={`${styles.filterBtn} ${
+            isFilterActive ? styles.active : ""
+          }`}
+          onClick={() => setShow(true)}
+        >
+          <FiFilter size={18} />
         </button>
+
         <Offcanvas
           show={show}
           onHide={() => setShow(false)}
           placement="bottom"
           backdrop="static"
+          className={styles.filterOffcanvas}
         >
-          <Offcanvas.Header closeButton>
-            <Offcanvas.Title>篩選條件</Offcanvas.Title>
+          <Offcanvas.Header closeButton className={styles.offcanvasHeader}>
+            <Offcanvas.Title className={styles.offcanvasTitle}>
+              篩選條件
+            </Offcanvas.Title>
           </Offcanvas.Header>
-          <Offcanvas.Body
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-            }}
-          >
-            <DateRangeFilter onDateChange={handleDateChange} />
-            <button className={styles.btn} onClick={myFilter}>
-              套用篩選
-            </button>
+
+          <Offcanvas.Body className={styles.offcanvasBody}>
+            <div className={styles.dateFilterContainer}>
+              <div className={styles.filterTitle}>
+                <FiCalendar size={16} />
+                日期範圍
+              </div>
+
+              <div className={styles.dateInputs}>
+                <div className={styles.inputGroup}>
+                  <label>開始日期</label>
+                  <input
+                    type="date"
+                    value={
+                      startDate
+                        ? startDate.toISOString().split("T")[0]
+                        : ""
+                    }
+                    onChange={(e) =>
+                      handleDateChange(
+                        e.target.value ? new Date(e.target.value) : null,
+                        endDate
+                      )
+                    }
+                  />
+                </div>
+
+                <div className={styles.inputGroup}>
+                  <label>結束日期</label>
+                  <input
+                    type="date"
+                    value={endDate ? endDate.toISOString().split("T")[0] : ""}
+                    onChange={(e) =>
+                      handleDateChange(
+                        startDate,
+                        e.target.value ? new Date(e.target.value) : null
+                      )
+                    }
+                  />
+                </div>
+              </div>
+
+              <div className={styles.quickFilters}>
+                <div className={styles.quickTitle}>快速選擇</div>
+                <div className={styles.quickButtons}>
+                  {quickFilterOptions.map((option) => (
+                    <button
+                      key={option.label}
+                      className={
+                        activeQuickFilter === option.label ? styles.active : ""
+                      }
+                      onClick={() => handleQuickFilter(option)}
+                    >
+                      {option.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <div className={styles.filterActions}>
+              <button className={styles.clearBtn} onClick={clearFilters}>
+                清除
+              </button>
+              <button
+                className={styles.applyBtn}
+                onClick={applyFilter}
+                disabled={!startDate || !endDate}
+              >
+                套用篩選
+              </button>
+            </div>
           </Offcanvas.Body>
         </Offcanvas>
       </div>
@@ -241,11 +348,19 @@ const SignList = () => {
         setDisplayData={setDisplayData}
         bookData={bookData}
       />
-      <div className={styles.count}>
+
+      {search && (
+        <div className={styles.searchResults}>
+          <p>搜尋 "{search}" 找到 {displayData.length} 筆結果</p>
+        </div>
+      )}
+
+      <div className={styles.count} style={{ top: search ? '175px' : '145px' }}>
         <p>場次數量：</p>
         <p>{displayData.length} 筆場次</p>
       </div>
-      <div className={styles.listContainer}>
+
+      <div className={styles.listContainer} style={{ top: search ? '235px' : '205px' }}>
         {displayData.map((item, index) => (
           <Book
             key={index}

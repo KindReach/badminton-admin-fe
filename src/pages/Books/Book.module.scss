@@ -39,8 +39,8 @@
     z-index: 99;
     top: 0;
     width: 100%;
-    background: white;
-    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
+    background: linear-gradient(135deg, map-get($brand-colors, from-blue) 0%, map-get($brand-colors, to-blue) 100%);
+    box-shadow: 0 4px 20px rgba(59, 130, 246, 0.3);
     padding: 15px;
 
     .nav {
@@ -54,7 +54,7 @@
         margin: 0 0 0 15px;
         font-size: 20px;
         font-weight: 700;
-        color: #1e293b;
+        color: white;
       }
     }
 
@@ -81,14 +81,15 @@
 
         input {
           width: 100%;
-          background: map-get($neutral-colors, bg-gray-50);
-          border: 1px solid map-get($neutral-colors, border-gray-300);
+          background: white;
+          border: 1px solid rgba(255, 255, 255, 0.2);
           border-radius: 12px;
           padding: 12px 12px 12px 40px;
           color: #1e293b;
           font-size: 14px;
           font-weight: 500;
           transition: all 0.2s ease;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 
           &::placeholder {
             color: map-get($neutral-colors, text-gray-500);
@@ -97,9 +98,9 @@
 
           &:focus {
             outline: none;
-            border-color: map-get($brand-colors, from-blue);
+            border-color: rgba(255, 255, 255, 0.4);
             background: white;
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.2), 0 4px 12px rgba(0, 0, 0, 0.15);
           }
         }
       }
@@ -107,32 +108,9 @@
       .filterBtn {
         padding: 12px;
         border-radius: 12px;
-        background: white;
-        border: 1px solid map-get($neutral-colors, border-gray-300);
-        color: map-get($neutral-colors, text-gray-600);
-        transition: all 0.2s ease;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        &:hover {
-          background: map-get($neutral-colors, bg-gray-50);
-          border-color: map-get($brand-colors, from-blue);
-          color: map-get($brand-colors, from-blue);
-        }
-
-        &.active {
-          background: map-get($brand-colors, from-blue);
-          border-color: map-get($brand-colors, from-blue);
-          color: white;
-        }
-      }
-
-      .addBtn {
-        padding: 12px;
-        border-radius: 12px;
-        background: linear-gradient(135deg, map-get($brand-colors, from-blue) 0%, map-get($brand-colors, to-blue) 100%);
-        border: none;
+        background: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
         color: white;
         transition: all 0.2s ease;
         display: flex;
@@ -140,8 +118,36 @@
         justify-content: center;
 
         &:hover {
+          background: rgba(255, 255, 255, 0.25);
+          border-color: rgba(255, 255, 255, 0.4);
           transform: translateY(-1px);
-          box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+        }
+
+        &.active {
+          background: white;
+          border-color: white;
+          color: map-get($brand-colors, from-blue);
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+      }
+
+      .addBtn {
+        padding: 12px;
+        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        color: white;
+        transition: all 0.2s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        &:hover {
+          background: rgba(255, 255, 255, 0.3);
+          border-color: rgba(255, 255, 255, 0.5);
+          transform: translateY(-1px);
+          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
         }
       }
     }

@@ -5,7 +5,7 @@
   top: 0;
   width: 100%;
   background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 20px rgba(59, 130, 246, 0.3);
   padding: 15px;
 }
 .headerContainer .nav {
@@ -13,13 +13,13 @@
   display: flex;
   justify-content: flex-start;
   align-items: center;
+  margin-bottom: 15px;
 }
 .headerContainer .nav p {
   margin: 0 0 0 15px;
-  font-size: 18px;
-  font-weight: 800;
+  font-size: 20px;
+  font-weight: 700;
   color: white;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 .headerContainer .functions {
   position: relative;
@@ -27,57 +27,74 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 15px;
-  gap: 10px;
+  gap: 12px;
 }
-.headerContainer .functions input {
+.headerContainer .functions .searchContainer {
+  position: relative;
   flex: 1;
-  background: rgba(255, 255, 255, 0.15);
-  -webkit-backdrop-filter: blur(20px);
-          backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+.headerContainer .functions .searchContainer .searchIcon {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 12px;
+  z-index: 2;
+  color: #6b7280;
+}
+.headerContainer .functions .searchContainer input {
+  width: 100%;
+  background: white;
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  padding: 12px 12px 12px 45px;
-  color: #fff;
+  padding: 12px 12px 12px 40px;
+  color: #1e293b;
   font-size: 14px;
   font-weight: 500;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
-.headerContainer .functions input::-moz-placeholder {
-  color: rgba(255, 255, 255, 0.8);
+.headerContainer .functions .searchContainer input::-moz-placeholder {
+  color: #6b7280;
   font-weight: 500;
 }
-.headerContainer .functions input::placeholder {
-  color: rgba(255, 255, 255, 0.8);
+.headerContainer .functions .searchContainer input::placeholder {
+  color: #6b7280;
   font-weight: 500;
 }
-.headerContainer .functions input:focus {
+.headerContainer .functions .searchContainer input:focus {
   outline: none;
-  border-color: rgba(255, 255, 255, 0.5);
-  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.4);
+  background: white;
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.2), 0 4px 12px rgba(0, 0, 0, 0.15);
 }
-.headerContainer .functions button {
+.headerContainer .functions .filterBtn {
   padding: 12px;
   border-radius: 12px;
   background: rgba(255, 255, 255, 0.15);
-  -webkit-backdrop-filter: blur(20px);
-          backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  color: #fff;
-  transition: all 0.3s ease;
+  -webkit-backdrop-filter: blur(10px);
+          backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-.headerContainer .functions button:hover {
+.headerContainer .functions .filterBtn:hover {
   background: rgba(255, 255, 255, 0.25);
+  border-color: rgba(255, 255, 255, 0.4);
   transform: translateY(-1px);
 }
-.headerContainer .functions button:active {
-  transform: translateY(0);
+.headerContainer .functions .filterBtn.active {
+  background: white;
+  border-color: white;
+  color: #3b82f6;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .count {
   position: absolute;
-  top: 135px;
+  top: 145px;
   left: 0;
   width: 100%;
   padding: 15px 20px;
@@ -103,13 +120,13 @@
 
 .listContainer {
   position: absolute;
-  top: 195px;
+  top: 205px;
   left: 0;
   width: 100%;
   padding: 15px;
   padding-bottom: 50px;
   background-color: #f8fafc;
-  min-height: calc(100vh - 195px);
+  min-height: calc(100vh - 205px);
 }
 .listContainer .bookContainer {
   position: relative;
@@ -193,4 +210,165 @@
 }
 .btn:active {
   transform: translateY(0);
+}
+
+.filterOffcanvas .offcanvasHeader {
+  background: white;
+  border-bottom: 1px solid #f3f4f6;
+  padding: 20px 24px;
+}
+.filterOffcanvas .offcanvasHeader .offcanvasTitle {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1e293b;
+}
+.filterOffcanvas .offcanvasHeader .btn-close {
+  opacity: 0.6;
+}
+.filterOffcanvas .offcanvasHeader .btn-close:hover {
+  opacity: 1;
+}
+.filterOffcanvas .offcanvasBody {
+  padding: 24px;
+  background: #f9fafb;
+}
+
+.dateFilterContainer {
+  width: 100%;
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  margin-bottom: 20px;
+}
+.dateFilterContainer .filterTitle {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1e293b;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.dateFilterContainer .dateInputs {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.dateFilterContainer .dateInputs .inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.dateFilterContainer .dateInputs .inputGroup label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #4b5563;
+}
+.dateFilterContainer .dateInputs .inputGroup input {
+  padding: 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+.dateFilterContainer .dateInputs .inputGroup input:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+.dateFilterContainer .quickFilters {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid #f3f4f6;
+}
+.dateFilterContainer .quickFilters .quickTitle {
+  font-size: 14px;
+  font-weight: 500;
+  color: #4b5563;
+  margin-bottom: 12px;
+}
+.dateFilterContainer .quickFilters .quickButtons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.dateFilterContainer .quickFilters .quickButtons button {
+  padding: 8px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 20px;
+  background: white;
+  color: #4b5563;
+  font-size: 12px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+.dateFilterContainer .quickFilters .quickButtons button:hover {
+  border-color: #3b82f6;
+  color: #3b82f6;
+}
+.dateFilterContainer .quickFilters .quickButtons button.active {
+  background: #3b82f6;
+  border-color: #3b82f6;
+  color: white;
+}
+
+.filterActions {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+}
+.filterActions .clearBtn {
+  flex: 1;
+  padding: 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background: white;
+  color: #4b5563;
+  font-size: 16px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+.filterActions .clearBtn:hover {
+  background: #f9fafb;
+}
+.filterActions .applyBtn {
+  flex: 2;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+.filterActions .applyBtn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+}
+.filterActions .applyBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.searchResults {
+  position: absolute;
+  top: 120px;
+  left: 0;
+  width: 100%;
+  padding: 12px 20px;
+  background: rgba(59, 130, 246, 0.05);
+  border-left: 4px solid #3b82f6;
+  margin: 0 15px;
+  width: calc(100% - 30px);
+  border-radius: 0 8px 8px 0;
+}
+.searchResults p {
+  font-size: 14px;
+  font-weight: 500;
+  color: #3b82f6;
+  margin: 0;
 }/*# sourceMappingURL=SignList.module.css.map */

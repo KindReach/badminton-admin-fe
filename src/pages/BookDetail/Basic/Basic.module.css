@@ -1,27 +1,89 @@
 .container {
   width: 100%;
   height: 100%;
-  overflow-y: scroll;
-  padding: 10px 15px;
+  overflow-y: auto;
+  padding: 16px;
+  background-color: #f8fafc;
 }
 .container .contentContainer {
   width: 100%;
-  padding: 10px 18px;
+  padding: 20px;
   background-color: white;
-  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
-  border-radius: 8px;
-  margin-bottom: 20px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
+  border-radius: 10px;
+  margin-bottom: 16px;
+  border: 1px solid #e2e8f0;
+  transition: box-shadow 0.2s ease-in-out;
+}
+.container .contentContainer:hover {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06);
 }
 .container .contentContainer h2 {
-  margin-bottom: 15px;
+  margin-bottom: 16px;
   font-size: 18px;
-  font-weight: 500;
+  font-weight: 600;
+  color: #1e293b;
+  display: flex;
+  align-items: center;
 }
-.container .contentContainer p {
+.container .contentContainer h2:before {
+  content: "";
+  width: 4px;
+  height: 18px;
+  background: linear-gradient(to bottom, #3b82f6, #2563eb);
+  margin-right: 10px;
+  border-radius: 2px;
+}
+.container .contentContainer .infoItem {
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
+  padding: 12px 16px;
+  background-color: #f8fafc;
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
+}
+.container .contentContainer .infoItem:hover {
+  background-color: #f1f5f9;
+}
+.container .contentContainer .infoItem:last-child {
+  margin-bottom: 0;
+}
+.container .contentContainer .infoItem .icon {
+  margin-right: 12px;
+  font-size: 16px;
+  color: #64748b;
+  min-width: 18px;
+}
+.container .contentContainer .infoItem .label {
+  font-weight: 500;
+  color: #475569;
+  min-width: 80px;
+  font-size: 15px;
+}
+.container .contentContainer .infoItem .value {
+  color: #1e293b;
+  font-weight: 500;
+  font-size: 15px;
+}
+.container .contentContainer .infoItem a {
+  color: #3b82f6;
+  text-decoration: underline;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  font-size: 15px;
+}
+.container .contentContainer .infoItem a:hover {
+  color: #2563eb;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 2px;
+  transform: translateX(2px);
+}
+.container .contentContainer .infoItem a:active {
+  transform: translateX(0);
 }
 .container .contentContainer .status {
   position: relative;
@@ -29,82 +91,258 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 10px;
+  padding: 16px;
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
 }
-.container .contentContainer .status p {
+.container .contentContainer .status .statusInfo {
   display: flex;
-  justify-content: flex-start;
   align-items: center;
   margin-bottom: 0;
+  font-size: 15px;
 }
-.container .contentContainer .status .switch {
-  position: absolute;
-  right: 0;
+.container .contentContainer .status .statusInfo .statusBadge {
   background: linear-gradient(to right, #3b82f6, #2563eb);
+  color: white;
+  padding: 4px 10px;
+  border-radius: 14px;
+  font-size: 12px;
+  font-weight: 500;
+  margin-left: 8px;
+}
+.container .contentContainer .status .switchButton {
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
   color: white;
   border: none;
-  padding: 6px 10px;
-  border-radius: 5px;
+  padding: 8px 16px;
+  border-radius: 8px;
   cursor: pointer;
   font-size: 14px;
-  transition: background-color 0.3s ease;
-}
-.container .contentContainer .status .switch:hover {
-  opacity: 0.8;
-}
-.container .contentContainer .content {
-  width: 100%;
-  padding: 10px;
-  display: flex;
-  justify-content: space-between;
-}
-.container .contentContainer .content p {
-  font-size: 18px;
-  font-weight: 600;
-  margin-bottom: 5px;
-}
-.container .contentContainer .content .title {
-  color: gray;
-}
-.container .contentContainer .functions {
-  width: 100%;
-  padding: 10px 15px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.container .contentContainer .functions button {
-  width: 48%;
-  max-width: 300px;
-  padding: 15px 0;
-  border-radius: 8px;
-  box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
-  font-size: 18px;
   font-weight: 500;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+.container .contentContainer .status .switchButton:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+.container .contentContainer .status .switchButton:active {
+  transform: translateY(0);
+}
+.container .contentContainer .statsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-top: 8px;
+}
+.container .contentContainer .statsGrid .statCard {
+  padding: 12px 8px;
+  background: white;
+  border-radius: 6px;
+  text-align: center;
+  border: 1px solid #e2e8f0;
+  transition: all 0.2s ease;
+}
+.container .contentContainer .statsGrid .statCard:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+.container .contentContainer .statsGrid .statCard .statValue {
+  font-size: 24px;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 4px;
+  display: block;
+}
+.container .contentContainer .statsGrid .statCard .statLabel {
+  font-size: 13px;
+  color: #64748b;
+  font-weight: 500;
+}
+.container .contentContainer .statsGrid .statCard.highlight {
+  background: #f0f9ff;
+  border-color: #3b82f6;
+}
+.container .contentContainer .statsGrid .statCard.highlight .statValue {
+  color: #1d4ed8;
+}
+.container .contentContainer .statsGrid .statCard.warning {
+  background: #fffbeb;
+  border-color: #f59e0b;
+}
+.container .contentContainer .statsGrid .statCard.warning .statValue {
+  color: #d97706;
+}
+.container .contentContainer .actionButtons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 8px;
+}
+.container .contentContainer .actionButtons .actionButton {
+  padding: 16px 24px;
+  border-radius: 10px;
+  border: none;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  min-height: 48px;
+}
+.container .contentContainer .actionButtons .actionButton:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+.container .contentContainer .actionButtons .actionButton:active {
+  transform: translateY(0);
+}
+.container .contentContainer .actionButtons .actionButton.primary {
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
   color: white;
 }
-.container .contentContainer .functions .switch {
-  background: linear-gradient(to right, #3b82f6, #2563eb);
+.container .contentContainer .actionButtons .actionButton.success {
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  color: white;
 }
-.container .contentContainer .functions .sign {
-  background: linear-gradient(to right, #22c55e, #16a34a);
+.container .contentContainer .actionButtons .actionButton.danger {
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  color: white;
 }
-.container .contentContainer .functions .del {
-  background: linear-gradient(to right, #ea580c, #ef4444);
+.container .contentContainer .actionButtons .actionButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+.container .contentContainer .actionButtons .actionButton:disabled:hover {
+  transform: none;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .shareContainer {
   width: 100%;
-  padding: 15px;
-  background-color: white;
-  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
-  border-radius: 8px;
-  margin-bottom: 20px;
+  padding: 24px 28px;
+  background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+  border: 2px dashed #3b82f6;
+  border-radius: 10px;
+  margin-bottom: 16px;
   display: flex;
   align-items: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-height: 90px;
 }
-.shareContainer p {
+.shareContainer:hover {
+  background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.2);
+}
+.shareContainer .shareIcon {
+  margin-right: 20px;
+  font-size: 32px;
+  color: #3b82f6;
+  transition: transform 0.2s ease;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 50%;
+}
+.shareContainer:hover .shareIcon {
+  transform: scale(1.15) rotate(5deg);
+  background: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+.shareContainer .shareText {
   margin-bottom: 0;
-  font-size: 16px;
-  font-weight: 300;
+  font-size: 18px;
+  font-weight: 600;
+  color: #1e40af;
+  transition: color 0.2s ease;
+  flex: 1;
+  line-height: 1.4;
+}
+.shareContainer .shareText.copied {
+  color: #059669;
+}
+.shareContainer .copyBadge {
+  margin-left: auto;
+  background: #059669;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 24px;
+  font-size: 14px;
+  font-weight: 600;
+  animation: pulse 1s ease-in-out;
+}
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 12px;
+  }
+  .container .contentContainer {
+    padding: 16px;
+  }
+  .container .contentContainer .infoItem .label {
+    min-width: 70px;
+    font-size: 14px;
+  }
+  .container .contentContainer .infoItem .value {
+    font-size: 14px;
+  }
+  .container .contentContainer .infoItem a {
+    font-size: 14px;
+  }
+  .container .contentContainer .statsGrid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+  }
+  .container .contentContainer .statsGrid .statCard {
+    padding: 10px 6px;
+  }
+  .container .contentContainer .statsGrid .statCard .statValue {
+    font-size: 20px;
+  }
+  .container .contentContainer .statsGrid .statCard .statLabel {
+    font-size: 12px;
+  }
+  .container .contentContainer .actionButtons {
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .container .contentContainer .actionButtons .actionButton {
+    padding: 14px 18px;
+    font-size: 15px;
+    min-height: 44px;
+  }
+  .container .shareContainer {
+    padding: 20px 24px;
+    min-height: 80px;
+  }
+  .container .shareContainer .shareIcon {
+    font-size: 28px;
+    margin-right: 16px;
+    padding: 8px;
+  }
+  .container .shareContainer .shareText {
+    font-size: 16px;
+  }
+  .container .shareContainer .copyBadge {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
 }/*# sourceMappingURL=Basic.module.css.map */

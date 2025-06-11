@@ -11,7 +11,7 @@
     map-get($brand-colors, "from-blue") 0%,
     map-get($brand-colors, "to-blue") 100%
   );
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 20px rgba(59, 130, 246, 0.3);
   padding: 15px;
 
   .nav {
@@ -19,13 +19,13 @@
     display: flex;
     justify-content: flex-start;
     align-items: center;
+    margin-bottom: 15px;
 
     p {
       margin: 0 0 0 15px;
-      font-size: 18px;
-      font-weight: 800;
+      font-size: 20px;
+      font-weight: 700;
       color: white;
-      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
   }
 
@@ -35,50 +35,70 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 15px;
-    gap: 10px;
+    gap: 12px;
 
-    input {
+    .searchContainer {
+      position: relative;
       flex: 1;
-      background: rgba(255, 255, 255, 0.15);
-      backdrop-filter: blur(20px);
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      border-radius: 12px;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-      padding: 12px 12px 12px 45px;
-      color: #fff;
-      font-size: 14px;
-      font-weight: 500;
 
-      &::placeholder {
-        color: rgba(255, 255, 255, 0.8);
-        font-weight: 500;
+      .searchIcon {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        left: 12px;
+        z-index: 2;
+        color: map-get($neutral-colors, text-gray-500);
       }
 
-      &:focus {
-        outline: none;
-        border-color: rgba(255, 255, 255, 0.5);
-        background: rgba(255, 255, 255, 0.2);
+      input {
+        width: 100%;
+        background: white;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 12px;
+        padding: 12px 12px 12px 40px;
+        color: #1e293b;
+        font-size: 14px;
+        font-weight: 500;
+        transition: all 0.2s ease;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+        &::placeholder {
+          color: map-get($neutral-colors, text-gray-500);
+          font-weight: 500;
+        }
+
+        &:focus {
+          outline: none;
+          border-color: rgba(255, 255, 255, 0.4);
+          background: white;
+          box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.2), 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
       }
     }
 
-    button {
+    .filterBtn {
       padding: 12px;
       border-radius: 12px;
       background: rgba(255, 255, 255, 0.15);
-      backdrop-filter: blur(20px);
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-      color: #fff;
-      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: white;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
 
       &:hover {
         background: rgba(255, 255, 255, 0.25);
+        border-color: rgba(255, 255, 255, 0.4);
         transform: translateY(-1px);
       }
 
-      &:active {
-        transform: translateY(0);
+      &.active {
+        background: white;
+        border-color: white;
+        color: map-get($brand-colors, from-blue);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
       }
     }
   }
@@ -86,7 +106,7 @@
 
 .count {
   position: absolute;
-  top: 135px;
+  top: 145px;
   left: 0;
   width: 100%;
   padding: 15px 20px;
@@ -116,13 +136,13 @@
 
 .listContainer {
   position: absolute;
-  top: 195px;
+  top: 205px;
   left: 0;
   width: 100%;
   padding: 15px;
   padding-bottom: 50px;
   background-color: #f8fafc;
-  min-height: calc(100vh - 195px);
+  min-height: calc(100vh - 205px);
 
   .bookContainer {
     position: relative;
@@ -223,5 +243,192 @@
 
   &:active {
     transform: translateY(0);
+  }
+}
+
+// 優化 Offcanvas 樣式
+.filterOffcanvas {
+  .offcanvasHeader {
+    background: white;
+    border-bottom: 1px solid map-get($neutral-colors, border-gray-100);
+    padding: 20px 24px;
+
+    .offcanvasTitle {
+      font-size: 18px;
+      font-weight: 600;
+      color: #1e293b;
+    }
+
+    .btn-close {
+      opacity: 0.6;
+
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
+
+  .offcanvasBody {
+    padding: 24px;
+    background: map-get($neutral-colors, bg-gray-50);
+  }
+}
+
+.dateFilterContainer {
+  width: 100%;
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  margin-bottom: 20px;
+
+  .filterTitle {
+    font-size: 16px;
+    font-weight: 600;
+    color: #1e293b;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .dateInputs {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    .inputGroup {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+
+      label {
+        font-size: 14px;
+        font-weight: 500;
+        color: map-get($neutral-colors, text-gray-600);
+      }
+
+      input {
+        padding: 12px;
+        border: 1px solid map-get($neutral-colors, border-gray-300);
+        border-radius: 8px;
+        font-size: 14px;
+        transition: all 0.2s ease;
+
+        &:focus {
+          outline: none;
+          border-color: map-get($brand-colors, from-blue);
+          box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+      }
+    }
+  }
+
+  .quickFilters {
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid map-get($neutral-colors, border-gray-100);
+
+    .quickTitle {
+      font-size: 14px;
+      font-weight: 500;
+      color: map-get($neutral-colors, text-gray-600);
+      margin-bottom: 12px;
+    }
+
+    .quickButtons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+
+      button {
+        padding: 8px 12px;
+        border: 1px solid map-get($neutral-colors, border-gray-300);
+        border-radius: 20px;
+        background: white;
+        color: map-get($neutral-colors, text-gray-600);
+        font-size: 12px;
+        font-weight: 500;
+        transition: all 0.2s ease;
+
+        &:hover {
+          border-color: map-get($brand-colors, from-blue);
+          color: map-get($brand-colors, from-blue);
+        }
+
+        &.active {
+          background: map-get($brand-colors, from-blue);
+          border-color: map-get($brand-colors, from-blue);
+          color: white;
+        }
+      }
+    }
+  }
+}
+
+.filterActions {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+
+  .clearBtn {
+    flex: 1;
+    padding: 12px;
+    border: 1px solid map-get($neutral-colors, border-gray-300);
+    border-radius: 8px;
+    background: white;
+    color: map-get($neutral-colors, text-gray-600);
+    font-size: 16px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background: map-get($neutral-colors, bg-gray-50);
+    }
+  }
+
+  .applyBtn {
+    flex: 2;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    background: linear-gradient(135deg, map-get($brand-colors, from-blue) 0%, map-get($brand-colors, to-blue) 100%);
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+
+    &:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+    }
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+  }
+}
+
+// 搜尋結果提示
+.searchResults {
+  position: absolute;
+  top: 120px;
+  left: 0;
+  width: 100%;
+  padding: 12px 20px;
+  background: rgba(59, 130, 246, 0.05);
+  border-left: 4px solid map-get($brand-colors, from-blue);
+  margin: 0 15px;
+  width: calc(100% - 30px);
+  border-radius: 0 8px 8px 0;
+
+  p {
+    font-size: 14px;
+    font-weight: 500;
+    color: map-get($brand-colors, from-blue);
+    margin: 0;
   }
 }
