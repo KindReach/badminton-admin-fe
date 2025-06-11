@@ -20,10 +20,10 @@ const Category = ({ title, category, setCategory, amountOfMember }: Props) => {
     <p
       onClick={() => setCategory(title)}
       style={{
-        color: `${title === category ? `rgba(0, 123, 255, 1)` : "gray"}`,
+        color: `${title === category ? `#3b82f6` : "gray"}`,
         borderBottom: `${
           title === category
-            ? "1.5px solid rgba(0, 123, 255, 1)"
+            ? "1.5px solid #3b82f6"
             : "0px solid gray"
         }`,
       }}

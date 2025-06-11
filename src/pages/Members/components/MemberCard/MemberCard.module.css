@@ -1,46 +1,55 @@
 .memberContainer {
   position: relative;
   width: 100%;
-  padding: 14px 18px;
+  padding: 16px 20px;
   background-color: white;
-  box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
-  border-radius: 8px;
-  margin-bottom: 3px;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px, rgba(0, 0, 0, 0.02) 0px 2px 4px;
+  border-radius: 12px;
+  margin-bottom: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.memberContainer:hover {
+  transform: translateY(-1px);
+  box-shadow: rgba(59, 130, 246, 0.15) 0px 0px 0px 1px, rgba(59, 130, 246, 0.1) 0px 4px 12px;
 }
 .memberContainer .profile {
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  padding: 5px;
+  padding: 6px;
 }
 .memberContainer .profile .headContainer {
-  width: 45px;
-  height: 45px;
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
+  overflow: hidden;
+  box-shadow: rgba(59, 130, 246, 0.2) 0px 2px 8px;
 }
 .memberContainer .profile .headContainer img {
   width: 100%;
   height: 100%;
   border-radius: 50%;
-  -o-object-fit: contain;
-     object-fit: contain;
+  -o-object-fit: cover;
+     object-fit: cover;
 }
 .memberContainer .profile .description {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  margin-left: 10px;
+  margin-left: 14px;
 }
 .memberContainer .profile .description h2 {
-  font-size: 20px;
-  font-weight: 800;
-  margin-bottom: 5px;
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 4px;
+  color: #1e293b;
 }
-.memberContainer .profile .description p {
-  font-size: 14px;
-  font-weight: 800;
-  color: gray;
+.memberContainer .profile .description .time {
+  font-size: 13px;
+  font-weight: 500;
+  color: #6b7280;
   margin: 0;
 }
 .memberContainer .functions {
@@ -48,45 +57,172 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-top: 0.8px solid darkgray;
-  padding: 10px 0 0 0;
+  border-top: 1px solid #ecf0f1;
+  padding: 12px 0 0 0;
+  margin-top: 8px;
 }
 .memberContainer .functions p {
-  font-size: 14px;
-  font-weight: 800;
-  color: gray;
+  font-size: 13px;
+  font-weight: 600;
+  color: #4b5563;
   display: flex;
   align-items: center;
   margin-bottom: 0;
 }
+.memberContainer .functions .rate {
+  color: #ef4444;
+  font-weight: 700;
+}
 .memberContainer .state {
   position: absolute;
-  top: 10px;
-  right: 10px;
-  width: -moz-fit-content;
-  width: fit-content;
-  padding: 3px 6px;
-  border-radius: 12px;
-  font-size: 12px;
-  font-weight: 800;
+  top: 12px;
+  right: 40px;
+  padding: 4px 8px;
+  border-radius: 16px;
+  font-size: 11px;
+  font-weight: 700;
   display: flex;
   align-items: center;
+  gap: 4px;
+}
+.memberContainer .state span {
+  margin-left: 2px;
+}
+.memberContainer .arrowIcon {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 12px;
+  font-size: 20px;
+  color: #6b7280;
+  transition: color 0.2s ease;
+}
+.memberContainer:hover .arrowIcon {
+  color: #3b82f6;
 }
 
-.components {
-  position: relative;
-  width: 100%;
-  padding: 10px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.customOffcanvas .offcanvasHeader {
+  border-bottom: 1px solid #f3f4f6;
+  padding: 20px 24px;
+  background: white;
+  color: #1e293b;
 }
-.components .blockBtn {
-  width: 90%;
-  max-width: 400px;
-  padding: 10px;
-  border-radius: 8px;
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+.customOffcanvas .offcanvasHeader .btn-close {
+  filter: none;
+  opacity: 0.6;
+}
+.customOffcanvas .offcanvasHeader .btn-close:hover {
+  opacity: 1;
+}
+.customOffcanvas .offcanvasTitle {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1e293b;
+}
+.customOffcanvas .offcanvasBody {
+  padding: 0;
+  background-color: #f9fafb;
+}
+
+.memberDetails {
+  padding: 24px;
+}
+.memberDetails .memberInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 24px;
+  padding: 20px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: rgba(59, 130, 246, 0.08) 0px 4px 16px;
+}
+.memberDetails .memberInfo .largeAvatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  margin-bottom: 12px;
+  box-shadow: rgba(59, 130, 246, 0.25) 0px 6px 20px;
+  border: 3px solid rgba(59, 130, 246, 0.1);
+}
+.memberDetails .memberInfo h3 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 8px;
+}
+.memberDetails .memberInfo .statusBadge {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.memberDetails .stats {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: rgba(59, 130, 246, 0.08) 0px 4px 16px;
+}
+.memberDetails .stats .statItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid #f3f4f6;
+}
+.memberDetails .stats .statItem:last-child {
+  border-bottom: none;
+}
+.memberDetails .stats .statItem .statLabel {
+  font-size: 14px;
+  font-weight: 600;
+  color: #6b7280;
+}
+.memberDetails .stats .statItem .statValue {
   font-size: 16px;
-  font-weight: 900;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.actions {
+  padding: 24px;
+  background: white;
+  border-top: 1px solid #f3f4f6;
+}
+.actions .actionBtn {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 2px 4px;
+}
+.actions .actionBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+.actions .actionBtn.blockBtn {
+  background-color: #ef4444;
+  color: white;
+}
+.actions .actionBtn.blockBtn:hover:not(:disabled) {
+  background-color: #dc2626;
+  transform: translateY(-1px);
+  box-shadow: rgba(239, 68, 68, 0.3) 0px 4px 12px;
+}
+.actions .actionBtn.unblockBtn {
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+  color: white;
+}
+.actions .actionBtn.unblockBtn:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: rgba(59, 130, 246, 0.3) 0px 4px 12px;
 }/*# sourceMappingURL=MemberCard.module.css.map */

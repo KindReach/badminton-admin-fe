@@ -1,28 +1,43 @@
+@import '../../../../assets/styles/config.scss';
+
 .memberContainer {
   position: relative;
   width: 100%;
-  padding: 14px 18px;
+  padding: 16px 20px;
   background-color: white;
-  box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
-  border-radius: 8px;
-  margin-bottom: 3px;
+  box-shadow: 
+    rgba(0, 0, 0, 0.05) 0px 0px 0px 1px,
+    rgba(0, 0, 0, 0.02) 0px 2px 4px;
+  border-radius: 12px;
+  margin-bottom: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: 
+      rgba(59, 130, 246, 0.15) 0px 0px 0px 1px,
+      rgba(59, 130, 246, 0.1) 0px 4px 12px;
+  }
 
   .profile {
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    padding: 5px;
+    padding: 6px;
 
     .headContainer {
-      width: 45px;
-      height: 45px;
+      width: 50px;
+      height: 50px;
       border-radius: 50%;
+      overflow: hidden;
+      box-shadow: rgba(59, 130, 246, 0.2) 0px 2px 8px;
 
       img {
         width: 100%;
         height: 100%;
         border-radius: 50%;
-        object-fit: contain;
+        object-fit: cover;
       }
     }
 
@@ -31,17 +46,19 @@
       flex-direction: column;
       justify-content: center;
       align-items: flex-start;
-      margin-left: 10px;
+      margin-left: 14px;
+      
       h2 {
-        font-size: 20px;
-        font-weight: 800;
-        margin-bottom: 5px;
+        font-size: 18px;
+        font-weight: 700;
+        margin-bottom: 4px;
+        color: #1e293b;
       }
 
-      p {
-        font-size: 14px;
-        font-weight: 800;
-        color: gray;
+      .time {
+        font-size: 13px;
+        font-weight: 500;
+        color: map-get($neutral-colors, text-gray-500);
         margin: 0;
       }
     }
@@ -52,52 +69,200 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-top: 0.8px solid darkgray;
-    padding: 10px 0 0 0;
+    border-top: 1px solid #ecf0f1;
+    padding: 12px 0 0 0;
+    margin-top: 8px;
 
     p {
-      font-size: 14px;
-      font-weight: 800;
-      color: gray;
+      font-size: 13px;
+      font-weight: 600;
+      color: map-get($neutral-colors, text-gray-600);
       display: flex;
       align-items: center;
       margin-bottom: 0;
+    }
+
+    .rate {
+      color: map-get($function-colors, text-red-500);
+      font-weight: 700;
     }
   }
 
   .state {
     position: absolute;
-    top: 10px;
-    right: 10px;
-    width: fit-content;
-    padding: 3px 6px;
-    border-radius: 12px;
-    font-size: 12px;
-    font-weight: 800;
+    top: 12px;
+    right: 40px;
+    padding: 4px 8px;
+    border-radius: 16px;
+    font-size: 11px;
+    font-weight: 700;
     display: flex;
     align-items: center;
+    gap: 4px;
+
+    span {
+      margin-left: 2px;
+    }
+  }
+
+  .arrowIcon {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 12px;
+    font-size: 20px;
+    color: map-get($neutral-colors, text-gray-500);
+    transition: color 0.2s ease;
+  }
+
+  &:hover .arrowIcon {
+    color: map-get($brand-colors, text-blue-500);
   }
 }
 
-.components {
-  position: relative;
-  width: 100%;
-  padding: 10px;
+// Offcanvas 客製化樣式
+.customOffcanvas {
+  .offcanvasHeader {
+    border-bottom: 1px solid map-get($neutral-colors, border-gray-100);
+    padding: 20px 24px;
+    background: white;
+    color: #1e293b;
 
-  display: flex;
-  justify-content: center;
-  align-items: center;
+    .btn-close {
+      filter: none;
+      opacity: 0.6;
+      
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
 
-  .blockBtn {
-    width: 90%;
-    max-width: 400px;
-    padding: 10px;
+  .offcanvasTitle {
+    font-size: 18px;
+    font-weight: 600;
+    color: #1e293b;
+  }
+
+  .offcanvasBody {
+    padding: 0;
+    background-color: map-get($neutral-colors, bg-gray-50);
+  }
+}
+
+.memberDetails {
+  padding: 24px;
+
+  .memberInfo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 24px;
+    padding: 20px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: rgba(59, 130, 246, 0.08) 0px 4px 16px;
+
+    .largeAvatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 12px;
+      box-shadow: rgba(59, 130, 246, 0.25) 0px 6px 20px;
+      border: 3px solid rgba(59, 130, 246, 0.1);
+    }
+
+    h3 {
+      font-size: 24px;
+      font-weight: 700;
+      color: #1e293b;
+      margin-bottom: 8px;
+    }
+
+    .statusBadge {
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+  }
+
+  .stats {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: rgba(59, 130, 246, 0.08) 0px 4px 16px;
+
+    .statItem {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 0;
+      border-bottom: 1px solid map-get($neutral-colors, border-gray-100);
+
+      &:last-child {
+        border-bottom: none;
+      }
+
+      .statLabel {
+        font-size: 14px;
+        font-weight: 600;
+        color: map-get($neutral-colors, text-gray-500);
+      }
+
+      .statValue {
+        font-size: 16px;
+        font-weight: 700;
+        color: #1e293b;
+      }
+    }
+  }
+}
+
+.actions {
+  padding: 24px;
+  background: white;
+  border-top: 1px solid map-get($neutral-colors, border-gray-100);
+
+  .actionBtn {
+    width: 100%;
+    padding: 14px;
+    border: none;
     border-radius: 8px;
-    box-shadow:
-      rgba(0, 0, 0, 0.1) 0px 1px 3px 0px,
-      rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
-
     font-size: 16px;
-    font-weight: 900;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 2px 4px;
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    &.blockBtn {
+      background-color: map-get($function-colors, text-red-500);
+      color: white;
+
+      &:hover:not(:disabled) {
+        background-color: #dc2626;
+        transform: translateY(-1px);
+        box-shadow: rgba(239, 68, 68, 0.3) 0px 4px 12px;
+      }
+    }
+
+    &.unblockBtn {
+      background: linear-gradient(135deg, map-get($brand-colors, from-blue) 0%, map-get($brand-colors, to-blue) 100%);
+      color: white;
+
+      &:hover:not(:disabled) {
+        transform: translateY(-1px);
+        box-shadow: rgba(59, 130, 246, 0.3) 0px 4px 12px;
+      }
+    }
   }
 }
