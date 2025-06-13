@@ -3,6 +3,8 @@ import styles from "./Login.module.css";
 import { Button, Form, InputGroup } from "react-bootstrap";
 import { MdEmail } from "react-icons/md";
 import { RiLockPasswordLine } from "react-icons/ri";
+import { Eye, EyeOff } from "lucide-react";
+import { GiShuttlecock } from "react-icons/gi";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { apiPrefixWithoutAuth, auth } from "@/utils/firebase";
 import { useDispatch } from "react-redux";
@@ -20,6 +22,7 @@ const Login = () => {
   const brandName = "KindReach";
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const [emailError, setEmailError] = useState<boolean>(false);
   const dispatch = useDispatch();
@@ -102,11 +105,33 @@ const Login = () => {
 
   return (
     <div className={styles.container}>
+      {/* 背景動畫裝飾 */}
+      <div className={styles.backgroundAnimation}>
+        <div className={`${styles.floatingCircle} ${styles.circle1}`}></div>
+        <div className={`${styles.floatingCircle} ${styles.circle2}`}></div>
+        <div className={`${styles.floatingCircle} ${styles.circle3}`}></div>
+        <div className={`${styles.floatingCircle} ${styles.circle4}`}></div>
+        <div className={`${styles.floatingCircle} ${styles.circle5}`}></div>
+        
+        {/* 羽毛球圖標 */}
+        <div className={`${styles.shuttlecock} ${styles.shuttlecock1}`}>
+          <GiShuttlecock />
+        </div>
+        <div className={`${styles.shuttlecock} ${styles.shuttlecock2}`}>
+          <GiShuttlecock />
+        </div>
+        <div className={`${styles.shuttlecock} ${styles.shuttlecock3}`}>
+          <GiShuttlecock />
+        </div>
+      </div>
+
       <div className={styles.brandContainer}>
         <img src={Logo} alt="brand" />
         <h2>{brandName}</h2>
-        <p>快樂趣打球管理員</p>
+        <h3>快樂趣羽球揪團系統</h3>
+        <p>團主 & 教練</p>
       </div>
+      
       <Form onSubmit={handleLogin} className={styles.formContainer}>
         <InputGroup className="mb-3" hasValidation>
           <InputGroup.Text
@@ -147,17 +172,28 @@ const Login = () => {
             <RiLockPasswordLine className="text-muted" />
           </InputGroup.Text>
           <Form.Control
-            type="password"
+            type={showPassword ? "text" : "password"}
             placeholder="密碼"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="border-start-0"
+            className="border-start-0 border-end-0"
             style={{
-              borderRadius: "0 50px 50px 0",
+              borderRadius: "0",
               border: "2px solid #e8e8e8",
             }}
             required
           />
+          <InputGroup.Text
+            className={`bg-white border-start-0 ${styles.passwordToggle}`}
+            style={{ borderRadius: "0 50px 50px 0", cursor: "pointer" }}
+            onClick={() => setShowPassword(!showPassword)}
+          >
+            {showPassword ? (
+              <EyeOff size={18} className="text-muted" />
+            ) : (
+              <Eye size={18} className="text-muted" />
+            )}
+          </InputGroup.Text>
         </InputGroup>
 
         <Button
