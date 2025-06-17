@@ -110,6 +110,7 @@ const Members = () => {
               is_blocked={item.is_blocked}
               add_time={item.add_time}
               setUpdateStatus={setUpdateStatus}
+              membership_plan={item.membership_plan}
               key={index}
             />
           ))}

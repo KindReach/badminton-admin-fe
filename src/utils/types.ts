@@ -6,6 +6,7 @@ export interface MemberProps {
   amount_of_no_show: number;
   amount_of_book: number;
   add_time: string;
+  membership_plan: string; // 新增會員方案欄位
 }
 
 export interface CreateSessionType {

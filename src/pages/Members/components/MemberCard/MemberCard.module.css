@@ -1,30 +1,28 @@
 .memberContainer {
   position: relative;
   width: 100%;
-  padding: 16px 20px;
+  padding: 20px;
   background-color: white;
-  box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px, rgba(0, 0, 0, 0.02) 0px 2px 4px;
-  border-radius: 12px;
-  margin-bottom: 8px;
+  box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+  border-radius: 16px;
+  margin-bottom: 12px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .memberContainer:hover {
-  transform: translateY(-1px);
-  box-shadow: rgba(59, 130, 246, 0.15) 0px 0px 0px 1px, rgba(59, 130, 246, 0.1) 0px 4px 12px;
+  transform: translateY(-2px);
+  box-shadow: rgba(59, 130, 246, 0.1) 0px 0px 0px 1px, rgba(59, 130, 246, 0.08) 0px 10px 25px -5px, rgba(0, 0, 0, 0.05) 0px 10px 10px -5px;
 }
 .memberContainer .profile {
   display: flex;
-  justify-content: flex-start;
   align-items: center;
-  padding: 6px;
+  margin-bottom: 16px;
 }
 .memberContainer .profile .headContainer {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  overflow: hidden;
-  box-shadow: rgba(59, 130, 246, 0.2) 0px 2px 8px;
+  position: relative;
+  width: 56px;
+  height: 56px;
+  margin-right: 16px;
 }
 .memberContainer .profile .headContainer img {
   width: 100%;
@@ -32,19 +30,45 @@
   border-radius: 50%;
   -o-object-fit: cover;
      object-fit: cover;
+  border: 3px solid rgba(59, 130, 246, 0.1);
+}
+.memberContainer .profile .headContainer .membershipBadge {
+  position: absolute;
+  bottom: -2px;
+  right: -2px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid white;
+  color: white;
+  font-size: 10px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 2px 4px;
 }
 .memberContainer .profile .description {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  margin-left: 14px;
+  flex: 1;
 }
-.memberContainer .profile .description h2 {
+.memberContainer .profile .description .nameRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 4px;
+}
+.memberContainer .profile .description .nameRow h2 {
   font-size: 18px;
   font-weight: 700;
-  margin-bottom: 4px;
   color: #1e293b;
+  margin: 0;
+}
+.memberContainer .profile .description .nameRow .membershipLabel {
+  padding: 4px 8px;
+  border-radius: 8px;
+  font-size: 11px;
+  font-weight: 600;
+  border: 1px solid;
+  white-space: nowrap;
 }
 .memberContainer .profile .description .time {
   font-size: 13px;
@@ -53,52 +77,56 @@
   margin: 0;
 }
 .memberContainer .functions {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-top: 1px solid #ecf0f1;
-  padding: 12px 0 0 0;
-  margin-top: 8px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  padding: 16px 0;
+  border-top: 1px solid #f1f5f9;
+  border-bottom: 1px solid #f1f5f9;
 }
-.memberContainer .functions p {
-  font-size: 13px;
-  font-weight: 600;
-  color: #4b5563;
+.memberContainer .functions .statGroup {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  margin-bottom: 0;
+  text-align: center;
 }
-.memberContainer .functions .rate {
-  color: #ef4444;
+.memberContainer .functions .statGroup .statNumber {
+  font-size: 18px;
   font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 2px;
+}
+.memberContainer .functions .statGroup .statNumber.rateNumber {
+  color: #ef4444;
+}
+.memberContainer .functions .statGroup .statLabel {
+  font-size: 12px;
+  font-weight: 500;
+  color: #6b7280;
 }
 .memberContainer .state {
   position: absolute;
-  top: 12px;
-  right: 40px;
-  padding: 4px 8px;
-  border-radius: 16px;
+  top: 16px;
+  right: 16px;
+  padding: 6px 10px;
+  border-radius: 20px;
   font-size: 11px;
-  font-weight: 700;
+  font-weight: 600;
   display: flex;
   align-items: center;
   gap: 4px;
-}
-.memberContainer .state span {
-  margin-left: 2px;
+  border: 1px solid currentColor;
 }
 .memberContainer .arrowIcon {
   position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  right: 12px;
+  bottom: 16px;
+  right: 16px;
   font-size: 20px;
-  color: #6b7280;
-  transition: color 0.2s ease;
+  transition: all 0.2s ease;
 }
 .memberContainer:hover .arrowIcon {
   color: #3b82f6;
+  transform: translateX(2px);
 }
 
 .customOffcanvas .offcanvasHeader {
@@ -132,39 +160,73 @@
   flex-direction: column;
   align-items: center;
   margin-bottom: 24px;
-  padding: 20px;
+  padding: 24px;
   background: white;
-  border-radius: 12px;
+  border-radius: 16px;
   box-shadow: rgba(59, 130, 246, 0.08) 0px 4px 16px;
 }
-.memberDetails .memberInfo .largeAvatar {
+.memberDetails .memberInfo .avatarContainer {
+  position: relative;
+  margin-bottom: 16px;
+}
+.memberDetails .memberInfo .avatarContainer .largeAvatar {
   width: 80px;
   height: 80px;
   border-radius: 50%;
   -o-object-fit: cover;
      object-fit: cover;
-  margin-bottom: 12px;
-  box-shadow: rgba(59, 130, 246, 0.25) 0px 6px 20px;
-  border: 3px solid rgba(59, 130, 246, 0.1);
+  border: 4px solid rgba(59, 130, 246, 0.1);
+}
+.memberDetails .memberInfo .avatarContainer .largeMembershipBadge {
+  position: absolute;
+  bottom: -4px;
+  right: -4px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 3px solid white;
+  color: white;
+  font-size: 14px;
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 4px 8px;
 }
 .memberDetails .memberInfo h3 {
   font-size: 24px;
   font-weight: 700;
   color: #1e293b;
-  margin-bottom: 8px;
+  margin-bottom: 12px;
 }
-.memberDetails .memberInfo .statusBadge {
-  padding: 6px 12px;
+.memberDetails .memberInfo .badgeContainer {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.memberDetails .memberInfo .badgeContainer .statusBadge {
+  padding: 8px 12px;
   border-radius: 20px;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 600;
   display: flex;
   align-items: center;
   gap: 6px;
+  border: 1px solid currentColor;
+}
+.memberDetails .memberInfo .badgeContainer .membershipDisplay {
+  padding: 8px 12px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid;
 }
 .memberDetails .stats {
   background: white;
-  border-radius: 12px;
+  border-radius: 16px;
   padding: 20px;
   box-shadow: rgba(59, 130, 246, 0.08) 0px 4px 16px;
 }
@@ -172,7 +234,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 12px 0;
+  padding: 16px 0;
   border-bottom: 1px solid #f3f4f6;
 }
 .memberDetails .stats .statItem:last-child {
@@ -181,12 +243,167 @@
 .memberDetails .stats .statItem .statLabel {
   font-size: 14px;
   font-weight: 600;
-  color: #6b7280;
+  color: #4b5563;
 }
 .memberDetails .stats .statItem .statValue {
   font-size: 16px;
   font-weight: 700;
   color: #1e293b;
+}
+.memberDetails .stats .statItem .membershipDropdown {
+  border: none;
+  border-radius: 12px;
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 8px 16px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 2px 8px;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.memberDetails .stats .statItem .membershipDropdown:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 4px 12px;
+}
+.memberDetails .stats .statItem .membershipDropdown:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+.memberDetails .stats .statItem .membershipDropdown::after {
+  margin-left: 8px;
+}
+.memberDetails .stats .statItem .membershipSwitcher {
+  position: relative;
+}
+.memberDetails .stats .statItem .membershipSwitcher .membershipButton {
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 0;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  min-width: 120px;
+}
+.memberDetails .stats .statItem .membershipSwitcher .membershipButton:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 6px;
+}
+.memberDetails .stats .statItem .membershipSwitcher .membershipButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+.memberDetails .stats .statItem .membershipSwitcher .membershipButton .membershipButtonContent {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 10px;
+}
+.memberDetails .stats .statItem .membershipSwitcher .membershipButton .membershipButtonContent .membershipButtonIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+}
+.memberDetails .stats .statItem .membershipSwitcher .membershipButton .membershipButtonContent .membershipButtonText {
+  flex: 1;
+  text-align: left;
+}
+.memberDetails .stats .statItem .membershipSwitcher .membershipButton .membershipButtonContent .membershipButtonArrow {
+  transition: transform 0.2s ease;
+}
+.memberDetails .stats .statItem .membershipSwitcher .membershipButton .membershipButtonContent .membershipButtonArrow.rotated {
+  transform: rotate(180deg);
+}
+.memberDetails .stats .statItem .membershipSwitcher .membershipDropdownMenu {
+  position: absolute;
+  left: 0;
+  right: 0;
+  background: white;
+  border-radius: 8px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 16px, rgba(0, 0, 0, 0.05) 0px 1px 4px;
+  padding: 4px;
+  z-index: 1000;
+  animation: dropdownFadeIn 0.15s ease-out;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  min-width: 140px;
+}
+.memberDetails .stats .statItem .membershipSwitcher .membershipDropdownMenu.down {
+  top: calc(100% + 4px);
+}
+.memberDetails .stats .statItem .membershipSwitcher .membershipDropdownMenu.up {
+  bottom: calc(100% + 4px);
+}
+@keyframes dropdownFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+.memberDetails .stats .statItem .membershipSwitcher .membershipDropdownMenu .membershipOption {
+  width: 100%;
+  border: none;
+  background: transparent;
+  border-radius: 6px;
+  padding: 8px;
+  margin-bottom: 2px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-align: left;
+}
+.memberDetails .stats .statItem .membershipSwitcher .membershipDropdownMenu .membershipOption:last-child {
+  margin-bottom: 0;
+}
+.memberDetails .stats .statItem .membershipSwitcher .membershipDropdownMenu .membershipOption:hover:not(:disabled) {
+  background: rgba(59, 130, 246, 0.08);
+}
+.memberDetails .stats .statItem .membershipSwitcher .membershipDropdownMenu .membershipOption:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.memberDetails .stats .statItem .membershipSwitcher .membershipDropdownMenu .membershipOption.activeMembershipOption {
+  background: rgba(59, 130, 246, 0.12);
+}
+.memberDetails .stats .statItem .membershipSwitcher .membershipDropdownMenu .membershipOption.activeMembershipOption .membershipOptionLabel {
+  font-weight: 700;
+  color: #1e40af;
+}
+.memberDetails .stats .statItem .membershipSwitcher .membershipDropdownMenu .membershipOption .membershipOptionIcon {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 11px;
+  flex-shrink: 0;
+}
+.memberDetails .stats .statItem .membershipSwitcher .membershipDropdownMenu .membershipOption .membershipOptionLabel {
+  flex: 1;
+  font-size: 13px;
+  font-weight: 500;
+  color: #374151;
+}
+.memberDetails .stats .statItem .membershipSwitcher .membershipDropdownMenu .membershipOption .membershipOptionCheck {
+  color: #059669;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
 }
 
 .actions {
@@ -198,16 +415,17 @@
   width: 100%;
   padding: 14px;
   border: none;
-  border-radius: 8px;
+  border-radius: 12px;
   font-size: 16px;
   font-weight: 700;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   box-shadow: rgba(0, 0, 0, 0.05) 0px 2px 4px;
 }
 .actions .actionBtn:disabled {
   opacity: 0.6;
   cursor: not-allowed;
+  transform: none;
 }
 .actions .actionBtn.blockBtn {
   background-color: #ef4444;
@@ -215,14 +433,43 @@
 }
 .actions .actionBtn.blockBtn:hover:not(:disabled) {
   background-color: #dc2626;
-  transform: translateY(-1px);
-  box-shadow: rgba(239, 68, 68, 0.3) 0px 4px 12px;
+  transform: translateY(-2px);
+  box-shadow: rgba(239, 68, 68, 0.3) 0px 8px 16px;
 }
 .actions .actionBtn.unblockBtn {
   background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
   color: white;
 }
 .actions .actionBtn.unblockBtn:hover:not(:disabled) {
-  transform: translateY(-1px);
-  box-shadow: rgba(59, 130, 246, 0.3) 0px 4px 12px;
+  transform: translateY(-2px);
+  box-shadow: rgba(59, 130, 246, 0.3) 0px 8px 16px;
+}
+
+:global(.dropdown-menu) {
+  border: none;
+  border-radius: 12px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 8px 32px;
+  padding: 8px;
+}
+:global(.dropdown-menu) .dropdown-item {
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+}
+:global(.dropdown-menu) .dropdown-item .dropdownIcon {
+  font-size: 16px;
+}
+:global(.dropdown-menu) .dropdown-item:hover {
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+  color: white;
+  transform: translateX(4px);
+}
+:global(.dropdown-menu) .dropdown-item.activeMembership {
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+  color: white;
+  font-weight: 700;
 }/*# sourceMappingURL=MemberCard.module.css.map */
