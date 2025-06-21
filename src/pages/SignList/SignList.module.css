@@ -137,58 +137,131 @@
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.05);
   margin-bottom: 15px;
   border: 1px solid rgba(0, 0, 0, 0.04);
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
 }
 .listContainer .bookContainer:hover {
-  transform: translateY(-2px);
+  transform: translateY(-4px);
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12), 0 4px 8px rgba(0, 0, 0, 0.08);
 }
-.listContainer .bookContainer:active {
-  transform: translateY(0);
+.listContainer .bookContainer:hover .arrowIcon {
+  opacity: 1;
+  transform: translateX(4px);
 }
-.listContainer .bookContainer h1 {
-  font-size: 18px;
-  font-weight: 800;
-  margin-bottom: 8px;
-  color: #1f2937;
-  padding-right: 80px;
+.listContainer .bookContainer .header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 16px;
 }
-.listContainer .bookContainer h2 {
+.listContainer .bookContainer .header .placeInfo {
+  flex: 1;
+}
+.listContainer .bookContainer .header .placeInfo .placeName {
+  font-size: 20px;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0 0 6px 0;
+}
+.listContainer .bookContainer .header .placeInfo .bookId {
+  font-size: 12px;
+  font-weight: 600;
+  color: #64748b;
+  background: #f1f5f9;
+  padding: 4px 8px;
+  border-radius: 6px;
+}
+.listContainer .bookContainer .header .stateBadge {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  border: 1px solid;
+  white-space: nowrap;
+}
+.listContainer .bookContainer .teamName {
+  font-size: 16px;
+  font-weight: 600;
+  color: #64748b;
+  margin-bottom: 16px;
+}
+.listContainer .bookContainer .timeSection {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+.listContainer .bookContainer .timeSection .timeInfo {
+  display: flex;
+  gap: 20px;
+}
+.listContainer .bookContainer .timeSection .timeInfo .infoItem {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #64748b;
+  font-size: 14px;
+  font-weight: 500;
+}
+.listContainer .bookContainer .timeSection .memberInfo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 120px;
+}
+.listContainer .bookContainer .timeSection .memberInfo .memberCount {
   font-size: 14px;
   font-weight: 600;
-  color: #6b7280;
-  margin-bottom: 12px;
+  color: #374151;
+  min-width: 40px;
 }
-.listContainer .bookContainer .functions {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  gap: 15px;
-  flex-wrap: wrap;
+.listContainer .bookContainer .timeSection .memberInfo .memberProgress {
+  flex: 1;
+  height: 6px;
+  background: #f1f5f9;
+  border-radius: 3px;
+  overflow: hidden;
+  min-width: 50px;
 }
-.listContainer .bookContainer .functions p {
-  font-size: 13px;
-  font-weight: 600;
-  color: #6b7280;
-  display: flex;
-  align-items: center;
-  margin: 0;
-  background: #f8fafc;
-  padding: 6px 10px;
-  border-radius: 8px;
-  border: 1px solid #e5e7eb;
+.listContainer .bookContainer .timeSection .memberInfo .memberProgress .progressBar {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.3s ease;
 }
-.listContainer .bookContainer .state {
+.listContainer .bookContainer .arrowIcon {
   position: absolute;
-  top: 15px;
-  right: 15px;
-  border-radius: 20px;
-  padding: 6px 12px;
-  font-size: 11px;
+  top: 50%;
+  right: 20px;
+  transform: translateY(-50%);
+  color: #cbd5e1;
+  opacity: 0;
+  transition: all 0.3s ease;
+}
+.listContainer .bookContainer .arrowIcon.hovered {
+  opacity: 1;
+  color: #3b82f6;
+}
+.listContainer .emptyState {
+  text-align: center;
+  padding: 60px 20px;
+  background: white;
+  border-radius: 16px;
+  border: 2px dashed #e2e8f0;
+}
+.listContainer .emptyState .emptyIcon {
+  color: #cbd5e1;
+  margin-bottom: 16px;
+}
+.listContainer .emptyState h3 {
+  font-size: 18px;
   font-weight: 600;
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+  color: #64748b;
+  margin: 0 0 8px 0;
+}
+.listContainer .emptyState p {
+  font-size: 14px;
+  color: #94a3b8;
+  margin: 0;
 }
 
 .btn {

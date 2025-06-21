@@ -150,7 +150,7 @@ const Setting = () => {
         ))}
         <button className={styles.logoutBtn} onClick={handleLogout} >登出</button>
         <div className={styles.version} >
-          Version <p>1.0.0</p>
+          Version <p>1.5.10</p>
         </div>
       </div>
     </>

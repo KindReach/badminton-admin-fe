@@ -1,11 +1,8 @@
-import styles from "./SignList.module.css";
+import styles from "./SignList.module.scss";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import data from "./data.json";
-import { FaRegClock } from "react-icons/fa6";
-import { GoPeople } from "react-icons/go";
-import { IoSearchOutline, IoChevronBack } from "react-icons/io5";
-import { FiFilter, FiCalendar } from "react-icons/fi";
+import { Calendar, Clock, Users, ArrowRight, Search, Filter, ChevronLeft, MapPin } from "lucide-react";
 import { Offcanvas } from "react-bootstrap";
 import { apiPrefix, auth } from "@/utils/firebase";
 import axios from "axios";
@@ -29,11 +26,13 @@ const Book = ({
   place_name,
   team_name,
   time,
+  date,
   amount_of_member,
   total_of_member,
   state,
 }: BookDataProps) => {
   const navigate = useNavigate();
+  const [isHovered, setIsHovered] = useState(false);
 
   const goSign = () => {
     navigate(`/signed?book_id=${book_id}`);
@@ -44,54 +43,113 @@ const Book = ({
     switch (state) {
       case "即將開始":
         return {
-          color: "rgba(0, 123, 255, 1)", // 藍色
-          backgroundColor: "rgba(184, 218, 255, 1)",
+          color: "#3b82f6",
+          backgroundColor: "#eff6ff",
+          borderColor: "#dbeafe",
         };
       case "進行中":
         return {
-          color: "rgba(40, 167, 69, 1)", // 綠色
-          backgroundColor: "rgba(195, 230, 203, 1)",
+          color: "#10b981",
+          backgroundColor: "#ecfdf5",
+          borderColor: "#a7f3d0",
         };
       case "已結束":
         return {
-          color: "rgba(128, 128, 128, 1)", // 灰色
-          backgroundColor: "rgba(211, 211, 211, 1)",
+          color: "#64748b",
+          backgroundColor: "#f8fafc",
+          borderColor: "#e2e8f0",
         };
       default:
         return {
-          color: "rgba(0, 123, 255, 1)", // 藍色（預設）
-          backgroundColor: "rgba(184, 218, 255, 1)",
+          color: "#3b82f6",
+          backgroundColor: "#eff6ff",
+          borderColor: "#dbeafe",
         };
     }
   };
 
   const stateColors = getStateColor(state);
 
+  // 格式化日期顯示
+  const formatDate = (dateStr?: string) => {
+    if (!dateStr) return '';
+    const date = new Date(dateStr);
+    const today = new Date();
+    const tomorrow = new Date(today);
+    tomorrow.setDate(today.getDate() + 1);
+    
+    if (date.toDateString() === today.toDateString()) {
+      return '今天';
+    } else if (date.toDateString() === tomorrow.toDateString()) {
+      return '明天';
+    } else {
+      return date.toLocaleDateString('zh-TW', { 
+        month: 'short', 
+        day: 'numeric',
+        weekday: 'short'
+      });
+    }
+  };
+
   return (
-    <div className={styles.bookContainer} onClick={goSign}>
-      <h1>
-        {place_name}（{book_id.substring(0, 3)}）
-      </h1>
-      <h2>{team_name}</h2>
-      <div className={styles.functions}>
-        <p>
-          <FaRegClock style={{ marginRight: "5px" }} />
-          {time}
-        </p>
-        <p>
-          <GoPeople style={{ marginRight: "5px" }} />
-          {amount_of_member}/{total_of_member}
-        </p>
+    <div 
+      className={styles.bookContainer} 
+      onClick={goSign}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      <div className={styles.header}>
+        <div className={styles.placeInfo}>
+          <h3 className={styles.placeName}>{place_name}</h3>
+          <span className={styles.bookId}>#{book_id.substring(0, 6)}</span>
+        </div>
+        <div 
+          className={styles.stateBadge}
+          style={{
+            color: stateColors.color,
+            backgroundColor: stateColors.backgroundColor,
+            borderColor: stateColors.borderColor,
+          }}
+        >
+          {state}
+        </div>
       </div>
-      <p
-        className={styles.state}
-        style={{
-          color: stateColors.color,
-          backgroundColor: stateColors.backgroundColor,
-        }}
-      >
-        {state}
-      </p>
+
+      <div className={styles.teamName}>{team_name}</div>
+
+      <div className={styles.timeSection}>
+        <div className={styles.timeInfo}>
+          <div className={styles.infoItem}>
+            <Calendar size={16} />
+            <span>{formatDate(date)}</span>
+          </div>
+          <div className={styles.infoItem}>
+            <Clock size={16} />
+            <span>{time}</span>
+          </div>
+        </div>
+        
+        <div className={styles.memberInfo}>
+          <Users size={16} />
+          <span className={styles.memberCount}>
+            {amount_of_member}/{total_of_member}
+          </span>
+          <div className={styles.memberProgress}>
+            <div 
+              className={styles.progressBar}
+              style={{
+                width: `${(amount_of_member / total_of_member) * 100}%`,
+                backgroundColor: stateColors.color,
+              }}
+            />
+          </div>
+        </div>
+      </div>
+
+      <ArrowRight 
+        className={`${styles.arrowIcon} ${isHovered ? styles.hovered : ''}`} 
+        size={18} 
+      />
     </div>
   );
 };
@@ -177,7 +235,7 @@ const Header = ({
   return (
     <div className={styles.headerContainer}>
       <div className={styles.nav}>
-        <IoChevronBack
+        <ChevronLeft
           color="white"
           size="22"
           fontWeight={900}
@@ -188,7 +246,7 @@ const Header = ({
 
       <div className={styles.functions}>
         <div className={styles.searchContainer}>
-          <IoSearchOutline size={18} className={styles.searchIcon} />
+          <Search size={18} className={styles.searchIcon} />
           <input
             value={searchValue}
             onChange={handleSearchChange}
@@ -203,7 +261,7 @@ const Header = ({
           }`}
           onClick={() => setShow(true)}
         >
-          <FiFilter size={18} />
+          <Filter size={18} />
         </button>
 
         <Offcanvas
@@ -222,7 +280,7 @@ const Header = ({
           <Offcanvas.Body className={styles.offcanvasBody}>
             <div className={styles.dateFilterContainer}>
               <div className={styles.filterTitle}>
-                <FiCalendar size={16} />
+                <Calendar size={16} />
                 日期範圍
               </div>
 
@@ -361,18 +419,27 @@ const SignList = () => {
       </div>
 
       <div className={styles.listContainer} style={{ top: search ? '235px' : '205px' }}>
-        {displayData.map((item, index) => (
-          <Book
-            key={index}
-            book_id={item.book_id}
-            place_name={item.place_name}
-            team_name={item.team_name}
-            time={item.time}
-            state={item.state}
-            amount_of_member={item.amount_of_member}
-            total_of_member={item.total_of_member}
-          />
-        ))}
+        {displayData.length > 0 ? (
+          displayData.map((item, index) => (
+            <Book
+              key={index}
+              book_id={item.book_id}
+              place_name={item.place_name}
+              team_name={item.team_name}
+              time={item.time}
+              date={item.date}
+              state={item.state}
+              amount_of_member={item.amount_of_member}
+              total_of_member={item.total_of_member}
+            />
+          ))
+        ) : (
+          <div className={styles.emptyState}>
+            <Calendar size={48} className={styles.emptyIcon} />
+            <h3>找不到符合條件的場次</h3>
+            <p>請調整篩選條件或搜尋關鍵字</p>
+          </div>
+        )}
       </div>
     </>
   );

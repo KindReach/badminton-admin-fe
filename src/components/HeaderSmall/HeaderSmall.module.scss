@@ -2,34 +2,156 @@
 
 .headerContainer {
   position: fixed;
-  max-width: 800px;
-
-  z-index: 99;
   top: 0;
-  /* left: 0; */
-  width: 100%;
-  /* height: 12vh; */
+  left: 0;
+  right: 0;
+  max-width: 800px;
+  margin: 0 auto;
+  z-index: 99;
   background: linear-gradient(
-    to right,
-    map-get($brand-colors, "from-blue"),
-    map-get($brand-colors, "to-blue")
+    135deg,
+    map-get($brand-colors, "from-blue") 0%,
+    map-get($brand-colors, "to-blue") 100%
   );
-  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-  padding: 10px;
+  box-shadow: 
+    0 4px 20px rgba(59, 130, 246, 0.3),
+    0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+  backdrop-filter: blur(10px);
+  height: 63px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
 
   .nav {
-    width: 100%;
     display: flex;
-    justify-content: flex-start;
     align-items: center;
-    /* margin-bottom: 15px; */
-    /* padding: 5px; */
+    gap: 16px;
+    position: relative;
 
-    p {
-      margin: 0 0 0 10px;
-      font-size: 16px;
-      font-weight: 800;
-      color: white;
+    .backButton {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      backdrop-filter: blur(10px);
+
+      &:hover {
+        background: rgba(255, 255, 255, 0.2);
+        border-color: rgba(255, 255, 255, 0.4);
+        transform: translateX(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      }
+
+      &:active {
+        transform: translateX(-2px) scale(0.95);
+      }
+
+      .backIcon {
+        transition: transform 0.2s ease;
+
+        &.hovered {
+          transform: translateX(-1px);
+        }
+      }
+    }
+
+    .titleSection {
+      flex: 1;
+      min-width: 0; // 防止文字溢出
+
+      .title {
+        font-size: 20px;
+        font-weight: 700;
+        color: white;
+        margin: 0;
+        line-height: 1.2;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+      }
+
+      .subtitle {
+        font-size: 14px;
+        font-weight: 500;
+        color: rgba(255, 255, 255, 0.8);
+        margin: 2px 0 0 0;
+        line-height: 1.2;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+
+    .rightAction {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      
+      // 為右側操作按鈕提供基本樣式
+      button {
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 8px;
+        color: white;
+        padding: 8px 12px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        backdrop-filter: blur(10px);
+
+        &:hover {
+          background: rgba(255, 255, 255, 0.2);
+          border-color: rgba(255, 255, 255, 0.4);
+          transform: translateY(-1px);
+        }
+
+        &:active {
+          transform: translateY(0);
+        }
+      }
     }
   }
+}
+
+// 響應式設計
+@media (max-width: 480px) {
+  .headerContainer {
+    padding: 12px 16px;
+
+    .nav {
+      gap: 12px;
+
+      .titleSection {
+        .title {
+          font-size: 18px;
+        }
+
+        .subtitle {
+          font-size: 13px;
+        }
+      }
+    }
+  }
+}
+
+// 支援不同主題色彩
+.headerContainer.theme-gradient {
+  background: linear-gradient(
+    135deg,
+    #667eea 0%,
+    #764ba2 100%
+  );
+}
+
+.headerContainer.theme-solid {
+  background: map-get($brand-colors, "from-blue");
 }

@@ -1,12 +1,11 @@
-import styles from "./upComing.module.css";
-import { Calendar } from "lucide-react";
+import styles from "./upComing.module.scss";
+import { Calendar, Clock, ArrowRight, Users } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { apiPrefix, auth } from "@/utils/firebase";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { setLoading2 } from "@/state/loading/loading";
-import { UsersRound } from 'lucide-react';
 
 interface BookInfo {
   book_id: string;
@@ -33,38 +32,67 @@ const Book = ({
     navigate(`/detail?book_id=${book_id}`);
   };
 
+  const getOccupancyRate = () => {
+    return (amount_of_member / limit_of_member) * 100;
+  };
+
+  const getOccupancyStatus = () => {
+    const rate = getOccupancyRate();
+    if (rate >= 90) return { status: 'full', color: '#ef4444', bgColor: '#fef2f2' };
+    if (rate >= 70) return { status: 'high', color: '#f59e0b', bgColor: '#fef3c7' };
+    if (rate >= 40) return { status: 'medium', color: '#3b82f6', bgColor: '#eff6ff' };
+    return { status: 'low', color: '#10b981', bgColor: '#ecfdf5' };
+  };
+
+  const occupancyStatus = getOccupancyStatus();
+
   return (
-    <div className={styles.bookContainer} onClick={goDetail}>
-      <div className={styles.infoLeft}>
-        <h2>
-          {place_name}（{book_id.substring(0, 3)}）
-        </h2>
-        <p>
-          <Calendar
-            size={14}
-            style={{
-              marginRight: "5px",
-            }}
-            strokeWidth={2.5}
-          />
-          {date}
-        </p>
-        <p>
-          <UsersRound
-            size={14}
-            style={{
-              marginRight: "5px",
-            }}
-            strokeWidth={2.5}
-          />
-          {amount_of_member}/{limit_of_member}
-        </p>
+    <div 
+      className={styles.bookContainer} 
+      onClick={goDetail}
+    >
+      <div className={styles.header}>
+        <div className={styles.placeInfo}>
+          <h3 className={styles.placeName}>{place_name}</h3>
+          <span className={styles.bookId}>#{book_id.substring(0, 6)}</span>
+        </div>
+        <div 
+          className={styles.occupancyBadge}
+          style={{
+            color: occupancyStatus.color,
+            backgroundColor: occupancyStatus.bgColor,
+          }}
+        >
+          <Users size={12} />
+          <span>{amount_of_member}/{limit_of_member}</span>
+        </div>
       </div>
-      <div className={styles.infoRight}>
-        <p>{time}</p>
-        <div className={styles.functions}>
-          <button className={styles.btnManage}>管理</button>
-          <button className={styles.btnSign}>簽到表</button>
+
+      <div className={styles.content}>
+        <div className={styles.timeInfo}>
+          <div className={styles.infoItem}>
+            <Calendar size={16} />
+            <span>{date}</span>
+          </div>
+          <div className={styles.infoItem}>
+            <Clock size={16} />
+            <span>{time}</span>
+          </div>
+        </div>
+
+        <div className={styles.progressSection}>
+          <div className={styles.progressBar}>
+            <div 
+              className={styles.progressFill}
+              style={{
+                width: `${getOccupancyRate()}%`,
+                backgroundColor: occupancyStatus.color,
+              }}
+            />
+          </div>
+          <span className={styles.progressText}>
+            {getOccupancyRate().toFixed(0)}% 已預約
+          </span>
         </div>
       </div>
     </div>
@@ -75,6 +103,7 @@ const UpComing = () => {
   const [bookingData, setBookingData] = useState<BookInfo[]>([]);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  
   const getUpComingData = async () => {
     dispatch(setLoading2(true));
 
@@ -93,7 +122,6 @@ const UpComing = () => {
       console.error(err);
     }
     requestAnimationFrame(() => {
-      // 確保在下一個畫面更新週期才關閉 loading
       requestAnimationFrame(() => {
         dispatch(setLoading2(false));
       });
@@ -102,30 +130,58 @@ const UpComing = () => {
 
   useEffect(() => {
     getUpComingData();
-    // setBookingData(data);
   }, []);
 
   return (
     <div className={styles.container}>
-      <div className={styles.title}>
-        <h2>即將開始的場次</h2>
-        <a href="/books">查看全部{" >"}</a>
+      <div className={styles.header}>
+        <div className={styles.titleSection}>
+          <h2 className={styles.title}>即將開始的場次</h2>
+          <span className={styles.subtitle}>
+            {bookingData.length} 個即將開始的場次
+          </span>
+        </div>
+        <button 
+          className={styles.viewAllBtn}
+          onClick={() => navigate("/books")}
+        >
+          查看全部
+          <ArrowRight size={16} />
+        </button>
       </div>
+      
       <div className={styles.listContainer}>
-        {bookingData.map((item, index) => (
-          <Book
-            key={index}
-            book_id={item.book_id}
-            place_name={item.place_name}
-            team_name={item.team_name}
-            amount_of_member={item.amount_of_member}
-            limit_of_member={item.limit_of_member}
-            date={item.date}
-            time={item.time}
-          />
-        ))}
+        {bookingData.length > 0 ? (
+          bookingData.map((item, index) => (
+            <Book
+              key={index}
+              book_id={item.book_id}
+              place_name={item.place_name}
+              team_name={item.team_name}
+              amount_of_member={item.amount_of_member}
+              limit_of_member={item.limit_of_member}
+              date={item.date}
+              time={item.time}
+            />
+          ))
+        ) : (
+          <div className={styles.emptyState}>
+            <Calendar size={48} className={styles.emptyIcon} />
+            <h3>目前沒有即將開始的場次</h3>
+            <p>請稍後再來查看或創建新的場次</p>
+          </div>
+        )}
       </div>
-      <button className={styles.btn} onClick={() => navigate("/books")}>查看全部</button>
+      
+      {bookingData.length > 0 && (
+        <button 
+          className={styles.mainActionBtn} 
+          onClick={() => navigate("/books")}
+        >
+          查看全部場次
+          <ArrowRight size={16} />
+        </button>
+      )}
     </div>
   );
 };

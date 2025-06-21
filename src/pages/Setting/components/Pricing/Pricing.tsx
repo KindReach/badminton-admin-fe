@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import { setLoading2 } from "@/state/loading/loading";
 import axios from "axios";
 import { apiPrefix, auth } from "@/utils/firebase";
+import { ModalLevel, setModalShow, setModalState } from "@/state/modal/modal";
 
 const Pricing = () => {
   const [price, setPrice] = useState<number>(0);
@@ -64,10 +65,15 @@ const Pricing = () => {
           },
         }
       );
+      dispatch(setModalState({title: "成功", message: "預設價格已更新", level: ModalLevel.SUCCESS}));
     } catch (err) {
       console.error(err);
+      dispatch(setModalState({title: "錯誤", message: "更新預設價格失敗", level: ModalLevel.ERROR}));
+    } finally {
+      dispatch(setLoading2(false));
+      dispatch(setModalShow(true));
     }
-    dispatch(setLoading2(false));
+    
   };
 
   return (

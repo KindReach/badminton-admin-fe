@@ -1,10 +1,6 @@
 import { useNavigate } from "react-router-dom";
-import styles from "./Book.module.css";
-import { IoChevronBack, IoAddOutline, IoSearchOutline } from "react-icons/io5";
-import { FaRegClock } from "react-icons/fa6";
-import { IoCalendarClearOutline } from "react-icons/io5";
-import { GoPeople } from "react-icons/go";
-import { FiFilter, FiCalendar } from "react-icons/fi";
+import styles from "./Book.module.scss";
+import { ChevronLeft, Plus, Search, Filter, Calendar, Clock, Users, ArrowRight, MapPin } from "lucide-react";
 import { Offcanvas } from "react-bootstrap";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { apiPrefix, auth } from "@/utils/firebase";
@@ -105,18 +101,19 @@ const Header = ({
   return (
     <div className={styles.headerContainer}>
       <div className={styles.nav}>
-        <IoChevronBack
+        <ChevronLeft
           color="white"
           size="22"
-          fontWeight={900}
+          strokeWidth={2.5}
           onClick={() => navigate(-1)}
+          className={styles.backIcon}
         />
         <p>場次管理</p>
       </div>
 
       <div className={styles.functions}>
         <div className={styles.searchContainer}>
-          <IoSearchOutline
+          <Search
             size={18}
             className={styles.searchIcon}
           />
@@ -132,14 +129,14 @@ const Header = ({
           className={`${styles.filterBtn} ${isFilterActive ? styles.active : ''}`}
           onClick={() => setShow(true)}
         >
-          <FiFilter size={18} />
+          <Filter size={18} />
         </button>
         
         <button 
           className={styles.addBtn}
           onClick={() => navigate("/create")}
         >
-          <IoAddOutline size={20} />
+          <Plus size={20} />
         </button>
 
         <Offcanvas
@@ -158,7 +155,7 @@ const Header = ({
           <Offcanvas.Body className={styles.offcanvasBody}>
             <div className={styles.dateFilterContainer}>
               <div className={styles.filterTitle}>
-                <FiCalendar size={16} />
+                <Calendar size={16} />
                 日期範圍
               </div>
               
@@ -244,67 +241,133 @@ const Book = ({
   amount_of_member,
   limit_of_member,
 }: BookProps) => {
-  const color = [
-    "rgba(0, 123, 255, 1)",
-    "rgba(40, 167, 69, 1)",
-    "rgba(215, 85, 0, 1)", "gray"
-  ];
-
-  const bgColor = [
-    "rgba(184, 218, 255, 1)",
-    "rgba(195, 230, 203, 1)",
-    "rgba(255, 220, 180, 1)",
-    "lightgray",
-  ];
-  const [curState, setCurState] = useState<number>(0);
+  const [isHovered, setIsHovered] = useState(false);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (state == "報名中") {
-      setCurState(0);
-    } else if (state == "進行中") {
-      setCurState(1);
-    } else if ( state === "尚未開放" ) {
-      setCurState(2);
-    } else {
-      setCurState(3);
+  const getStateConfig = (state: string) => {
+    switch (state) {
+      case "報名中":
+        return {
+          color: "#3b82f6",
+          backgroundColor: "#eff6ff",
+          borderColor: "#dbeafe",
+        };
+      case "進行中":
+        return {
+          color: "#10b981",
+          backgroundColor: "#ecfdf5",
+          borderColor: "#a7f3d0",
+        };
+      case "尚未開放":
+        return {
+          color: "#f59e0b",
+          backgroundColor: "#fef3c7",
+          borderColor: "#fde68a",
+        };
+      case "已結束":
+        return {
+          color: "#64748b",
+          backgroundColor: "#f8fafc",
+          borderColor: "#e2e8f0",
+        };
+      default:
+        return {
+          color: "#3b82f6",
+          backgroundColor: "#eff6ff",
+          borderColor: "#dbeafe",
+        };
     }
-  }, [state]);
+  };
+
+  const stateConfig = getStateConfig(state);
+
+  // 格式化日期顯示
+  const formatDate = (dateStr: string) => {
+    const date = new Date(dateStr);
+    const today = new Date();
+    const tomorrow = new Date(today);
+    tomorrow.setDate(today.getDate() + 1);
+    
+    if (date.toDateString() === today.toDateString()) {
+      return '今天';
+    } else if (date.toDateString() === tomorrow.toDateString()) {
+      return '明天';
+    } else {
+      return date.toLocaleDateString('zh-TW', { 
+        month: 'short', 
+        day: 'numeric',
+        weekday: 'short'
+      });
+    }
+  };
+
+  const getOccupancyRate = () => {
+    return (amount_of_member / limit_of_member) * 100;
+  };
 
   const goDetail = () => {
     navigate(`/detail?book_id=${book_id}`);
   };
 
   return (
-    <div className={styles.bookContainer} onClick={goDetail}>
-      <h1>
-        {place_name}（{book_id.substring(0, 3)}）
-      </h1>
-      <h2>{team_name}</h2>
-      <div className={styles.description}>
-        <p>
-          <IoCalendarClearOutline style={{ marginRight: "5px" }} />
-          {date}
-        </p>
-        <p>
-          <FaRegClock style={{ marginRight: "5px" }} />
-          {time}
-        </p>
-        <p>
-          <GoPeople style={{ marginRight: "5px" }} />
-          {amount_of_member}/{limit_of_member}
-        </p>
+    <div 
+      className={styles.bookContainer} 
+      onClick={goDetail}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      <div className={styles.header}>
+        <div className={styles.placeInfo}>
+          <h3 className={styles.placeName}>{place_name}</h3>
+          <span className={styles.bookId}>#{book_id.substring(0, 6)}</span>
+        </div>
+        <div 
+          className={styles.stateBadge}
+          style={{
+            color: stateConfig.color,
+            backgroundColor: stateConfig.backgroundColor,
+            borderColor: stateConfig.borderColor,
+          }}
+        >
+          {state}
+        </div>
       </div>
 
-      <p
-        className={styles.state}
-        style={{
-          color: `${color[curState]}`,
-          backgroundColor: `${bgColor[curState]}`,
-        }}
-      >
-        {state}
-      </p>
+      <div className={styles.teamName}>{team_name}</div>
+
+      <div className={styles.timeSection}>
+        <div className={styles.timeInfo}>
+          <div className={styles.infoItem}>
+            <Calendar size={16} />
+            <span>{formatDate(date)}</span>
+          </div>
+          <div className={styles.infoItem}>
+            <Clock size={16} />
+            <span>{time}</span>
+          </div>
+        </div>
+        
+        <div className={styles.memberInfo}>
+          <Users size={16} />
+          <span className={styles.memberCount}>
+            {amount_of_member}/{limit_of_member}
+          </span>
+          <div className={styles.memberProgress}>
+            <div 
+              className={styles.progressBar}
+              style={{
+                width: `${getOccupancyRate()}%`,
+                backgroundColor: stateConfig.color,
+              }}
+            />
+          </div>
+        </div>
+      </div>
+
+      <ArrowRight 
+        className={`${styles.arrowIcon} ${isHovered ? styles.hovered : ''}`} 
+        size={18} 
+      />
     </div>
   );
 };
@@ -314,29 +377,25 @@ interface CategoryProps {
 }
 
 const Category = ({ category }: CategoryProps) => {
-  
   const currentCategory = useSelector((state: RootState) => state.sessionState.category);
   const dispatch = useDispatch();
+  const [isHovered, setIsHovered] = useState(false);
 
   const onChangeCategory = () => {
     dispatch(setCategory(category));
   }
 
-  /**
-   * color: `${currentCategory === category ? "rgba(0, 123, 255, 1)" : "gray"}`,
-        backgroundColor: `${currentCategory === category ? "rgba(184, 218, 255, 1)" : "lightgray"}`,
-   */
+  const isActive = currentCategory === category;
 
   return (
-    <p
+    <button
+      className={`${styles.categoryBtn} ${isActive ? styles.active : ''}`}
       onClick={onChangeCategory}
-      style={{
-        color: `${currentCategory === category ? "white" : "black"}`,
-        backgroundColor: `${currentCategory === category ? "rgba(0, 123, 255, 1)" : "#F0F0F5"}`,
-      }}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
     >
       {category}
-    </p>
+    </button>
   );
 };
 
@@ -436,19 +495,27 @@ const Books = () => {
       </div>
       
       <div className={styles.booksContainer} style={{ top: search ? '280px' : '250px' }}>
-        {displayData.map((item, index) => (
-          <Book
-            key={index}
-            book_id={item.book_id}
-            place_name={item.place_name}
-            team_name={item.team_name}
-            date={item.date}
-            time={item.time}
-            state={item.state}
-            amount_of_member={item.amount_of_member}
-            limit_of_member={item.limit_of_member}
-          />
-        ))}
+        {displayData.length > 0 ? (
+          displayData.map((item, index) => (
+            <Book
+              key={index}
+              book_id={item.book_id}
+              place_name={item.place_name}
+              team_name={item.team_name}
+              date={item.date}
+              time={item.time}
+              state={item.state}
+              amount_of_member={item.amount_of_member}
+              limit_of_member={item.limit_of_member}
+            />
+          ))
+        ) : (
+          <div className={styles.emptyState}>
+            <Calendar size={48} className={styles.emptyIcon} />
+            <h3>找不到符合條件的場次</h3>
+            <p>請調整篩選條件或搜尋關鍵字</p>
+          </div>
+        )}
       </div>
     </div>
   );

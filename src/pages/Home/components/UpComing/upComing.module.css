@@ -1,96 +1,208 @@
 .container {
-  padding: 10px 15px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  padding: 24px;
+  background: #f8fafc;
+  border-radius: 16px;
 }
-.container .title {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 5px 10px;
-}
-.container .title h2 {
-  font-size: 18px;
-  font-weight: 800;
-  margin: 10px 0;
-}
-.container .title a {
-  font-size: 16px;
-  font-weight: 500;
-  color: rgb(0, 123, 255);
-  padding: 5px 8px;
-  border-radius: 8px;
-  text-decoration: none;
-}
-.container .listContainer {
-  width: 100%;
-  padding: 5px;
-}
-.container .listContainer .bookContainer {
-  position: relative;
-  width: 100%;
-  padding: 15px;
-  background-color: white;
-  border-radius: 8px;
-  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
-  margin-bottom: 15px;
+.container .header {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
+  margin-bottom: 24px;
 }
-.container .listContainer .bookContainer .infoLeft {
-  /* flex: 0.5; */
-}
-.container .listContainer .bookContainer .infoLeft h2 {
-  font-size: 18px;
+.container .header .titleSection .title {
+  font-size: 24px;
   font-weight: 800;
+  color: #1e293b;
+  margin: 0 0 6px 0;
 }
-.container .listContainer .bookContainer .infoLeft p {
+.container .header .titleSection .subtitle {
   font-size: 14px;
   font-weight: 500;
-  color: gray;
-  margin-bottom: 5px;
+  color: #64748b;
+}
+.container .header .viewAllBtn {
   display: flex;
   align-items: center;
+  gap: 8px;
+  background: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 10px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: rgba(59, 130, 246, 0.2) 0px 4px 16px;
 }
-.container .listContainer .bookContainer .infoRight p {
+.container .header .viewAllBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: rgba(59, 130, 246, 0.3) 0px 8px 24px;
+}
+.container .listContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.container .listContainer .bookContainer {
+  position: relative;
+  background: white;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+}
+.container .listContainer .bookContainer .header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 16px;
+}
+.container .listContainer .bookContainer .header .placeInfo .placeName {
+  font-size: 20px;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0 0 12px 0;
+}
+.container .listContainer .bookContainer .header .placeInfo .bookId {
+  font-size: 13px;
+  font-weight: 600;
+  color: #64748b;
+  background: #f1f5f9;
+  padding: 4px 8px;
+  border-radius: 6px;
+}
+.container .listContainer .bookContainer .header .occupancyBadge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  border: 1px solid currentColor;
+}
+.container .listContainer .bookContainer .content .timeInfo {
+  display: flex;
+  gap: 24px;
+  margin-bottom: 16px;
+}
+.container .listContainer .bookContainer .content .timeInfo .infoItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #64748b;
   font-size: 14px;
   font-weight: 500;
-  color: gray;
-  text-align: right;
 }
-.container .listContainer .bookContainer .infoRight .functions {
-  position: absolute;
-  bottom: 8px;
-  right: 8px;
+.container .listContainer .bookContainer .content .progressSection .progressBar {
+  width: 100%;
+  height: 6px;
+  background: #f1f5f9;
+  border-radius: 3px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+.container .listContainer .bookContainer .content .progressSection .progressBar .progressFill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.3s ease;
+}
+.container .listContainer .bookContainer .content .progressSection .progressText {
+  font-size: 13px;
+  font-weight: 600;
+  color: #64748b;
+}
+.container .listContainer .bookContainer .actions {
   display: flex;
-  font-size: 12px;
+  gap: 12px;
+}
+.container .listContainer .bookContainer .actions .actionBtn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 10px;
+  font-size: 13px;
   font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
-.container .listContainer .bookContainer .infoRight .functions .btnManage {
-  padding: 6px 10px;
-  border-radius: 8px;
-  margin-right: 10px;
-  background-color: rgba(173, 216, 230, 0.5);
-  color: rgb(0, 123, 255);
+.container .listContainer .bookContainer .actions .actionBtn.manageBtn {
+  background: #eff6ff;
+  color: #3b82f6;
+  border: 1px solid #dbeafe;
 }
-.container .listContainer .bookContainer .infoRight .functions .btnSign {
-  padding: 6px 10px;
-  border-radius: 8px;
-  background-color: rgba(144, 238, 144, 0.5);
-  color: rgb(0, 128, 0);
+.container .listContainer .bookContainer .actions .actionBtn.manageBtn:hover {
+  background: #dbeafe;
+  transform: translateY(-1px);
 }
-.container .btn {
-  width: 90%;
-  padding: 10px 15px;
-  border-radius: 8px;
-  background-color: rgba(173, 216, 230, 0.5);
-  color: rgb(0, 123, 255);
-  font-size: 16px;
-  font-weight: 600;
+.container .listContainer .bookContainer .actions .actionBtn.signBtn {
+  background: #ecfdf5;
+  color: #10b981;
+  border: 1px solid #a7f3d0;
+}
+.container .listContainer .bookContainer .actions .actionBtn.signBtn:hover {
+  background: #d1fae5;
+  transform: translateY(-1px);
+}
+.container .listContainer .bookContainer .arrowIcon {
+  position: absolute;
+  top: 50%;
+  right: 20px;
+  transform: translateY(-50%);
+  color: #cbd5e1;
+  opacity: 0;
+  transition: all 0.3s ease;
+}
+.container .listContainer .bookContainer .arrowIcon.hovered {
+  opacity: 1;
+  color: #3b82f6;
+}
+.container .listContainer .emptyState {
   text-align: center;
-  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 2px;
-  margin-top: 10px;
+  padding: 60px 20px;
+  background: white;
+  border-radius: 16px;
+  border: 2px dashed #e2e8f0;
+}
+.container .listContainer .emptyState .emptyIcon {
+  color: #cbd5e1;
+  margin-bottom: 16px;
+}
+.container .listContainer .emptyState h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #64748b;
+  margin: 0 0 8px 0;
+}
+.container .listContainer .emptyState p {
+  font-size: 14px;
+  color: #94a3b8;
+  margin: 0;
+}
+.container .mainActionBtn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 16px;
+  background: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: rgba(59, 130, 246, 0.2) 0px 4px 16px;
+}
+.container .mainActionBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: rgba(59, 130, 246, 0.3) 0px 8px 24px;
 }/*# sourceMappingURL=upComing.module.css.map */
