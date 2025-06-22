@@ -6,15 +6,67 @@
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
   padding: 10px 20px;
 }
-.container p {
+.container .mainContent {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+}
+.container .mainContent .titleSection {
+  flex: 1;
+}
+.container .mainContent .titleSection p {
   font-weight: 500;
   font-size: 15px;
   color: white;
   margin-bottom: 5px;
+  margin: 0 0 5px 0;
 }
-.container h2 {
+.container .mainContent .titleSection h2 {
   font-weight: 800;
   color: white;
   font-size: 20px;
   margin: 0;
+}
+.container .mainContent .redirectBtn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.2);
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-radius: 25px;
+  color: white;
+  padding: 12px 20px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  -webkit-backdrop-filter: blur(15px);
+          backdrop-filter: blur(15px);
+  white-space: nowrap;
+}
+.container .mainContent .redirectBtn:active {
+  transform: translateY(-1px);
+}
+.container .mainContent .redirectBtn span {
+  font-size: 14px;
+  font-weight: 700;
+}
+@media (max-width: 480px) {
+  .container {
+    padding: 8px 16px;
+  }
+  .container .mainContent .titleSection p {
+    font-size: 14px;
+  }
+  .container .mainContent .titleSection h2 {
+    font-size: 18px;
+  }
+  .container .mainContent .redirectBtn {
+    padding: 10px 16px;
+    font-size: 13px;
+  }
+  .container .mainContent .redirectBtn span {
+    font-size: 12px;
+  }
 }/*# sourceMappingURL=Header.module.css.map */
