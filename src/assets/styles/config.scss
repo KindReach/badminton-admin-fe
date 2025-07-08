@@ -1,4 +1,7 @@
 // variables.scss
+$from-blue: #3b82f6;
+$to-blue: #2563eb;
+
 $brand-colors: (
   from-blue: #3b82f6,
   to-blue: #2563eb,
@@ -11,10 +14,13 @@ $brand-colors: (
 );
 
 $function-colors: (
+  bg-green-50: #f0fdf4,
+  bg-green-100: #dcfce7,
   bg-green-500: #22c55e,
   bg-green-600: #16a34a,
   text-green-500: #22c55e,
   text-green-600: #16a34a,
+  bg-orange-50: #fff7ed,
   bg-orange-100: #ffedd5,
   text-range-600: #ea580c,
   text-red-500: #ef4444,

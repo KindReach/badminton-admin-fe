@@ -1,52 +1,285 @@
-// 管理系統色彩變數 - 淺色版本
-$from-blue: #3b82f6;
-$to-blue: #2563eb;
-$light-bg: #ffffff;
-$light-surface: #f8fafc;
-$border-color: #e2e8f0;
-$border-secondary: #cbd5e1;
-$text-primary: #1e293b;
-$text-secondary: #475569;
-$text-muted: #64748b;
-$shadow-light: rgba(15, 23, 42, 0.08);
-$shadow-medium: rgba(15, 23, 42, 0.12);
+@use "../../assets/styles/config.scss" as *;
 
-// 輔助色彩
-$success-green: #10b981;
-$warning-amber: #f59e0b;
-$danger-red: #ef4444;
-$info-cyan: #06b6d4;
-$purple-accent: #8b5cf6;
-
-// 主容器
 .loadingContainer {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: $light-bg;
+  background: linear-gradient(135deg, map-get($neutral-colors, "bg-gray-50") 0%, white 100%);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 9999;
   overflow: hidden;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", sans-serif;
 }
 
-// 背景圖案
-.backgroundPattern {
+.backgroundOverlay {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  opacity: 0.6;
+  background: radial-gradient(circle at 50% 50%, rgba(map-get($brand-colors, "from-blue"), 0.03) 0%, transparent 50%);
+  opacity: 0.8;
 }
 
-.patternSvg {
+.mainContent {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.logoContainer {
+  margin-bottom: 3rem;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 120px;
+  height: 120px;
+}
+
+.logoBackground {
+  position: absolute;
   width: 100%;
   height: 100%;
+  border-radius: 50%;
+  background: linear-gradient(135deg, map-get($brand-colors, "from-blue") 0%, map-get($brand-colors, "to-blue") 100%);
+  box-shadow: 
+    0 8px 32px rgba(map-get($brand-colors, "from-blue"), 0.3),
+    0 0 0 1px rgba(white, 0.1) inset;
+  animation: logoGlow 3s ease-in-out infinite alternate;
+}
+
+.logoIcon {
+  position: relative;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  
+  svg {
+    width: 100%;
+    height: 100%;
+    fill: white;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+  }
+}
+
+.spinnerRing {
+  position: absolute;
+  top: -8px;
+  left: -8px;
+  right: -8px;
+  bottom: -8px;
+  border: 2px solid transparent;
+  border-top: 2px solid map-get($brand-colors, "from-blue");
+  border-right: 2px solid rgba(map-get($brand-colors, "from-blue"), 0.3);
+  border-radius: 50%;
+  animation: spin 2s linear infinite;
+}
+
+.progressSection {
+  margin-bottom: 2.5rem;
+  width: 100%;
+  max-width: 300px;
+}
+
+.progressContainer {
+  position: relative;
+  width: 100%;
+  height: 6px;
+  background: map-get($neutral-colors, "bg-gray-200");
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 1rem;
+}
+
+.progressBar {
+  height: 100%;
+  background: linear-gradient(90deg, map-get($brand-colors, "from-blue") 0%, map-get($brand-colors, "to-blue") 100%);
+  border-radius: 8px;
+  animation: progressMove 2.5s ease-in-out infinite;
+  position: relative;
+  
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, transparent 0%, rgba(white, 0.4) 50%, transparent 100%);
+    animation: shimmer 1.5s ease-in-out infinite;
+  }
+}
+
+.progressText {
+  font-size: 14px;
+  color: map-get($neutral-colors, "text-gray-600");
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+
+.progressPercentage {
+  font-size: 12px;
+  color: map-get($neutral-colors, "text-gray-500");
+  font-weight: 600;
+  animation: countUp 2.5s ease-in-out infinite;
+}
+
+.textSection {
+  .mainText {
+    font-size: 20px;
+    font-weight: 700;
+    color: map-get($neutral-colors, "text-gray-600");
+    margin-bottom: 0.8rem;
+    letter-spacing: -0.025em;
+    
+    .loadingDots {
+      animation: dots 1.5s ease-in-out infinite;
+    }
+  }
+  
+  .subText {
+    font-size: 14px;
+    color: map-get($neutral-colors, "text-gray-500");
+    font-weight: 500;
+    animation: statusChange 3s ease-in-out infinite;
+  }
+}
+
+.companyInfo {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  
+  .companyName {
+    font-size: 12px;
+    color: map-get($neutral-colors, "text-gray-500");
+    font-weight: 600;
+    margin-bottom: 0.3rem;
+  }
+  
+  .version {
+    font-size: 10px;
+    color: map-get($neutral-colors, "text-gray-500");
+    opacity: 0.7;
+  }
+}
+
+// 動畫定義
+@keyframes logoGlow {
+  0% {
+    box-shadow: 
+      0 8px 32px rgba(map-get($brand-colors, "from-blue"), 0.3),
+      0 0 0 1px rgba(white, 0.1) inset;
+  }
+  100% {
+    box-shadow: 
+      0 12px 48px rgba(map-get($brand-colors, "from-blue"), 0.5),
+      0 0 0 1px rgba(white, 0.2) inset;
+  }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes progressMove {
+  0% { width: 0%; }
+  50% { width: 75%; }
+  100% { width: 100%; }
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(200%); }
+}
+
+@keyframes dots {
+  0%, 20% { content: ""; }
+  40% { content: "."; }
+  60% { content: ".."; }
+  80%, 100% { content: "..."; }
+}
+
+@keyframes countUp {
+  0% { opacity: 0.7; }
+  50% { opacity: 1; }
+  100% { opacity: 0.7; }
+}
+
+@keyframes statusChange {
+  0%, 33% { opacity: 1; }
+  50% { opacity: 0.7; }
+  66%, 100% { opacity: 1; }
+}
+
+// 響應式設計
+@media (max-width: 768px) {
+  .logoContainer {
+    width: 100px;
+    height: 100px;
+    margin-bottom: 2.5rem;
+    
+    .logoIcon {
+      width: 50px;
+      height: 50px;
+    }
+  }
+  
+  .progressSection {
+    max-width: 280px;
+    margin-bottom: 2rem;
+  }
+  
+  .textSection {
+    .mainText {
+      font-size: 18px;
+    }
+    
+    .subText {
+      font-size: 13px;
+    }
+  }
+  
+  .companyInfo {
+    bottom: 1.5rem;
+    
+    .companyName {
+      font-size: 11px;
+    }
+    
+    .version {
+      font-size: 9px;
+    }
+  }
+}
+
+// 減少動畫效果的設定
+@media (prefers-reduced-motion: reduce) {
+  .logoBackground,
+  .spinnerRing,
+  .progressBar,
+  .loadingDots,
+  .subText {
+    animation: none;
+  }
+  
+  .progressBar::after {
+    display: none;
+  }
 }
 
 .scanLine1 {
@@ -86,13 +319,13 @@ $purple-accent: #8b5cf6;
   background: conic-gradient(
     from 0deg, 
     transparent, 
-    $from-blue, 
-    $to-blue,
-    rgba($from-blue, 0.3),
+    map-get($brand-colors, "from-blue"), 
+    map-get($brand-colors, "to-blue"),
+    rgba(map-get($brand-colors, "from-blue"), 0.3),
     transparent
   );
   animation: spinSlow 4s linear infinite;
-  filter: drop-shadow(0 4px 12px rgba($from-blue, 0.2));
+  filter: drop-shadow(0 4px 12px rgba(map-get($brand-colors, "from-blue"), 0.2));
   
   &::after {
     content: '';
@@ -101,7 +334,7 @@ $purple-accent: #8b5cf6;
     left: 3px;
     right: 3px;
     bottom: 3px;
-    background: $light-bg;
+    background: white;
     border-radius: 50%;
   }
 }
@@ -113,7 +346,7 @@ $purple-accent: #8b5cf6;
   left: 12px;
   right: 12px;
   bottom: 12px;
-  border: 2px solid rgba($from-blue, 0.3);
+  border: 2px solid rgba(map-get($brand-colors, "from-blue"), 0.3);
   border-radius: 50%;
   animation: pulse 3s ease-in-out infinite;
   
@@ -124,7 +357,7 @@ $purple-accent: #8b5cf6;
     left: 8px;
     right: 8px;
     bottom: 8px;
-    border: 1px solid rgba($to-blue, 0.2);
+    border: 1px solid rgba(map-get($brand-colors, "to-blue"), 0.2);
     border-radius: 50%;
     animation: pulse 3s ease-in-out infinite 0.5s;
   }
@@ -141,7 +374,7 @@ $purple-accent: #8b5cf6;
 .logoSvg {
   width: 100%;
   height: 100%;
-  filter: drop-shadow(0 4px 12px rgba($from-blue, 0.25));
+  filter: drop-shadow(0 4px 12px rgba(map-get($brand-colors, "from-blue"), 0.25));
 }
 
 .centerGear {
@@ -153,13 +386,13 @@ $purple-accent: #8b5cf6;
 .progressContainer {
   width: 320px;
   height: 8px;
-  background-color: $light-surface;
+  background-color: map-get($neutral-colors, "bg-gray-50");
   border-radius: 9999px;
   overflow: hidden;
   margin-bottom: 2rem;
-  border: 1px solid $border-color;
+  border: 1px solid map-get($neutral-colors, "border-gray-300");
   position: relative;
-  box-shadow: inset 0 2px 4px $shadow-light;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.08);
 }
 
 .progressBar {
@@ -243,80 +476,83 @@ $purple-accent: #8b5cf6;
 // 浮動圖標
 .floatingIcons {
   position: absolute;
-  top: -120px;
-  left: -120px;
-  right: -120px;
-  bottom: -120px;
+  top: -200px;
+  left: -200px;
+  right: -200px;
+  bottom: -200px;
   pointer-events: none;
 }
 
 .floatingIcon {
   position: absolute;
   border-radius: 12px;
-  padding: 10px;
-  background: rgba($light-bg, 0.9);
-  border: 1px solid $border-color;
+  padding: 12px;
+  background: rgba(white, 0.9);
+  border: 1px solid map-get($neutral-colors, "border-gray-200");
   backdrop-filter: blur(8px);
-  box-shadow: 0 4px 12px $shadow-light;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   
   svg {
-    width: 100%;
-    height: 100%;
+    width: 20px;
+    height: 20px;
   }
 }
 
 .icon1 {
-  top: 60px;
-  left: 60px;
-  width: 32px;
-  height: 32px;
-  color: $from-blue;
+  top: 100px;
+  left: 120px;
+  width: 44px;
+  height: 44px;
+  color: map-get($brand-colors, "from-blue");
   animation: float1 5s ease-in-out infinite;
 }
 
 .icon2 {
-  top: 40px;
-  right: 80px;
-  width: 28px;
-  height: 28px;
-  color: $purple-accent;
+  top: 80px;
+  right: 140px;
+  width: 40px;
+  height: 40px;
+  color: #8b5cf6;
   animation: float2 4.5s ease-in-out infinite 0.5s;
 }
 
 .icon3 {
-  top: 120px;
-  right: 40px;
-  width: 24px;
-  height: 24px;
-  color: $info-cyan;
+  top: 180px;
+  right: 80px;
+  width: 36px;
+  height: 36px;
+  color: #06b6d4;
   animation: float3 5.2s ease-in-out infinite 1s;
 }
 
 .icon4 {
-  bottom: 80px;
-  right: 60px;
-  width: 28px;
-  height: 28px;
-  color: $warning-amber;
+  bottom: 140px;
+  right: 120px;
+  width: 40px;
+  height: 40px;
+  color: #f59e0b;
   animation: float4 4.8s ease-in-out infinite 1.5s;
 }
 
 .icon5 {
-  bottom: 60px;
-  left: 80px;
-  width: 26px;
-  height: 26px;
-  color: $danger-red;
+  bottom: 100px;
+  left: 140px;
+  width: 38px;
+  height: 38px;
+  color: #ef4444;
   animation: float5 5.3s ease-in-out infinite 2s;
 }
 
 .icon6 {
-  bottom: 120px;
-  left: 40px;
-  width: 24px;
-  height: 24px;
-  color: $success-green;
+  bottom: 180px;
+  left: 80px;
+  width: 36px;
+  height: 36px;
+  color: #10b981;
   animation: float6 4.7s ease-in-out infinite 2.5s;
 }
 
@@ -486,22 +722,57 @@ $purple-accent: #8b5cf6;
   }
   
   .floatingIcons {
-    top: -80px;
-    left: -80px;
-    right: -80px;
-    bottom: -80px;
+    top: -120px;
+    left: -120px;
+    right: -120px;
+    bottom: -120px;
   }
   
   .floatingIcon {
     padding: 8px;
+    
+    svg {
+      width: 16px;
+      height: 16px;
+    }
   }
   
-  .icon1 { width: 24px; height: 24px; }
-  .icon2 { width: 22px; height: 22px; }
-  .icon3 { width: 20px; height: 20px; }
-  .icon4 { width: 22px; height: 22px; }
-  .icon5 { width: 20px; height: 20px; }
-  .icon6 { width: 18px; height: 18px; }
+  .icon1 { 
+    width: 32px; 
+    height: 32px; 
+    top: 60px;
+    left: 80px;
+  }
+  .icon2 { 
+    width: 30px; 
+    height: 30px; 
+    top: 50px;
+    right: 90px;
+  }
+  .icon3 { 
+    width: 28px; 
+    height: 28px; 
+    top: 120px;
+    right: 50px;
+  }
+  .icon4 { 
+    width: 30px; 
+    height: 30px; 
+    bottom: 90px;
+    right: 80px;
+  }
+  .icon5 { 
+    width: 28px; 
+    height: 28px; 
+    bottom: 60px;
+    left: 90px;
+  }
+  .icon6 { 
+    width: 26px; 
+    height: 26px; 
+    bottom: 120px;
+    left: 50px;
+  }
 }
 
 @media (max-width: 480px) {
@@ -532,6 +803,59 @@ $purple-accent: #8b5cf6;
   
   .statusText {
     font-size: 12px;
+  }
+  
+  .floatingIcons {
+    top: -80px;
+    left: -80px;
+    right: -80px;
+    bottom: -80px;
+  }
+  
+  .floatingIcon {
+    padding: 6px;
+    
+    svg {
+      width: 14px;
+      height: 14px;
+    }
+  }
+  
+  .icon1 { 
+    width: 26px; 
+    height: 26px; 
+    top: 40px;
+    left: 50px;
+  }
+  .icon2 { 
+    width: 24px; 
+    height: 24px; 
+    top: 30px;
+    right: 60px;
+  }
+  .icon3 { 
+    width: 22px; 
+    height: 22px; 
+    top: 80px;
+    right: 30px;
+  }
+  .icon4 { 
+    width: 24px; 
+    height: 24px; 
+    bottom: 60px;
+    right: 50px;
+  }
+  .icon5 { 
+    width: 22px; 
+    height: 22px; 
+    bottom: 40px;
+    left: 60px;
+  }
+  .icon6 { 
+    width: 20px; 
+    height: 20px; 
+    bottom: 80px;
+    left: 30px;
   }
 }
 

@@ -1,0 +1,138 @@
+@use "../../assets/styles/config.scss" as *;
+
+.redirectButton {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.25) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 20px;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  backdrop-filter: blur(15px);
+  white-space: nowrap;
+  box-shadow: 
+    0 2px 8px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+
+  &:hover {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.35) 100%);
+    border-color: rgba(255, 255, 255, 0.5);
+    transform: translateY(-2px);
+    box-shadow: 
+      0 8px 25px rgba(0, 0, 0, 0.15),
+      inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  }
+
+  &:active {
+    transform: translateY(-1px);
+  }
+
+  .iconWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+  }
+
+  .text {
+    font-size: inherit;
+    font-weight: inherit;
+  }
+
+  .externalIcon {
+    opacity: 0.8;
+    transition: opacity 0.2s ease;
+  }
+
+  &:hover .externalIcon {
+    opacity: 1;
+  }
+
+  // 尺寸變體
+  &.small {
+    padding: 6px 10px;
+    font-size: 11px;
+    gap: 4px;
+    border-radius: 16px;
+
+    .iconWrapper {
+      padding: 1px;
+    }
+  }
+
+  &.medium {
+    padding: 8px 12px;
+    font-size: 12px;
+    gap: 6px;
+    border-radius: 18px;
+
+    .iconWrapper {
+      padding: 2px;
+    }
+  }
+
+  &.large {
+    padding: 10px 16px;
+    font-size: 14px;
+    gap: 8px;
+    border-radius: 22px;
+
+    .iconWrapper {
+      padding: 3px;
+    }
+  }
+
+  // 位置變體
+  &.fixed {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 1000;
+    box-shadow: 
+      0 8px 32px rgba(59, 130, 246, 0.2),
+      0 4px 16px rgba(0, 0, 0, 0.1),
+      inset 0 1px 0 rgba(255, 255, 255, 0.2);
+
+    &:hover {
+      box-shadow: 
+        0 12px 40px rgba(59, 130, 246, 0.3),
+        0 6px 20px rgba(0, 0, 0, 0.15),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    }
+
+    // 手機版調整
+    @media (max-width: 480px) {
+      bottom: 20px;
+      right: 20px;
+    }
+  }
+
+  &.inline {
+    position: relative;
+  }
+}
+
+// 響應式設計
+@media (max-width: 480px) {
+  .redirectButton {
+    &.small {
+      padding: 5px 8px;
+      font-size: 10px;
+    }
+
+    &.medium {
+      padding: 6px 10px;
+      font-size: 11px;
+    }
+
+    &.large {
+      padding: 8px 12px;
+      font-size: 12px;
+    }
+  }
+}

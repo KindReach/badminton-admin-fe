@@ -6,6 +6,7 @@ import { FaRegClock, FaUserLock, FaUsers, FaClock } from "react-icons/fa6";
 import { GiTennisCourt } from "react-icons/gi";
 import { MdContentCopy, MdCheckCircle } from "react-icons/md";
 import { BiDollar } from "react-icons/bi";
+import { Trash2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { apiPrefix, auth } from "@/utils/firebase";
 import axios from "axios";
@@ -331,7 +332,8 @@ const Basic = ({
               className={`${styles.actionButton} ${styles.danger}`}
               onClick={() => setShow(true)}
             >
-              🗑️ 刪除場次
+              <Trash2 size={16} />
+              刪除場次
             </button>
           )}
         </div>

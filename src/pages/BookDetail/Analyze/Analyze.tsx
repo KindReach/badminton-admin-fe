@@ -33,46 +33,47 @@ const Analyze = ({
     limit_of_member > 0 ? (confirmedMembers / limit_of_member) * 100 : 0;
   const totalExpectedRevenue = amount_of_member * price;
   const confirmedRevenue = confirmedMembers * price;
-  const averageCostPerCourt =
-    amount_of_court > 0 ? totalExpectedRevenue / amount_of_court : 0;
-  const efficiencyRatio =
-    amount_of_court > 0 ? confirmedMembers / amount_of_court : 0;
 
   return (
     <div className={styles.container}>
       {/* 基本統計 */}
-      <div className={styles.contentContainer}>
-        <h2>基本統計</h2>
+      <div className={styles.statsSection}>
+        <div className={styles.sectionHeader}>
+          <h2>場次概況</h2>
+          <span className={styles.subtitle}>基本統計資訊</span>
+        </div>
         <div className={styles.statsGrid}>
-          <div className={`${styles.statCard} ${styles.primary}`}>
-            <FiUserCheck className={styles.statIcon} />
-            <span className={styles.statValue}>{confirmedMembers}</span>
-            <p className={styles.statLabel}>正取人數</p>
+          <div className={styles.statCard}>
+            <div className={styles.statLabel}>正取人數</div>
+            <div className={styles.statValue}>{confirmedMembers}</div>
+            <div className={styles.statUnit}>人</div>
           </div>
-          <div className={`${styles.statCard} ${styles.success}`}>
-            <FiPercent className={styles.statIcon} />
-            <span className={styles.statValue}>{rateOfShow}%</span>
-            <p className={styles.statLabel}>出席率</p>
+          <div className={styles.statCard}>
+            <div className={styles.statLabel}>出席率</div>
+            <div className={styles.statValue}>{rateOfShow}</div>
+            <div className={styles.statUnit}>%</div>
           </div>
-          <div className={`${styles.statCard} ${styles.warning}`}>
-            <FiGrid className={styles.statIcon} />
-            <span className={styles.statValue}>{amount_of_court}</span>
-            <p className={styles.statLabel}>開放場數</p>
+          <div className={styles.statCard}>
+            <div className={styles.statLabel}>開放場數</div>
+            <div className={styles.statValue}>{amount_of_court}</div>
+            <div className={styles.statUnit}>場</div>
           </div>
-          <div className={`${styles.statCard} ${styles.purple}`}>
-            <FiUsers className={styles.statIcon} />
-            <span className={styles.statValue}>{limit_of_member}</span>
-            <p className={styles.statLabel}>開放人數</p>
+          <div className={styles.statCard}>
+            <div className={styles.statLabel}>開放人數</div>
+            <div className={styles.statValue}>{limit_of_member}</div>
+            <div className={styles.statUnit}>人</div>
           </div>
         </div>
       </div>
 
       {/* 報名進度 */}
-      <div className={styles.contentContainer}>
-        <h2>報名進度</h2>
-        <div className={styles.progressStats}>
+      <div className={styles.progressSection}>
+        <div className={styles.sectionHeader}>
+          <h2>報名狀況</h2>
+        </div>
+        <div className={styles.progressList}>
           <div className={styles.progressItem}>
-            <div className={styles.progressHeader}>
+            <div className={styles.progressInfo}>
               <span className={styles.progressLabel}>報名進度</span>
               <span className={styles.progressValue}>
                 {confirmedMembers}/{limit_of_member}
@@ -80,39 +81,26 @@ const Analyze = ({
             </div>
             <div className={styles.progressBar}>
               <div
-                className={`${styles.progressFill} ${styles.primary}`}
-                style={{ width: `${fillRate}%` }}
-              ></div>
+                className={styles.progressFill}
+                style={{ width: `${Math.min(100, fillRate)}%` }}
+              />
             </div>
+            <div className={styles.progressPercent}>{fillRate.toFixed(0)}%</div>
           </div>
-          <div className={styles.progressItem}>
-            <div className={styles.progressHeader}>
-              <span className={styles.progressLabel}>出席進度</span>
-              <span className={styles.progressValue}>{rateOfShow}%</span>
-            </div>
-            <div className={styles.progressBar}>
-              <div
-                className={`${styles.progressFill} ${styles.success}`}
-                style={{ width: `${rateOfShow}%` }}
-              ></div>
-            </div>
-          </div>
+          
           {waitingMembers > 0 && (
             <div className={styles.progressItem}>
-              <div className={styles.progressHeader}>
+              <div className={styles.progressInfo}>
                 <span className={styles.progressLabel}>候補人數</span>
                 <span className={styles.progressValue}>{waitingMembers} 人</span>
               </div>
               <div className={styles.progressBar}>
                 <div
-                  className={`${styles.progressFill} ${styles.warning}`}
+                  className={`${styles.progressFill} ${styles.waiting}`}
                   style={{
-                    width: `${Math.min(
-                      100,
-                      (waitingMembers / limit_of_member) * 100
-                    )}%`,
+                    width: `${Math.min(100, (waitingMembers / limit_of_member) * 100)}%`,
                   }}
-                ></div>
+                />
               </div>
             </div>
           )}
@@ -120,87 +108,37 @@ const Analyze = ({
       </div>
 
       {/* 收入統計 */}
-      <div className={styles.contentContainer}>
-        <h2>收入統計</h2>
+      <div className={styles.financeSection}>
+        <div className={styles.sectionHeader}>
+          <h2>收入明細</h2>
+        </div>
         <div className={styles.financeGrid}>
-          <div className={styles.financeCard}>
-            <div className={styles.financeHeader}>
-              <FiDollarSign className={styles.financeIcon} />
-              <h3 className={styles.financeTitle}>預計總收入</h3>
-            </div>
-            <div className={styles.financeAmount}>
+          <div className={styles.financeItem}>
+            <div className={styles.financeLabel}>預計總收入</div>
+            <div className={styles.financeValue}>
               NT$ {totalExpectedRevenue.toLocaleString()}
             </div>
-            <p className={styles.financeSubtext}>
-              基於 {amount_of_member} 位報名者
-            </p>
-          </div>
-          <div className={styles.financeCard}>
-            <div className={styles.financeHeader}>
-              <BiCoinStack className={styles.financeIcon} />
-              <h3 className={styles.financeTitle}>確認收入</h3>
+            <div className={styles.financeNote}>
+              {amount_of_member} 位報名者
             </div>
-            <div className={styles.financeAmount}>
+          </div>
+          <div className={styles.financeItem}>
+            <div className={styles.financeLabel}>確認收入</div>
+            <div className={styles.financeValue}>
               NT$ {confirmedRevenue.toLocaleString()}
             </div>
-            <p className={styles.financeSubtext}>
-              基於 {confirmedMembers} 位正取者
-            </p>
-          </div>
-          <div className={styles.financeCard}>
-            <div className={styles.financeHeader}>
-              <FiTarget className={styles.financeIcon} />
-              <h3 className={styles.financeTitle}>每人費用</h3>
+            <div className={styles.financeNote}>
+              {confirmedMembers} 位正取者
             </div>
-            <div className={styles.financeAmount}>
+          </div>
+          <div className={styles.financeItem}>
+            <div className={styles.financeLabel}>單人費用</div>
+            <div className={styles.financeValue}>
               NT$ {price.toLocaleString()}
             </div>
-            <p className={styles.financeSubtext}>單人場地費用</p>
-          </div>
-        </div>
-      </div>
-
-      {/* 效率指標 */}
-      <div className={styles.contentContainer}>
-        <h2>效率指標</h2>
-        <div className={styles.efficiencyMetrics}>
-          <div className={styles.metricCard}>
-            <div className={styles.metricValue}>{fillRate.toFixed(1)}%</div>
-            <p className={styles.metricLabel}>報名滿額率</p>
-            <p
-              className={`${styles.metricTrend} ${
-                fillRate >= 80 ? styles.positive : styles.neutral
-              }`}
-            >
-              {fillRate >= 80 ? "報名狀況良好" : "仍有名額"}
-            </p>
-          </div>
-          <div className={styles.metricCard}>
-            <div className={styles.metricValue}>{efficiencyRatio.toFixed(1)}</div>
-            <p className={styles.metricLabel}>每場平均人數</p>
-            <p className={`${styles.metricTrend} ${styles.neutral}`}>
-              人數/場地比
-            </p>
-          </div>
-          <div className={styles.metricCard}>
-            <div className={styles.metricValue}>
-              NT$ {averageCostPerCourt.toFixed(0)}
+            <div className={styles.financeNote}>
+              每人場地費用
             </div>
-            <p className={styles.metricLabel}>每場平均收入</p>
-            <p className={`${styles.metricTrend} ${styles.neutral}`}>
-              收入效率
-            </p>
-          </div>
-          <div className={styles.metricCard}>
-            <div className={styles.metricValue}>{waitingMembers}</div>
-            <p className={styles.metricLabel}>候補人數</p>
-            <p
-              className={`${styles.metricTrend} ${
-                waitingMembers > 0 ? styles.positive : styles.neutral
-              }`}
-            >
-              {waitingMembers > 0 ? "需求超出供給" : "尚未滿額"}
-            </p>
           </div>
         </div>
       </div>

@@ -1,4 +1,12 @@
 import React from 'react';
+import { 
+  BarChart3, 
+  Users, 
+  Settings, 
+  TrendingUp, 
+  Shield, 
+  Bell 
+} from 'lucide-react';
 import styles from './Loading.module.css';
 
 interface AdminLoadingProps {
@@ -127,44 +135,32 @@ const AdminLoading: React.FC<AdminLoadingProps> = ({ className }) => {
         <div className={styles.floatingIcons}>
           {/* 圖表圖標 */}
           <div className={`${styles.floatingIcon} ${styles.icon1}`}>
-            <svg viewBox="0 0 24 24" fill="currentColor">
-              <path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/>
-            </svg>
+            <BarChart3 />
           </div>
           
           {/* 用戶管理圖標 */}
           <div className={`${styles.floatingIcon} ${styles.icon2}`}>
-            <svg viewBox="0 0 24 24" fill="currentColor">
-              <path d="M16 7c0-2.76-2.24-5-5-5s-5 2.24-5 5 2.24 5 5 5 5-2.24 5-5zM12 14c-3.33 0-10 1.67-10 5v3h20v-3c0-3.33-6.67-5-10-5z"/>
-            </svg>
+            <Users />
           </div>
           
           {/* 設定圖標 */}
           <div className={`${styles.floatingIcon} ${styles.icon3}`}>
-            <svg viewBox="0 0 24 24" fill="currentColor">
-              <path d="M19.14,12.94c0.04-0.3,0.06-0.61,0.06-0.94c0-0.32-0.02-0.64-0.07-0.94l2.03-1.58c0.18-0.14,0.23-0.41,0.12-0.61 l-1.92-3.32c-0.12-0.22-0.37-0.29-0.59-0.22l-2.39,0.96c-0.5-0.38-1.03-0.7-1.62-0.94L14.4,2.81c-0.04-0.24-0.24-0.41-0.48-0.41 h-3.84c-0.24,0-0.43,0.17-0.47,0.41L9.25,5.35C8.66,5.59,8.12,5.92,7.63,6.29L5.24,5.33c-0.22-0.08-0.47,0-0.59,0.22L2.74,8.87 C2.62,9.08,2.66,9.34,2.86,9.48l2.03,1.58C4.84,11.36,4.82,11.69,4.82,12s0.02,0.64,0.07,0.94l-2.03,1.58 c-0.18,0.14-0.23,0.41-0.12,0.61l1.92,3.32c0.12,0.22,0.37,0.29,0.59,0.22l2.39-0.96c0.5,0.38,1.03,0.7,1.62,0.94l0.36,2.54 c0.05,0.24,0.24,0.41,0.48,0.41h3.84c0.24,0,0.44-0.17,0.47-0.41l0.36-2.54c0.59-0.24,1.13-0.56,1.62-0.94l2.39,0.96 c0.22,0.08,0.47,0,0.59-0.22l1.92-3.32c0.12-0.22,0.07-0.47-0.12-0.61L19.14,12.94z M12,15.6c-1.98,0-3.6-1.62-3.6-3.6 s1.62-3.6,3.6-3.6s3.6,1.62,3.6,3.6S13.98,15.6,12,15.6z"/>
-            </svg>
+            <Settings />
           </div>
           
           {/* 數據分析圖標 */}
           <div className={`${styles.floatingIcon} ${styles.icon4}`}>
-            <svg viewBox="0 0 24 24" fill="currentColor">
-              <path d="M5,9.2h3V19H5V9.2z M10.6,5h2.8v14h-2.8V5z M16.2,13H19v6h-2.8V13z"/>
-            </svg>
+            <TrendingUp />
           </div>
           
           {/* 安全圖標 */}
           <div className={`${styles.floatingIcon} ${styles.icon5}`}>
-            <svg viewBox="0 0 24 24" fill="currentColor">
-              <path d="M18,8h-1V6c0-2.76-2.24-5-5-5S7,3.24,7,6v2H6c-1.1,0-2,0.9-2,2v10c0,1.1,0.9,2,2,2h12c1.1,0,2-0.9,2-2V10 C20,8.9,19.1,8,18,8z M12,17c-1.1,0-2-0.9-2-2s0.9-2,2-2s2,0.9,2,2S13.1,17,12,17z M15.1,8H8.9V6c0-1.71,1.39-3.1,3.1-3.1 s3.1,1.39,3.1,3.1V8z"/>
-            </svg>
+            <Shield />
           </div>
           
           {/* 通知圖標 */}
           <div className={`${styles.floatingIcon} ${styles.icon6}`}>
-            <svg viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12,22c1.1,0,2-0.9,2-2h-4C10,21.1,10.9,22,12,22z M18,16v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-0.83-0.67-1.5-1.5-1.5 s-1.5,0.67-1.5,1.5v0.68C7.63,5.36,6,7.92,6,11v5l-2,2v1h16v-1L18,16z"/>
-            </svg>
+            <Bell />
           </div>
         </div>
       </div>

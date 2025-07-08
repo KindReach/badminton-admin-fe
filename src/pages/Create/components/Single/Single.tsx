@@ -1,11 +1,12 @@
 import styles from "./Single.module.css";
-import { Form, Alert } from "react-bootstrap";
+import { Form } from "react-bootstrap";
 import { SlLocationPin } from "react-icons/sl";
 import { GoPeople } from "react-icons/go";
 import { FaRegClock } from "react-icons/fa6";
 import { IoAlertCircleOutline } from "react-icons/io5";
 import { IoFilterOutline } from "react-icons/io5";
-import { BsListTask } from "react-icons/bs"; // 新增場次分類圖標
+import { BsListTask } from "react-icons/bs";
+import CustomAlert from "@/components/CustomAlert/CustomAlert";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { CreateSessionType } from "@/utils/types";
@@ -120,9 +121,6 @@ const Single = ({ addNewSession, setShow }: Props) => {
   useEffect(() => {
     if (errorOfDate && date) setErrorOfDate(false);
     if (errorOfTime && startTime && endTime) setErrorOfTime(false);
-    if (startTime && endTime && endTime !== "00:00" && startTime >= endTime) {
-      setErrorOfTime(true);
-    }
   }, [startTime, endTime, date]);
 
   // 數字輸入驗證
@@ -280,14 +278,6 @@ const Single = ({ addNewSession, setShow }: Props) => {
     if (!startTime || !endTime) {
       setErrorOfTime(true);
       isOK = false;
-    }
-
-    if (startTime && endTime) {
-      // 如果結束時間是 00:00，視為隔天凌晨，不進行時間比較
-      if (endTime !== "00:00" && startTime >= endTime) {
-        setErrorOfTime(true);
-        isOK = false;
-      }
     }
 
     // 數字輸入驗證
@@ -549,9 +539,9 @@ const Single = ({ addNewSession, setShow }: Props) => {
             onChange={(e) => setDate(e.target.value)}
           />
           {errorOfDate && (
-            <Alert variant="danger" className={styles.alert}>
+            <CustomAlert variant="error" size="small" className={styles.alert}>
               請設定正常日期
-            </Alert>
+            </CustomAlert>
           )}
         </div>
 
@@ -596,9 +586,9 @@ const Single = ({ addNewSession, setShow }: Props) => {
           </LocalizationProvider>
         </div>
         {errorOfTime && (
-          <Alert variant="danger" className={styles.alert}>
+          <CustomAlert variant="error" size="small" className={styles.alert}>
             請設定正常時間
-          </Alert>
+          </CustomAlert>
         )}
       </div>
       <div className={styles.inputGroup}>
@@ -634,9 +624,9 @@ const Single = ({ addNewSession, setShow }: Props) => {
           required
         />
         {errorOfCourt && (
-          <Alert variant="danger" className={styles.alert}>
+          <CustomAlert variant="error" size="small" className={styles.alert}>
             請設定正確場數
-          </Alert>
+          </CustomAlert>
         )}
 
         <label
@@ -662,9 +652,9 @@ const Single = ({ addNewSession, setShow }: Props) => {
           required
         />
         {errorOfLimit && (
-          <Alert variant="danger" className={styles.alert}>
+          <CustomAlert variant="error" size="small" className={styles.alert}>
             請設定正確人數上限
-          </Alert>
+          </CustomAlert>
         )}
 
         <label htmlFor="price" className={`form-label ${styles.smLabel}`}>
@@ -687,9 +677,9 @@ const Single = ({ addNewSession, setShow }: Props) => {
           required
         />
         {errorOfPrice && (
-          <Alert variant="danger" className={styles.alert}>
+          <CustomAlert variant="error" size="small" className={styles.alert}>
             請設定正確價格
-          </Alert>
+          </CustomAlert>
         )}
       </div>
 
@@ -726,9 +716,9 @@ const Single = ({ addNewSession, setShow }: Props) => {
           ))}
         </div>
         {errorOfCategories && (
-          <Alert variant="danger" className={styles.alert}>
+          <CustomAlert variant="warning" size="small" className={styles.alert}>
             請設定至少一個分類
-          </Alert>
+          </CustomAlert>
         )}
         
         <div className={styles.helpText}>

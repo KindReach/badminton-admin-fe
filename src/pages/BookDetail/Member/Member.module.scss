@@ -4,112 +4,186 @@
   width: 100%;
   height: 100%;
   overflow-y: auto;
-  padding: 18px;
-  background-color: #f8fafc;
+  padding: 20px;
+  background: linear-gradient(135deg, map-get($neutral-colors, "bg-gray-50") 0%, map-get($neutral-colors, "bg-gray-100") 100%);
 
   .statsContainer {
     width: 100%;
-    padding: 28px;
-    background-color: white;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
-    border-radius: 14px;
-    margin-bottom: 18px;
-    border: 1px solid #e2e8f0;
-    transition: box-shadow 0.2s ease-in-out;
+    background: white;
+    border-radius: 16px;
+    margin-bottom: 24px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
 
     &:hover {
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06);
+      box-shadow: 0 4px 25px rgba(0, 0, 0, 0.08);
+      transform: translateY(-2px);
     }
 
-    h2 {
-      margin-bottom: 24px;
-      font-size: 22px;
-      font-weight: 600;
-      color: #1e293b;
-      display: flex;
-      align-items: center;
-      
-      &:before {
+    .statsHeader {
+      padding: 24px 28px 20px;
+      background: linear-gradient(135deg, map-get($neutral-colors, "bg-gray-50") 0%, map-get($neutral-colors, "bg-gray-100") 100%);
+      border-bottom: 1px solid map-get($neutral-colors, "border-gray-300");
+      position: relative;
+
+      &::after {
         content: '';
-        width: 5px;
-        height: 22px;
-        background: linear-gradient(
-          to bottom,
-          map-get($brand-colors, "from-blue"),
-          map-get($brand-colors, "to-blue")
-        );
-        margin-right: 14px;
+        position: absolute;
+        bottom: 0;
+        left: 28px;
+        width: 40px;
+        height: 3px;
+        background: linear-gradient(90deg, map-get($brand-colors, "from-blue") 0%, map-get($brand-colors, "to-blue") 100%);
         border-radius: 2px;
+      }
+      
+      h2 {
+        margin: 0;
+        font-size: 18px;
+        font-weight: 700;
+        color: map-get($neutral-colors, "text-gray-600");
+        letter-spacing: -0.025em;
+      }
+      
+      .statsSubtitle {
+        margin: 6px 0 0;
+        font-size: 14px;
+        color: map-get($neutral-colors, "text-gray-500");
+        font-weight: 500;
       }
     }
 
-    .statsGrid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-
-      .statCard {
-        padding: 16px 12px;
-        background: white;
-        border-radius: 8px;
-        text-align: center;
-        border: 1px solid #e2e8f0;
-        transition: all 0.2s ease;
-        position: relative;
-        overflow: hidden;
-
-        &:hover {
-          transform: translateY(-1px);
-          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    .statsContent {
+      padding: 28px 28px 32px;
+      
+      .statsRow {
+        display: flex;
+        margin-bottom: 20px;
+        gap: 16px;
+        
+        &:last-child {
+          margin-bottom: 0;
         }
-
-        &:before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          height: 3px;
-          background: var(--accent-color);
+        
+        .statItem {
+          flex: 1;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 24px 20px;
+          background: linear-gradient(135deg, map-get($neutral-colors, "bg-gray-50") 0%, map-get($neutral-colors, "bg-gray-100") 100%);
+          border-radius: 16px;
+          border: 1px solid map-get($neutral-colors, "border-gray-300");
+          transition: all 0.3s ease;
+          
+          &:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            border-color: map-get($neutral-colors, "border-gray-300");
+          }
+          
+          .statLeft {
+            .statLabel {
+              font-size: 12px;
+              color: map-get($neutral-colors, "text-gray-500");
+              font-weight: 600;
+              margin: 0 0 8px;
+              line-height: 1.2;
+              text-transform: uppercase;
+              letter-spacing: 0.1em;
+            }
+            
+            .statValue {
+              font-size: 32px;
+              font-weight: 800;
+              color: map-get($neutral-colors, "text-gray-600");
+              margin: 0;
+              line-height: 1;
+            }
+          }
+          
+          .statIcon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+          }
+          
+          &.accepted {
+            .statIcon {
+              background: linear-gradient(135deg, map-get($brand-colors, "from-blue") 0%, map-get($brand-colors, "to-blue") 100%);
+              color: white;
+            }
+            .statValue {
+              color: map-get($brand-colors, "text-blue-600");
+            }
+          }
+          
+          &.waiting {
+            .statIcon {
+              background: linear-gradient(135deg, map-get($function-colors, "text-range-600") 0%, #dc2626 100%);
+              color: white;
+            }
+            .statValue {
+              color: map-get($function-colors, "text-range-600");
+            }
+          }
+          
+          &.signed {
+            .statIcon {
+              background: linear-gradient(135deg, map-get($function-colors, "bg-green-500") 0%, map-get($function-colors, "bg-green-600") 100%);
+              color: white;
+            }
+            .statValue {
+              color: map-get($function-colors, "text-green-600");
+            }
+          }
         }
-
-        .statValue {
-          font-size: 26px;
-          font-weight: 700;
-          margin-bottom: 4px;
-          display: block;
-          color: var(--accent-color);
-        }
-
-        .statLabel {
-          font-size: 15px;
-          color: #64748b;
-          font-weight: 500;
-          margin: 0;
-        }
-
-        .statIcon {
-          font-size: 18px;
-          margin-bottom: 6px;
-          color: var(--accent-color);
-        }
-
-        &.accepted {
-          --accent-color: #1d4ed8;
-          background: #f0f9ff;
-          border-color: #3b82f6;
-        }
-
-        &.waiting {
-          --accent-color: #d97706;
-          background: #fffbeb;
-          border-color: #f59e0b;
-        }
-
-        &.signed {
-          --accent-color: #059669;
-          background: #f0fdf4;
-          border-color: #22c55e;
+      }
+      
+      .summaryRow {
+        margin-top: 28px;
+        padding-top: 24px;
+        border-top: 1px solid map-get($neutral-colors, "border-gray-300");
+        
+        .summaryItem {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 16px 0;
+          
+          .summaryLabel {
+            font-size: 15px;
+            color: map-get($neutral-colors, "text-gray-600");
+            font-weight: 600;
+          }
+          
+          .summaryValue {
+            font-size: 15px;
+            font-weight: 700;
+            color: map-get($neutral-colors, "text-gray-600");
+            
+            .percentage {
+              font-size: 13px;
+              color: map-get($neutral-colors, "text-gray-500");
+              margin-left: 8px;
+              font-weight: 500;
+            }
+          }
+          
+          &.attendanceRate {
+            .summaryValue {
+              background: linear-gradient(90deg, map-get($function-colors, "text-green-500") 0%, map-get($function-colors, "text-green-600") 100%);
+              -webkit-background-clip: text;
+              -webkit-text-fill-color: transparent;
+              background-clip: text;
+            }
+          }
         }
       }
     }
@@ -117,188 +191,206 @@
 
   .memberSection {
     width: 100%;
-    padding: 28px;
-    background-color: white;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
-    border-radius: 14px;
-    border: 1px solid #e2e8f0;
-    transition: box-shadow 0.2s ease-in-out;
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
 
     &:hover {
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06);
+      box-shadow: 0 4px 25px rgba(0, 0, 0, 0.08);
+      transform: translateY(-2px);
     }
 
-    h2 {
-      margin-bottom: 24px;
-      font-size: 22px;
-      font-weight: 600;
-      color: #1e293b;
+    .sectionHeader {
       display: flex;
+      justify-content: space-between;
       align-items: center;
-      
-      &:before {
+      padding: 24px 28px 20px;
+      background: linear-gradient(135deg, map-get($neutral-colors, "bg-gray-50") 0%, map-get($neutral-colors, "bg-gray-100") 100%);
+      border-bottom: 1px solid map-get($neutral-colors, "border-gray-300");
+      position: relative;
+
+      &::after {
         content: '';
-        width: 5px;
-        height: 22px;
-        background: linear-gradient(
-          to bottom,
-          map-get($brand-colors, "from-blue"),
-          map-get($brand-colors, "to-blue")
-        );
-        margin-right: 14px;
+        position: absolute;
+        bottom: 0;
+        left: 28px;
+        width: 40px;
+        height: 3px;
+        background: linear-gradient(90deg, map-get($brand-colors, "from-blue") 0%, map-get($brand-colors, "to-blue") 100%);
         border-radius: 2px;
+      }
+
+      h2 {
+        margin: 0;
+        font-size: 18px;
+        font-weight: 700;
+        color: map-get($neutral-colors, "text-gray-600");
+      }
+
+      .memberCount {
+        font-size: 14px;
+        color: map-get($neutral-colors, "text-gray-500");
+        font-weight: 600;
+        background: linear-gradient(90deg, map-get($brand-colors, "from-blue") 0%, map-get($brand-colors, "to-blue") 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
       }
     }
 
-    .memberList {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
+    .memberTable {
+      .tableHeader {
+        display: flex;
+        background-color: map-get($neutral-colors, "bg-gray-50");
+        border-bottom: 1px solid map-get($neutral-colors, "border-gray-300");
 
-      .memberContainer {
-        position: relative;
-        width: 100%;
-        background-color: #f8fafc;
-        border: 1px solid #e2e8f0;
-        border-radius: 14px;
-        padding: 20px;
-        transition: all 0.2s ease;
-        cursor: pointer;
+        .headerCell {
+          flex: 1;
+          padding: 12px 24px;
+          font-size: 13px;
+          font-weight: 600;
+          color: map-get($neutral-colors, "text-gray-600");
+          text-transform: uppercase;
+          letter-spacing: 0.025em;
 
-        &:hover {
-          background-color: #f1f5f9;
-          border-color: #cbd5e1;
-          transform: translateY(-1px);
-          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+          &:first-child {
+            flex: 2;
+          }
         }
+      }
 
-        .profile {
+      .tableBody {
+        .memberRow {
           display: flex;
           align-items: center;
-          width: 100%;
+          padding: 20px 28px;
+          border-bottom: 1px solid map-get($neutral-colors, "border-gray-300");
+          transition: all 0.3s ease;
 
-          .headContainer {
-            width: 64px;
-            height: 64px;
-            border-radius: 50%;
-            margin-right: 20px;
-            position: relative;
-            overflow: hidden;
-            background: linear-gradient(135deg, #e2e8f0, #cbd5e1);
-            flex-shrink: 0;
-
-            img {
-              width: 100%;
-              height: 100%;
-              object-fit: cover;
-              border-radius: 50%;
-              transition: transform 0.2s ease;
-            }
-
-            &:hover img {
-              transform: scale(1.05);
-            }
+          &:hover {
+            background: linear-gradient(135deg, map-get($neutral-colors, "bg-gray-50") 0%, map-get($neutral-colors, "bg-gray-100") 100%);
+            transform: translateX(4px);
           }
 
-          .description {
-            flex: 1;
-            min-width: 0;
+          &:last-child {
+            border-bottom: none;
+          }
 
-            .userName {
-              font-size: 18px;
-              font-weight: 600;
-              margin-bottom: 6px;
-              color: #1e293b;
-              display: flex;
-              align-items: center;
-              gap: 10px;
+          .memberInfo {
+            flex: 2;
+            display: flex;
+            align-items: center;
+
+            .avatar {
+              width: 48px;
+              height: 48px;
+              border-radius: 12px;
+              overflow: hidden;
+              margin-right: 20px;
+              background: linear-gradient(135deg, map-get($neutral-colors, "bg-gray-200") 0%, map-get($neutral-colors, "text-gray-500") 100%);
+              box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+              img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+              }
             }
 
-            .bookingTime {
-              font-size: 15px;
-              color: #64748b;
-              margin: 0;
-              display: flex;
-              align-items: center;
-              gap: 6px;
+            .details {
+              .nameSection {
+                display: flex;
+                align-items: center;
+                margin-bottom: 6px;
 
-              .timeIcon {
+                .name {
+                  font-size: 16px;
+                  font-weight: 600;
+                  color: map-get($neutral-colors, "text-gray-600");
+                  margin-right: 12px;
+                }
+
+                .acceptBadge {
+                  background: map-get($brand-colors, "bg-blue-100");
+                  color: map-get($brand-colors, "text-blue-600");
+                  font-size: 11px;
+                  font-weight: 600;
+                  padding: 4px 8px;
+                  border-radius: 6px;
+                  text-transform: uppercase;
+                  letter-spacing: 0.05em;
+                  border: 1px solid map-get($brand-colors, "border-blue-100");
+                }
+              }
+
+              .timeSection {
+                display: flex;
+                align-items: center;
                 font-size: 14px;
+
+                .timeLabel {
+                  color: map-get($neutral-colors, "text-gray-500");
+                  margin-right: 8px;
+                  font-weight: 500;
+                }
+
+                .timeValue {
+                  color: map-get($neutral-colors, "text-gray-600");
+                  font-weight: 600;
+                }
               }
             }
           }
 
-          .statusBadge {
+          .statusSection {
+            flex: 1;
             display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 10px 16px;
-            border-radius: 24px;
-            font-size: 15px;
-            font-weight: 500;
-            white-space: nowrap;
-            transition: all 0.2s ease;
+            justify-content: flex-end;
 
-            .statusIcon {
-              font-size: 16px;
-            }
+            .statusText {
+              font-size: 14px;
+              font-weight: 600;
+              padding: 8px 16px;
+              border-radius: 8px;
+              text-align: center;
+              min-width: 80px;
+              transition: all 0.3s ease;
 
-            &.signed {
-              background: linear-gradient(135deg, #ecfdf5, #d1fae5);
-              color: #059669;
-              border: 1px solid #10b981;
-            }
+              &.signed {
+                background: map-get($function-colors, "bg-green-100");
+                color: map-get($function-colors, "text-green-600");
+                border: 1px solid map-get($function-colors, "bg-green-500");
+              }
 
-            &.waiting {
-              background: linear-gradient(135deg, #fef3c7, #fde68a);
-              color: #d97706;
-              border: 1px solid #f59e0b;
-            }
+              &.waiting {
+                background: map-get($function-colors, "bg-orange-100");
+                color: map-get($function-colors, "text-range-600");
+                border: 1px solid map-get($function-colors, "text-range-600");
+              }
 
-            &.pending {
-              background: linear-gradient(135deg, #f1f5f9, #e2e8f0);
-              color: #64748b;
-              border: 1px solid #cbd5e1;
+              &.pending {
+                background: map-get($neutral-colors, "bg-gray-100");
+                color: map-get($neutral-colors, "text-gray-600");
+                border: 1px solid map-get($neutral-colors, "border-gray-300");
+              }
             }
           }
         }
-
-        &.accepted {
-          border-left: 4px solid map-get($brand-colors, "from-blue");
-        }
-
-        &.waiting {
-          border-left: 4px solid #f59e0b;
-        }
-
-        &.signed {
-          border-left: 4px solid #059669;
-          background: linear-gradient(135deg, #f0fdf4, #f8fafc);
-        }
       }
+    }
 
-      .emptyState {
-        text-align: center;
-        padding: 40px 20px;
-        color: #64748b;
+    .emptyState {
+      padding: 48px 24px;
+      text-align: center;
 
-        .emptyIcon {
-          font-size: 48px;
-          margin-bottom: 16px;
-          color: #cbd5e1;
-        }
-
-        .emptyTitle {
-          font-size: 18px;
-          font-weight: 600;
-          margin-bottom: 8px;
-          color: #475569;
-        }
-
-        .emptyDescription {
+      .emptyContent {
+        .emptyText {
           font-size: 14px;
-          margin: 0;
+          color: map-get($neutral-colors, "text-gray-500");
+          font-weight: 500;
         }
       }
     }
@@ -307,54 +399,159 @@
 
 @media (max-width: 768px) {
   .container {
-    padding: 14px;
+    padding: 16px;
 
     .statsContainer {
-      padding: 20px;
+      margin-bottom: 20px;
+      border-radius: 12px;
 
-      .statsGrid {
-        grid-template-columns: repeat(3, 1fr);
-        gap: 8px;
+      .statsHeader {
+        padding: 20px 24px 16px;
 
-        .statCard {
-          padding: 14px 10px;
+        &::after {
+          left: 24px;
+        }
+        
+        h2 {
+          font-size: 16px;
+        }
+        
+        .statsSubtitle {
+          font-size: 13px;
+        }
+      }
 
-          .statValue {
-            font-size: 22px;
+      .statsContent {
+        padding: 20px 24px 24px;
+        
+        .statsRow {
+          flex-direction: column;
+          gap: 12px;
+          
+          .statItem {
+            padding: 20px 16px;
+            
+            .statLeft {
+              .statValue {
+                font-size: 24px;
+              }
+            }
+            
+            .statIcon {
+              width: 40px;
+              height: 40px;
+              font-size: 18px;
+            }
           }
+        }
 
-          .statLabel {
-            font-size: 13px;
-          }
+        .summaryRow {
+          margin-top: 20px;
+          padding-top: 20px;
 
-          .statIcon {
-            font-size: 16px;
-            margin-bottom: 4px;
+          .summaryItem {
+            padding: 12px 0;
+
+            .summaryLabel {
+              font-size: 14px;
+            }
+
+            .summaryValue {
+              font-size: 14px;
+
+              .percentage {
+                font-size: 12px;
+              }
+            }
           }
         }
       }
     }
 
     .memberSection {
-      padding: 20px;
+      border-radius: 12px;
 
-      .memberList .memberContainer {
-        padding: 16px;
+      .sectionHeader {
+        padding: 20px 24px 16px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
 
-        .profile {
-          .headContainer {
-            width: 56px;
-            height: 56px;
-            margin-right: 16px;
+        &::after {
+          left: 24px;
+        }
+
+        h2 {
+          font-size: 17px;
+        }
+
+        .memberCount {
+          font-size: 14px;
+        }
+      }
+
+      .memberTable {
+        .tableHeader {
+          display: none;
+        }
+
+        .tableBody {
+          .memberRow {
+            flex-direction: column;
+            align-items: flex-start;
+            padding: 20px 24px;
+
+            .memberInfo {
+              width: 100%;
+              margin-bottom: 16px;
+
+              .avatar {
+                width: 40px;
+                height: 40px;
+                margin-right: 16px;
+                border-radius: 10px;
+              }
+
+              .details {
+                .nameSection {
+                  margin-bottom: 4px;
+
+                  .name {
+                    font-size: 16px;
+                  }
+
+                  .acceptBadge {
+                    font-size: 11px;
+                    padding: 3px 6px;
+                  }
+                }
+
+                .timeSection {
+                  font-size: 14px;
+                }
+              }
+            }
+
+            .statusSection {
+              width: 100%;
+              justify-content: flex-start;
+
+              .statusText {
+                font-size: 14px;
+                padding: 6px 12px;
+                min-width: 70px;
+              }
+            }
           }
+        }
+      }
 
-          .description .userName {
-            font-size: 16px;
-          }
+      .emptyState {
+        padding: 40px 24px;
 
-          .statusBadge {
-            padding: 8px 12px;
-            font-size: 13px;
+        .emptyContent {
+          .emptyText {
+            font-size: 15px;
           }
         }
       }

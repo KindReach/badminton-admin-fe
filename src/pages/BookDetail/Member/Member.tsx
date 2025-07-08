@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import styles from "./Member.module.css";
-import { FiCheckCircle, FiAlertTriangle, FiClock, FiUsers, FiUserCheck, FiUserX } from "react-icons/fi";
-import { FaRegQuestionCircle } from "react-icons/fa";
+import { FiCheckCircle, FiUsers, FiUserCheck, FiUserX } from "react-icons/fi";
 import { apiPrefix, auth } from "@/utils/firebase";
 import axios from "axios";
 
@@ -25,62 +24,39 @@ const MemberInfo = ({
   is_show,
   is_accept,
 }: MemberProps) => {
-  const [state, setState] = useState<number>(0);
+  const getStatusText = () => {
+    if (!is_accept) return "候補";
+    if (is_show) return "已簽到";
+    return "未簽到";
+  };
 
-  // 狀態配置
-  const statusConfig = [
-    {
-      icon: <FiCheckCircle className={styles.statusIcon} />,
-      text: "已簽到",
-      className: "signed"
-    },
-    {
-      icon: <FiAlertTriangle className={styles.statusIcon} />,
-      text: "候補中",
-      className: "waiting"
-    },
-    {
-      icon: <FaRegQuestionCircle className={styles.statusIcon} />,
-      text: "未簽到",
-      className: "pending"
-    }
-  ];
-
-  useEffect(() => {
-    if (!is_accept) {
-      setState(1); // 候補中
-    } else if (is_show) {
-      setState(0); // 已簽到
-    } else {
-      setState(2); // 未簽到
-    }
-  }, [is_accept, is_show]);
-
-  const currentStatus = statusConfig[state];
-  const containerClass = `${styles.memberContainer} ${
-    is_accept ? (is_show ? styles.signed : styles.accepted) : styles.waiting
-  }`;
+  const getStatusClass = () => {
+    if (!is_accept) return styles.waiting;
+    if (is_show) return styles.signed;
+    return styles.pending;
+  };
 
   return (
-    <div className={containerClass}>
-      <div className={styles.profile}>
-        <div className={styles.headContainer}>
-          <img src={profile_picture} alt={`${user_name}的頭像`} />
+    <div className={styles.memberRow}>
+      <div className={styles.memberInfo}>
+        <div className={styles.avatar}>
+          <img src={profile_picture} alt={user_name} />
         </div>
-        <div className={styles.description}>
-          <h3 className={styles.userName}>
-            {user_name}
-            {is_accept && <FiUserCheck style={{ color: '#059669', fontSize: '14px' }} />}
-          </h3>
-          <p className={styles.bookingTime}>
-            <FiClock className={styles.timeIcon} />
-            報名時間：{booking_time}
-          </p>
+        <div className={styles.details}>
+          <div className={styles.nameSection}>
+            <span className={styles.name}>{user_name}</span>
+            {is_accept && <span className={styles.acceptBadge}>正取</span>}
+          </div>
+          <div className={styles.timeSection}>
+            <span className={styles.timeLabel}>報名時間</span>
+            <span className={styles.timeValue}>{booking_time}</span>
+          </div>
         </div>
-        <div className={`${styles.statusBadge} ${styles[currentStatus.className]}`}>
-          {currentStatus.icon}
-          {currentStatus.text}
-        </div>
+      </div>
+      <div className={styles.statusSection}>
+        <span className={`${styles.statusText} ${getStatusClass()}`}>
+          {getStatusText()}
+        </span>
       </div>
     </div>
   );
@@ -140,56 +116,99 @@ const Member = ({ book_id, setRateofShow }: Props) => {
   }, [amountOfSigned, members.length]);
 
   const waitingCount = members.length - amountOfAccept;
+  const attendanceRate = amountOfAccept > 0 ? Math.round((amountOfSigned / amountOfAccept) * 100) : 0;
 
   return (
     <div className={styles.container}>
       {/* 統計數據 */}
       <div className={styles.statsContainer}>
-        <h2>報名統計</h2>
-        <div className={styles.statsGrid}>
-          <div className={`${styles.statCard} ${styles.accepted}`}>
-            <FiUserCheck className={styles.statIcon} />
-            <span className={styles.statValue}>{amountOfAccept}</span>
-            <p className={styles.statLabel}>正取人數</p>
+        <div className={styles.statsHeader}>
+          <h2>報名統計</h2>
+          <p className={styles.statsSubtitle}>場次報名與出席狀況概覽</p>
+        </div>
+        
+        <div className={styles.statsContent}>
+          <div className={styles.statsRow}>
+            <div className={`${styles.statItem} ${styles.accepted}`}>
+              <div className={styles.statLeft}>
+                <p className={styles.statLabel}>正取人數</p>
+                <p className={styles.statValue}>{amountOfAccept}</p>
+              </div>
+              <div className={styles.statIcon}>
+                <FiUserCheck />
+              </div>
+            </div>
+            
+            <div className={`${styles.statItem} ${styles.waiting}`}>
+              <div className={styles.statLeft}>
+                <p className={styles.statLabel}>候補人數</p>
+                <p className={styles.statValue}>{waitingCount}</p>
+              </div>
+              <div className={styles.statIcon}>
+                <FiUserX />
+              </div>
+            </div>
+            
+            <div className={`${styles.statItem} ${styles.signed}`}>
+              <div className={styles.statLeft}>
+                <p className={styles.statLabel}>簽到人數</p>
+                <p className={styles.statValue}>{amountOfSigned}</p>
+              </div>
+              <div className={styles.statIcon}>
+                <FiCheckCircle />
+              </div>
+            </div>
           </div>
-          <div className={`${styles.statCard} ${styles.waiting}`}>
-            <FiUserX className={styles.statIcon} />
-            <span className={styles.statValue}>{waitingCount}</span>
-            <p className={styles.statLabel}>候補人數</p>
-          </div>
-          <div className={`${styles.statCard} ${styles.signed}`}>
-            <FiCheckCircle className={styles.statIcon} />
-            <span className={styles.statValue}>{amountOfSigned}</span>
-            <p className={styles.statLabel}>簽到人數</p>
+          
+          <div className={styles.summaryRow}>
+            <div className={`${styles.summaryItem} ${styles.attendanceRate}`}>
+              <span className={styles.summaryLabel}>出席率</span>
+              <span className={styles.summaryValue}>
+                {attendanceRate}%
+                <span className={styles.percentage}>({amountOfSigned}/{amountOfAccept})</span>
+              </span>
+            </div>
+            <div className={styles.summaryItem}>
+              <span className={styles.summaryLabel}>總報名人數</span>
+              <span className={styles.summaryValue}>{members.length} 人</span>
+            </div>
           </div>
         </div>
       </div>
 
       {/* 成員列表 */}
       <div className={styles.memberSection}>
-        <h2>成員列表</h2>
-        <div className={styles.memberList}>
-          {members.length > 0 ? (
-            members.map((item, index) => (
-              <MemberInfo
-                key={index}
-                is_show={item.is_show}
-                is_accept={item.is_accept}
-                profile_picture={item.profile_picture}
-                user_name={item.user_name}
-                booking_time={item.booking_time}
-              />
-            ))
-          ) : (
-            <div className={styles.emptyState}>
-              <FiUsers className={styles.emptyIcon} />
-              <h3 className={styles.emptyTitle}>暫無成員資料</h3>
-              <p className={styles.emptyDescription}>
-                目前還沒有人報名此場次
-              </p>
-            </div>
-          )}
+        <div className={styles.sectionHeader}>
+          <h2>成員清單</h2>
+          <span className={styles.memberCount}>共 {members.length} 人</span>
         </div>
+        
+        {members.length > 0 ? (
+          <div className={styles.memberTable}>
+            <div className={styles.tableHeader}>
+              <div className={styles.headerCell}>成員資訊</div>
+              <div className={styles.headerCell}>狀態</div>
+            </div>
+            <div className={styles.tableBody}>
+              {members.map((item, index) => (
+                <MemberInfo
+                  key={index}
+                  is_show={item.is_show}
+                  is_accept={item.is_accept}
+                  profile_picture={item.profile_picture}
+                  user_name={item.user_name}
+                  booking_time={item.booking_time}
+                />
+              ))}
+            </div>
+          </div>
+        ) : (
+          <div className={styles.emptyState}>
+            <div className={styles.emptyContent}>
+              <span className={styles.emptyText}>目前尚無報名資料</span>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
