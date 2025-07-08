@@ -3,11 +3,11 @@ import styles from "./Signed.module.css";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { FiCheckCircle } from "react-icons/fi";
+import { CheckCircle2, User, Clock, AlertTriangle, X } from "lucide-react";
 import { apiPrefix, auth } from "@/utils/firebase";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { setLoading2 } from "@/state/loading/loading";
-import { Modal, Button } from "react-bootstrap";
 
 interface HeaderProps {
   place_name: string;
@@ -37,12 +37,12 @@ const Member = ({
   is_show,
   setUpdateStatus,
 }: MemberProps) => {
-  // const color = ["rgba(40, 167, 69, 1)", "gray"];
   const [show, setShow] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const dispatch = useDispatch();
 
   const handleSigned = async () => {
-    setShow(false);
+    setIsSubmitting(true);
     dispatch(setLoading2(true));
     try {
       const idToken = await auth.currentUser?.getIdToken();
@@ -59,11 +59,34 @@ const Member = ({
         }
       );
       if (setUpdateStatus) setUpdateStatus((prev) => !prev);
+      setShow(false);
     } catch (err) {
       console.error(err);
+    } finally {
+      setIsSubmitting(false);
+      dispatch(setLoading2(false));
     }
-    dispatch(setLoading2(false));
   };
+
+  // 點擊遮罩關閉
+  const handleOverlayClick = (e: React.MouseEvent) => {
+    if (e.target === e.currentTarget && !isSubmitting) {
+      setShow(false);
+    }
+  };
+
+  // 阻止背景滾動
+  useEffect(() => {
+    if (show) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [show]);
 
   return (
     <>
@@ -87,29 +110,83 @@ const Member = ({
           </button>
         )}
       </div>
-      <Modal
-        show={show}
-        onHide={() => setShow(false)}
-        backdrop="static"
-        keyboard={false}
-        centered={true}
-      >
-        <Modal.Header closeButton>
-          <Modal.Title>提醒</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          此動作確定{" "}
-          <span style={{ fontSize: "20px", fontWeight: "800" }}>
-            {user_name}
-          </span>{" "}
-          已付款且到場。
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="success" onClick={handleSigned}>
-            確認簽到
-          </Button>
-        </Modal.Footer>
-      </Modal>
+
+      {/* 自定義 Modal */}
+      {show && (
+        <div className={styles.modalOverlay} onClick={handleOverlayClick}>
+          <div className={styles.modal}>
+            {/* 頂部指示器 */}
+            <div className={styles.indicator}></div>
+            
+            {/* 關閉按鈕 */}
+            {!isSubmitting && (
+              <button className={styles.closeBtn} onClick={() => setShow(false)}>
+                <X />
+              </button>
+            )}
+
+            {/* 內容區域 */}
+            <div className={styles.modalContent}>
+              {/* 圖標區域 */}
+              <div className={styles.iconContainer}>
+                <CheckCircle2 className={styles.icon} />
+              </div>
+
+              {/* 使用者資訊 */}
+              <div className={styles.userInfo}>
+                <div className={styles.userAvatar}>
+                  <img src={profile_picture} alt={user_name} />
+                </div>
+                <div className={styles.userDetails}>
+                  <h3>{user_name}</h3>
+                  <p className={styles.confirmText}>
+                    <User className={styles.infoIcon} />
+                    確認此會員已付款且到場
+                  </p>
+                  <p className={styles.timeInfo}>
+                    <Clock className={styles.infoIcon} />
+                    簽到時間：{new Date().toLocaleString('zh-TW')}
+                  </p>
+                </div>
+              </div>
+
+              {/* 警告提示 */}
+              <div className={styles.warningNote}>
+                <AlertTriangle className={styles.warningIcon} />
+                <p>此動作完成後將無法撤銷，請確認會員已完成付款</p>
+              </div>
+            </div>
+
+            {/* 按鈕區域 */}
+            <div className={styles.modalActions}>
+              <button 
+                className={`${styles.actionBtn} ${styles.secondary}`}
+                onClick={() => setShow(false)}
+                disabled={isSubmitting}
+              >
+                取消
+              </button>
+              <button 
+                className={`${styles.actionBtn} ${styles.primary} ${isSubmitting ? styles.submitting : ''}`}
+                onClick={handleSigned}
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? (
+                  <>
+                    <span className={styles.spinner}></span>
+                    處理中...
+                  </>
+                ) : (
+                  <>
+                    <CheckCircle2 />
+                    確認簽到
+                  </>
+                )}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 };
